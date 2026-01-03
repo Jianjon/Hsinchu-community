@@ -1,0 +1,892 @@
+[
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "竹義里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "竹仁里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "竹北里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "福德里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "泰和里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "新社里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "聯興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "新國里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "新崙里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "北崙里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "斗崙里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "中崙里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "十興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "鹿場里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "東平里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "中興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "隘口里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "東海里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "六家里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "興安里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "北興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "文化里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "北華里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "東興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "新港里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "白地里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "麻園里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "溪州里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "新庄里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "崇義里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "尚義里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "大義里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "大眉里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "上坪里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "瑞峰里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "軟橋里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "員崠里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "東寧里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "中正里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "大鄉里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "中山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "南華里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "東華里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "商華里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "雞林里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "榮華里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "竹東里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "五豐里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "三重里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "二重里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "頭重里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "員山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "竹東鎮",
+        "village": "柯湖里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "東興里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "西安里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "南雄里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "北山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "北斗里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "仁安里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "南山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "東安里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "東光里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "南新里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "新力里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "上林里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "新富里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "玉山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "金山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "錦山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "關西鎮",
+        "village": "東山里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "新埔里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "新民里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "新生里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "田新里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "旱坑里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "寶石里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "內立里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "北平里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "南平里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "五埔里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "四座里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "巨埔里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "鹿鳴里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "下寮里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新埔鎮",
+        "village": "上寮里"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "中勢村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "孝勢村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "仁勢村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "愛勢村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "信勢村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "中正村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "信義村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "長安村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "長嶺村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "湖鏡村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "湖口村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "湖南村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "東興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "和興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "德盛村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "波羅村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "鳳山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "鳳凰村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "勝利村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "湖口鄉",
+        "village": "中興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "新豐村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "員山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "山崎村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "松林村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "松柏村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "上坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "鳳坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "坡頭村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "後湖村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "埔和村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "瑞興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "青埔村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "中崙村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "新豐鄉",
+        "village": "重興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "橫山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "田寮村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "豐鄉村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "豐田村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "南昌村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "福興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "沙坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "新興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "力行村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "內灣村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "橫山鄉",
+        "village": "大肚村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "芎林村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "新鳳村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "中坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "水坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "文林村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "下山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "上山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "永興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "石潭村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "秀湖村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "五龍村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "芎林鄉",
+        "village": "華龍村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "雙溪村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "雙新村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "大崎村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "寶山村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "山湖村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "油田村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "深井村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "寶斗村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "新城村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "寶山鄉",
+        "village": "三峰村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "北埔村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "南興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "埔尾村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "水磜村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "大林村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "南坑村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "大湖村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "南埔村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "北埔鄉",
+        "village": "外坪村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "峨眉村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "中盛村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "七星村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "石井村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "富興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "峨眉鄉",
+        "village": "湖光村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "義興村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "嘉樂村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "新樂村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "錦屏村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "梅花村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "秀巒村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "尖石鄉",
+        "village": "玉峰村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "五峰鄉",
+        "village": "大隘村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "五峰鄉",
+        "village": "花園村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "五峰鄉",
+        "village": "竹林村"
+    },
+    {
+        "city": "新竹縣",
+        "district": "五峰鄉",
+        "village": "桃山村"
+    }
+]

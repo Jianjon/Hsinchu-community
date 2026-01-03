@@ -1,0 +1,18 @@
+[
+  {
+    "title": "獨居長者送餐服務",
+    "type": "meal_delivery",
+    "status": "ongoing",
+    "description": "每週一至週五中午，為社區內行動不便的長者配送熱食。",
+    "beneficiaries": "社區獨居長者 15 位",
+    "owner": "愛心媽媽志工團"
+  },
+  {
+    "title": "社區巡守隊排班",
+    "type": "patrol",
+    "status": "ongoing",
+    "description": "夜間巡邏，維護巷弄治安。",
+    "date": "每晚 20:00-22:00",
+    "owner": "社區巡守隊"
+  }
+]

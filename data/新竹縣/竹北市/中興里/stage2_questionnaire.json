@@ -1,0 +1,65 @@
+{
+    "location": {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "中興里"
+    },
+    "checklist": [
+        {
+            "name": "環境永續 (低碳認證核查)",
+            "items": [
+                {
+                    "id": "env_cert_01",
+                    "category": "環境永續",
+                    "actionItem": "申請低碳認證可行性",
+                    "description": "目前僅竹北市獲證，中興里具備高度都會化優勢，適合申請低碳社區認證。",
+                    "status": "missing",
+                    "interviewQuestion": "里長，目前我們里有很多綠色建設，你有考慮過讓中興里獨立申請環境部的「低碳永續家園」認證嗎？這對里級的經費補助很有幫助。"
+                },
+                {
+                    "id": "env_led_02",
+                    "category": "環境永續",
+                    "actionItem": "節能照明維修追蹤",
+                    "description": "111 年更換之 LED 燈具已屆三年，需確認是否有光衰或故障率上升之問題。",
+                    "status": "resolved",
+                    "interviewQuestion": "集會所前兩年換的 LED 燈，目前電費降幅滿意嗎？有沒有出現壞掉要修的情況？"
+                }
+            ]
+        },
+        {
+            "name": "社會福利 (關懷據點深度調查)",
+            "items": [
+                {
+                    "id": "soc_care_01",
+                    "category": "社會福利",
+                    "actionItem": "據點自主維運計畫",
+                    "description": "目前高度依賴東元醫院資源，需評估社區發展協會自主接手共餐的可行性。",
+                    "status": "missing",
+                    "interviewQuestion": "目前東元醫院幫忙很多，如果未來他們減少支援，社區發展協會這邊有辦法自己找志工負責共餐嗎？"
+                },
+                {
+                    "id": "soc_vol_02",
+                    "category": "社會福利",
+                    "actionItem": "志工組建",
+                    "description": "中興里居民教育程度高，適合招募「科技業退休志工」進行知識型傳承。",
+                    "status": "missing",
+                    "interviewQuestion": "里內有很多從園區退休的主管或工程師，有沒有可能邀請他們出來幫社區規劃一些課程？"
+                }
+            ]
+        },
+        {
+            "name": "公共建設 (通學廊道爭議處理)",
+            "items": [
+                {
+                    "id": "pub_walk_01",
+                    "category": "公共建設",
+                    "actionItem": "114年步道計畫里民共識",
+                    "description": "成功國中周邊步道拓寬涉及縮減車道，部分商家擔心裝卸貨困難。",
+                    "status": "missing",
+                    "interviewQuestion": "明年的通學廊道計畫，聽說附近店家擔心卸貨問題，里長這邊有安排其他的臨停區域來解決嗎？"
+                }
+            ]
+        }
+    ],
+    "createdAt": "2024-12-18T14:25:00Z"
+}

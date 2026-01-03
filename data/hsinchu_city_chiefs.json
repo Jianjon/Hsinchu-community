@@ -1,0 +1,442 @@
+[
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "東門里",
+        "chiefName": "蘇竹勝",
+        "phone": "0955-134-009",
+        "address": "東前街46號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "文華里",
+        "chiefName": "張金滄",
+        "phone": "0910-960-540",
+        "address": "田美二街14號1樓"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "中正里",
+        "chiefName": "戴金河",
+        "phone": "0910-141-219",
+        "address": "大同路104號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "三民里",
+        "chiefName": "范姜財",
+        "phone": "0919-246-565",
+        "address": "自由路3巷4號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "親仁里",
+        "chiefName": "李臺生",
+        "phone": "0932-063-869",
+        "address": "仁愛街19巷4號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "錦華里",
+        "chiefName": "黃玉卿",
+        "phone": "0972-211-875",
+        "address": "世界街60巷8號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "榮光里",
+        "chiefName": "張雲錦",
+        "phone": "0933-981-186",
+        "address": "中正路"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "成功里",
+        "chiefName": "林俊縢",
+        "phone": "0938-182-411",
+        "address": "大同路24號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "復興里",
+        "chiefName": "黃建廷",
+        "phone": "0910-518-886",
+        "address": "經國路一段315巷8弄8號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "育賢里",
+        "chiefName": "李文正",
+        "phone": "0911-255-269",
+        "address": "東門街90號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "復中里",
+        "chiefName": "王峯清",
+        "phone": "0937-100-769",
+        "address": "民生路222巷15號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "埔頂里",
+        "chiefName": "何芝寧",
+        "phone": "0975-095-721",
+        "address": "埔頂路180號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "龍山里",
+        "chiefName": "陳宣孝",
+        "phone": "0933-979-167",
+        "address": "長春街118巷11號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "科園里",
+        "chiefName": "徐兆生",
+        "phone": "0932-284-536",
+        "address": "科學園路68號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "新莊里",
+        "chiefName": "盧秋永",
+        "phone": "0935-948-035",
+        "address": "新莊街266巷36弄31號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "關東里",
+        "chiefName": "徐水蓮",
+        "phone": "0916-730-758",
+        "address": "關東路192號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "仙水里",
+        "chiefName": "林美玉",
+        "phone": "0922-289-778",
+        "address": "光復路一段525巷67號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "金山里",
+        "chiefName": "饒彬義",
+        "phone": "0939-678-877",
+        "address": "金山六街59號4樓"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "仙宮里",
+        "chiefName": "溫國文",
+        "phone": "0932-114-864",
+        "address": "寶山路452巷9弄35號"
+    },
+    {
+        "city": "新竹市",
+        "district": "東區",
+        "village": "關新里",
+        "chiefName": "黃雅卿",
+        "phone": "0958-237-878",
+        "address": "新竹市東區光復路一段362之20號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "北門里",
+        "chiefName": "林文烽",
+        "phone": "0939-686-022",
+        "address": "北門街209號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "水田里",
+        "chiefName": "許明霞",
+        "phone": "5333323",
+        "address": "經國路二段60巷12號3樓"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "新民里",
+        "chiefName": "張金潔",
+        "phone": "5257466",
+        "address": "西大路582巷23號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "長和里",
+        "chiefName": "楊金土",
+        "phone": "5251818",
+        "address": "愛文街34號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "中興里",
+        "chiefName": "黃丞廷",
+        "phone": "5213372",
+        "address": "長安街66號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "中山里",
+        "chiefName": "郭瑞誠",
+        "phone": "5285007",
+        "address": "中山路11號2樓"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "民富里",
+        "chiefName": "沈朝旺",
+        "phone": "5345028",
+        "address": "經國路二段268號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "文雅里",
+        "chiefName": "朱毅",
+        "phone": "0966-585-878",
+        "address": "國光街18巷14號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "磐石里",
+        "chiefName": "林輝雄",
+        "phone": "0928-137-759",
+        "address": "文雅街80巷8弄2號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "新雅里",
+        "chiefName": "廖佐華",
+        "phone": "5258330",
+        "address": "成功路192巷205號"
+    },
+    {
+        "city": "新竹市",
+        "district": "北區",
+        "village": "大同里",
+        "chiefName": "韋宗賢",
+        "phone": "5328380",
+        "address": "北大路103號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "頂埔里",
+        "chiefName": "沈復環",
+        "phone": "0919-257-227",
+        "address": "牛埔東路33巷16弄2號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "頂福里",
+        "chiefName": "吳烈如",
+        "phone": "0937-137-955",
+        "address": "中山路640巷688號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "中埔里",
+        "chiefName": "曾春慧",
+        "phone": "0906-577-301",
+        "address": "牛埔路247巷33弄4號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "埔前里",
+        "chiefName": "蔡萱燁",
+        "phone": "0913-562-815",
+        "address": "牛埔北路37巷17號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "牛埔里",
+        "chiefName": "蔡黃棟",
+        "phone": "0931-170-735",
+        "address": "牛埔東路253號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "虎林里",
+        "chiefName": "黃郁淳",
+        "phone": "0919-255-324",
+        "address": "虎林街27號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "虎山里",
+        "chiefName": "李弘偉",
+        "phone": "0956-770-710",
+        "address": "育德街188號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "港南里",
+        "chiefName": "蘇瑞林",
+        "phone": "0932-284-838",
+        "address": "延平路二段1451巷2號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "香山里",
+        "chiefName": "黃文濱",
+        "phone": "0932-287-769",
+        "address": "香北一路16號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "大庄里",
+        "chiefName": "陳梨娟",
+        "phone": "0939-594-345",
+        "address": "大庄路270-1號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "香村里",
+        "chiefName": "吳春生",
+        "phone": "0921-456-887",
+        "address": "元培街277巷36號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "東香里",
+        "chiefName": "許麗君",
+        "phone": "0911-256-583",
+        "address": "香檳三街72號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "美山里",
+        "chiefName": "陳居財",
+        "phone": "0936-335-203",
+        "address": "中華路五段323巷115號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "朝山里",
+        "chiefName": "陳桂廷",
+        "phone": "0970-381-636",
+        "address": "西濱路四段303之1號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "樹下里",
+        "chiefName": "蔡志堅",
+        "phone": "0989-868-632",
+        "address": "樹下街236巷28弄1號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "浸水里",
+        "chiefName": "楊松棋",
+        "phone": "0936-222-734",
+        "address": "浸水街405巷58之1號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "海山里",
+        "chiefName": "陳文賢",
+        "phone": "0931-109-429",
+        "address": "中華路5段912巷5弄23號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "鹽水里",
+        "chiefName": "陳文榮",
+        "phone": "0928-205-692",
+        "address": "長興街262巷5號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "內湖里",
+        "chiefName": "王斌展",
+        "phone": "0937-176-176",
+        "address": "中華路6段319之1號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "南港里",
+        "chiefName": "林武鍾",
+        "phone": "0928-241-181",
+        "address": "南港街54之2號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "中隘里",
+        "chiefName": "陳士樺",
+        "phone": "0955-263-340",
+        "address": "中華路六段643號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "南隘里",
+        "chiefName": "邱坤源",
+        "phone": "0933-430-550",
+        "address": "南湖路106號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "大湖里",
+        "chiefName": "曾一德",
+        "phone": "0932-286-231",
+        "address": "五福路1段642巷28號"
+    },
+    {
+        "city": "新竹市",
+        "district": "香山區",
+        "village": "茄苳里",
+        "chiefName": "古秀芬",
+        "phone": "0958-275-287",
+        "address": "五福路2段732號"
+    }
+]

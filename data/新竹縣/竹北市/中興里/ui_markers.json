@@ -1,0 +1,78 @@
+{
+    "location": {
+        "city": "新竹縣",
+        "district": "竹北市",
+        "village": "中興里"
+    },
+    "markers": [
+        {
+            "id": "poi_office",
+            "name": "中興里集會所/辦公處",
+            "address": "新竹縣竹北市嘉興路352號",
+            "coordinates": [
+                24.8215,
+                121.0268
+            ],
+            "category": "administrative",
+            "wikiLink": "/community/zhubei-zhongxing?section=facility"
+        },
+        {
+            "id": "poi_park_01",
+            "name": "中興公園",
+            "address": "竹北市嘉興路與文興路交界",
+            "coordinates": [
+                24.8190,
+                121.0255
+            ],
+            "category": "park",
+            "tags": [
+                "休憩",
+                "兒童遊樂"
+            ]
+        },
+        {
+            "id": "poi_park_02",
+            "name": "水圳森林公園",
+            "address": "竹北市復興二路 (里界內範圍)",
+            "coordinates": [
+                24.8118,
+                121.0335
+            ],
+            "category": "park",
+            "tags": [
+                "景觀",
+                "水圳文化"
+            ]
+        },
+        {
+            "id": "poi_school_01",
+            "name": "興隆國小",
+            "address": "新竹縣竹北市文興路二段62號",
+            "coordinates": [
+                24.8145,
+                121.0275
+            ],
+            "category": "school"
+        },
+        {
+            "id": "poi_school_02",
+            "name": "成功國中",
+            "address": "新竹縣竹北市成功八路5號",
+            "coordinates": [
+                24.8195,
+                121.0185
+            ],
+            "category": "school"
+        },
+        {
+            "id": "poi_temple",
+            "name": "中興里福德宮",
+            "address": "竹北市嘉興路巷內",
+            "coordinates": [
+                24.8225,
+                121.0280
+            ],
+            "category": "religion"
+        }
+    ]
+}

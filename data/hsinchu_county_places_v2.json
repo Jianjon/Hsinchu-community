@@ -1,0 +1,848 @@
+[
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "鹿場里",
+    "name": "鹿場里集會所",
+    "address": "竹北市鹿場里福興東路一段365號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "東平里",
+    "name": "東平里集會所",
+    "address": "竹北市東平里自強南路281號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "中興里",
+    "name": "中興里集會所",
+    "address": "竹北市嘉豐南路1段11號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "隘口里",
+    "name": "隘口里集會所",
+    "address": "竹北市隘口里隘口7街19號2樓",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "東興里",
+    "name": "東興里集會所",
+    "address": "竹北市東興里嘉興路399巷6弄9號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "竹北里",
+    "name": "竹北里集會所",
+    "address": "竹北市竹北里中山路236號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "竹仁里",
+    "name": "竹仁里集會所",
+    "address": "竹北市竹仁里文化街148巷1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "福德里",
+    "name": "福德里集會所",
+    "address": "竹北市福里里福德街30號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "泰和里",
+    "name": "泰如里集會所",
+    "address": "竹北市泰和里泰和路82-1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "新國里",
+    "name": "新國里集會所",
+    "address": "竹北市中正西路247號3樓",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "聯興里",
+    "name": "聯興里集會所",
+    "address": "竹北市聯興里新興路175號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "溪州里",
+    "name": "溪洲里集會所",
+    "address": "竹北市溪洲里中正西路1073巷39弄2號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "新庄里",
+    "name": "新庄里集會所",
+    "address": "竹北市新庄里中正西路2075巷2號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "白地里",
+    "name": "白地里集會所",
+    "address": "竹北市白地里水防道路五段145號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "大眉里",
+    "name": "大眉里集會所",
+    "address": "竹北市大眉里中華路1222號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹北市",
+    "village": "崇義里",
+    "name": "崇義里集會所",
+    "address": "竹北市崇義里鳳岡路5段57巷51號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "上坪里",
+    "name": "上坪里集會所",
+    "address": "竹東鎮上坪87-4號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "軟橋里",
+    "name": "軟橋里集會所",
+    "address": "竹東鎮軟橋里52號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "東寧里",
+    "name": "東寧里集會所",
+    "address": "竹東鎮東寧里中豐路1段90號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "五豐里",
+    "name": "五豐里集會所",
+    "address": "竹東鎮五豐里長春路3段374巷2樓",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "三重里",
+    "name": "三重里集會所",
+    "address": "竹東鎮三重里中興路2段152巷30號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "員山里",
+    "name": "員山里集會所",
+    "address": "竹東鎮員山里下員山路255號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "柯湖里",
+    "name": "柯湖里集會所",
+    "address": "竹東鎮柯湖里柯湖路3段291號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "南華里",
+    "name": "南華里集會所",
+    "address": "竹東鎮東寧路531巷29號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "竹東鎮",
+    "village": "陸豐里",
+    "name": "陸豐里集會所",
+    "address": "竹東鎮陸豐里豆子埔37之5號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新埔鎮",
+    "village": "下寮里",
+    "name": "下寮里集會所",
+    "address": "新埔鎮下寮里義民路三段313號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新埔鎮",
+    "village": "鹿鳴里",
+    "name": "鹿鳴里集會所",
+    "address": "新埔鎮鹿鳴里5鄰黃梨園35-5號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "東安里",
+    "name": "東安里集會所",
+    "address": "關西鎮東安里東山街48巷7號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "錦山里",
+    "name": "錦山里集會所",
+    "address": "關西鎮錦山里2鄰20-16號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "大同里",
+    "name": "大同里集會所",
+    "address": "關西鎮大同里2鄰12-3號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "石光里",
+    "name": "石光里集會所",
+    "address": "關西鎮石光里石岡子308巷46號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "新力里",
+    "name": "新力里集會所",
+    "address": "關西鎮新力里2鄰9-5號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "關西鎮",
+    "village": "東平里",
+    "name": "東平里集會所",
+    "address": "關西鎮東平里5鄰29-1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "仁勢村",
+    "name": "仁勢村集會所",
+    "address": "湖口鄉仁勢村民生街61號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "愛勢村",
+    "name": "愛勢村集會所活動中心 ",
+    "address": "湖口鄉愛勢村17鄰信義街59號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "信勢村",
+    "name": "信勢村集會所活動中心",
+    "address": "湖口鄉信勢村明德街296號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "中勢村",
+    "name": "中勢村集會所活動中心",
+    "address": "湖口鄉中勢村信昌五街1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "德盛村",
+    "name": "德盛村集會所",
+    "address": "湖口鄉德盛村德興路127巷13號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "和興村",
+    "name": "和興集會所",
+    "address": "湖口鄉和興村德和路128號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "長嶺村",
+    "name": "長嶺村集會所活動中心",
+    "address": "湖口鄉長嶺村中平路2段267巷36號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "湖口村",
+    "name": "湖口村集會所活動中心",
+    "address": "湖口鄉湖口村中美東路358巷27號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "湖鏡村",
+    "name": "湖鏡村集會所",
+    "address": "湖口鄉湖鏡村八德路2段78巷36弄50號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "湖南村",
+    "name": "湖南村集會所",
+    "address": "湖口鄉湖南村八德路1段652巷2號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "波羅村",
+    "name": "波羅村集會所活動中心",
+    "address": "湖口鄉波羅村千禧路32號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "鳳山村",
+    "name": "鳳山村集會所",
+    "address": "湖口鄉鳳山村瑞安街22巷2號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "信義村",
+    "name": "信義村集會所活動中心",
+    "address": "湖口鄉信義村中山二街72號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "中正村",
+    "name": "中正村集會所活動中心",
+    "address": "湖口鄉中正村中正2街70號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "湖口鄉",
+    "village": "東興村",
+    "name": "東興村集會所",
+    "address": "湖口鄉東興村德和路6號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新豐鄉",
+    "village": "埔和村",
+    "name": "埔和村集會所",
+    "address": "新豐鄉埔和村埔頂126-1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新豐鄉",
+    "village": "中崙村",
+    "name": "中崙村集會所",
+    "address": "新豐鄉中崙村2鄰37號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新豐鄉",
+    "village": "重興村",
+    "name": "中正堂活動中心",
+    "address": "新豐鄉重興村萃豐路11號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "新豐鄉",
+    "village": "鳳坑村",
+    "name": "鳳坑村集會所",
+    "address": "新豐鄉鳳坑村14鄰671-4號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "華龍村",
+    "name": "華龍村集會所",
+    "address": "芎林鄉華龍村鹿寮坑176之1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "五龍村",
+    "name": "五龍村集會所",
+    "address": "芎林鄉五龍村富林路1段138巷91號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "新鳳村",
+    "name": "新鳳村集會所",
+    "address": "芎林鄉新鳳村文衡路200號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "中坑村",
+    "name": "中坑村集會所",
+    "address": "芎林鄉中坑村中坑7之3號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "水坑村",
+    "name": "水坑村集會所",
+    "address": "芎林鄉水坑村文華街183號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "文林村",
+    "name": "文林村集會所",
+    "address": "芎林鄉文林村文山路327號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "芎林村",
+    "name": "芎林村活動中心",
+    "address": "芎林鄉文富街39號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "芎林鄉",
+    "village": "上山村",
+    "name": "上山村活動中心",
+    "address": "芎林鄉上山村綠獅三街6號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "橫山村",
+    "name": "橫山村集會所",
+    "address": "橫山鄉橫山村5鄰橫山101號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "田寮村",
+    "name": "田寮村集會所",
+    "address": "橫山鄉田寮村田洋街132號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "南昌村",
+    "name": "南昌村集會所",
+    "address": "橫山鄉南昌村薯園41號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "豐鄉村",
+    "name": "豐鄉村集會所",
+    "address": "橫山鄉豐鄉村大山背32號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "豐田村",
+    "name": "豐田村集會所",
+    "address": "橫山鄉豐田村油羅63之1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "沙坑村",
+    "name": "沙坑村集會所",
+    "address": "橫山鄉沙坑村沙坑街50號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "新興村",
+    "name": "新興、大肚村聯合集會所活動中心",
+    "address": "橫山鄉新興村新興街127巷2號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "橫山鄉",
+    "village": "力行村",
+    "name": "力行村南河集會所",
+    "address": "橫山鄉力行村中山街1段177號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "北埔鄉",
+    "village": "南興村",
+    "name": "南興北埔社區長壽俱樂部",
+    "address": "北埔鄉南興村城門街43號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "北埔鄉",
+    "village": "埔尾村",
+    "name": "埔尾社區活動中心",
+    "address": "北埔鄉埔尾村埔心街1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "北埔鄉",
+    "village": "南埔村",
+    "name": "南坑村集會所",
+    "address": "北埔鄉南坑村大南坑1之5號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "大崎村",
+    "name": "大崎村集會所",
+    "address": "寶山鄉大崎村雙園路1段6巷32號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "三峰村",
+    "name": "三峰村集會所",
+    "address": "新竹縣寶山鄉三峰村9鄰湳坑路1段175號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "油田村",
+    "name": "油田村集會所",
+    "address": "寶山鄉新湖路3段300號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "寶山村",
+    "name": "寶山村集會所",
+    "address": "寶山鄉寶山村新湖路2段26號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "山湖村",
+    "name": "山湖村集會所",
+    "address": "寶山鄉山湖村山湖2路98號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "新城村",
+    "name": "新城村集會所",
+    "address": "寶山鄉新城村1鄰新湖路11-1號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "寶斗村",
+    "name": "寶斗村集會所",
+    "address": "寶山鄉寶斗村寶斗路110號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "寶山鄉",
+    "village": "深井村",
+    "name": "深井村活動中心",
+    "address": "寶山鄉深井村2鄰雙林路158號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "峨眉鄉",
+    "village": "峨眉村",
+    "name": "峨眉村集會所",
+    "address": "峨眉鄉峨眉村8鄰峨眉街2之3號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "峨眉鄉",
+    "village": "中盛村",
+    "name": "中盛集會所",
+    "address": "峨眉鄉中盛村中盛196號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "峨眉鄉",
+    "village": "石井村",
+    "name": "石井集會所",
+    "address": "峨眉鄉石井村41號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "峨眉鄉",
+    "village": "湖光村",
+    "name": "原赤坪村集會所",
+    "address": "峨眉鄉湖光村4鄰9號之1",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "新樂村",
+    "name": "新樂村集會所活動中心",
+    "address": "尖石鄉新樂村水田29號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "梅花村",
+    "name": "梅花村集會所活動中心",
+    "address": "尖石鄉梅花村1鄰27號(臨)",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "錦屏村",
+    "name": "錦屏村集會所活動中心",
+    "address": "尖石鄉錦屏村1鄰4號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "玉峰村",
+    "name": "玉峰村集會所",
+    "address": "新竹縣尖石鄉玉峰村5鄰59號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "秀巒村",
+    "name": "田埔集會所",
+    "address": "目前無F-",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "尖石鄉",
+    "village": "秀巒村",
+    "name": "秀巒村集會所",
+    "address": "新竹縣尖石鄉秀巒村",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "五峰鄉",
+    "village": "大隘村",
+    "name": "大隘村村集會所活動中心",
+    "address": "新竹縣五峰鄉大隘村14鄰280號-3",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "五峰鄉",
+    "village": "桃山村",
+    "name": "桃山村集會所活動中心",
+    "address": "新竹縣五峰鄉桃山村3鄰52號-1",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "五峰鄉",
+    "village": "花園村",
+    "name": "花園村集會所活動中心",
+    "address": "新竹縣五峰鄉花園村8鄰172號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "五峰鄉",
+    "village": "竹林村",
+    "name": "竹林村集會所",
+    "address": "五峰鄉竹林村1鄰羅山23號",
+    "lat": 0,
+    "lng": 0
+  },
+  {
+    "city": "新竹縣",
+    "district": "五峰鄉",
+    "village": "大隘村",
+    "name": "茅圃集會所",
+    "address": "新竹縣五峰鄉大隘村22鄰427號",
+    "lat": 0,
+    "lng": 0
+  }
+]

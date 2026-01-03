@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Default: Public Read, Admin Write
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Mixboard Collections - Explicit Rules
+    match /mixboard_pulse/{doc} {
+       allow read: if true;
+       allow write: if isAdmin(); // Crawler will use Admin SDK (bypasses rules) or Admin Auth
+    }
+  }
+}

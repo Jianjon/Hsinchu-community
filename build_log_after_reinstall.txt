@@ -1,0 +1,475 @@
+
+> taiwan-village-analyst@0.0.0 build
+> node --max_old_space_size=8192 node_modules/vite/bin/vite.js build --debug
+
+2025-12-31T08:10:40.857Z vite:config config file loaded in 57.39ms
+2025-12-31T08:10:40.859Z vite:env loading env files: [ '.env', '.env.local', '.env.production', '.env.production.local' ]
+2025-12-31T08:10:40.859Z vite:env env files loaded in 1.05ms
+2025-12-31T08:10:40.861Z vite:env using resolved env: {
+  GEMINI_API_KEY: 'PLACEHOLDER_API_KEY',
+  ALLUSERSPROFILE: 'C:\\ProgramData',
+  ANTIGRAVITY_EDITOR_APP_ROOT: 'c:\\Users\\green\\AppData\\Local\\Programs\\Antigravity\\resources\\app',
+  APPDATA: 'C:\\Users\\green\\AppData\\Roaming',
+  CHROME_CRASHPAD_PIPE_NAME: '\\\\.\\pipe\\crashpad_10908_AAUVDNJCADTWIQGD',
+  COLOR: '0',
+  CommonProgramFiles: 'C:\\Program Files\\Common Files',
+  'CommonProgramFiles(x86)': 'C:\\Program Files (x86)\\Common Files',
+  CommonProgramW6432: 'C:\\Program Files\\Common Files',
+  COMPUTERNAME: 'NO5',
+  ComSpec: 'C:\\WINDOWS\\system32\\cmd.exe',
+  DEBUG: 'vite:*',
+  DriverData: 'C:\\Windows\\System32\\Drivers\\DriverData',
+  EDITOR: 'C:\\WINDOWS\\notepad.exe',
+  EFC_7024_1592913036: '1',
+  ELECTRON_RUN_AS_NODE: '1',
+  FPS_BROWSER_APP_PROFILE_STRING: 'Internet Explorer',
+  FPS_BROWSER_USER_PROFILE_STRING: 'Default',
+  HOME: 'C:\\Users\\green',
+  HOMEDRIVE: 'C:',
+  HOMEPATH: '\\Users\\green',
+  INIT_CWD: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst',
+  LOCALAPPDATA: 'C:\\Users\\green\\AppData\\Local',
+  LOGONSERVER: '\\\\NO5',
+  NODE: 'C:\\Program Files\\nodejs\\node.exe',
+  NODE_ENV: 'production',
+  NODE_EXE: 'C:\\Program Files\\nodejs\\\\node.exe',
+  NO_PROXY: '*.azureedge.net',
+  NPM_CLI_JS: 'C:\\Program Files\\nodejs\\\\node_modules\\npm\\bin\\npm-cli.js',
+  npm_command: 'run',
+  npm_config_cache: 'C:\\Users\\green\\AppData\\Local\\npm-cache',
+  npm_config_globalconfig: 'C:\\Users\\green\\AppData\\Roaming\\npm\\etc\\npmrc',
+  npm_config_global_prefix: 'C:\\Users\\green\\AppData\\Roaming\\npm',
+  npm_config_init_module: 'C:\\Users\\green\\.npm-init.js',
+  npm_config_local_prefix: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst',
+  npm_config_node_gyp: 'C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js',
+  npm_config_noproxy: '',
+  npm_config_npm_version: '11.6.2',
+  npm_config_prefix: 'C:\\Users\\green\\AppData\\Roaming\\npm',
+  npm_config_userconfig: 'C:\\Users\\green\\.npmrc',
+  npm_config_user_agent: 'npm/11.6.2 node/v24.11.1 win32 x64 workspaces/false',
+  npm_execpath: 'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+  npm_lifecycle_event: 'build',
+  npm_lifecycle_script: 'node --max_old_space_size=8192 node_modules/vite/bin/vite.js build',
+  npm_node_execpath: 'C:\\Program Files\\nodejs\\node.exe',
+  npm_package_json: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst\\package.json',
+  npm_package_name: 'taiwan-village-analyst',
+  npm_package_version: '0.0.0',
+  NPM_PREFIX_JS: 'C:\\Program Files\\nodejs\\\\node_modules\\npm\\bin\\npm-prefix.js',
+  NPM_PREFIX_NPM_CLI_JS: 'C:\\Users\\green\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+  NUMBER_OF_PROCESSORS: '6',
+  OneDrive: 'C:\\Users\\green\\OneDrive',
+  OneDriveConsumer: 'C:\\Users\\green\\OneDrive',
+  ORIGINAL_XDG_CURRENT_DESKTOP: 'undefined',
+  OS: 'Windows_NT',
+  Path: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst\\node_modules\\.bin;C:\\Users\\green\\Desktop\\社區發展\\node_modules\\.bin;C:\\Users\\green\\Desktop\\node_modules\\.bin;C:\\Users\\green\\node_modules\\.bin;C:\\Users\\node_modules\\.bin;C:\\node_modules\\.bin;C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\@npmcli\\run-script\\lib\\node-gyp-bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\nodejs\\;C:\\Users\\green\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\green\\AppData\\Local\\Programs\\Antigravity\\bin;C:\\Users\\green\\AppData\\Roaming\\npm',
+  PATHEXT: '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL',
+  PROCESSOR_ARCHITECTURE: 'AMD64',
+  PROCESSOR_IDENTIFIER: 'Intel64 Family 6 Model 158 Stepping 10, GenuineIntel',
+  PROCESSOR_LEVEL: '6',
+  PROCESSOR_REVISION: '9e0a',
+  ProgramData: 'C:\\ProgramData',
+  ProgramFiles: 'C:\\Program Files',
+  'ProgramFiles(x86)': 'C:\\Program Files (x86)',
+  ProgramW6432: 'C:\\Program Files',
+  PROMPT: '$P$G',
+  PSModulePath: 'C:\\Users\\green\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules',
+  PUBLIC: 'C:\\Users\\Public',
+  SESSIONNAME: 'Console',
+  SystemDrive: 'C:',
+  SystemRoot: 'C:\\WINDOWS',
+  TEMP: 'C:\\Users\\green\\AppData\\Local\\Temp',
+  TMP: 'C:\\Users\\green\\AppData\\Local\\Temp',
+  USERDOMAIN: 'NO5',
+  USERDOMAIN_ROAMINGPROFILE: 'NO5',
+  USERNAME: 'green',
+  USERPROFILE: 'C:\\Users\\green',
+  VSCODE_CODE_CACHE_PATH: 'C:\\Users\\green\\AppData\\Roaming\\Antigravity\\CachedData\\94f91bc110994badc7c086033db813077a5226af',
+  VSCODE_CRASH_REPORTER_PROCESS_TYPE: 'extensionHost',
+  VSCODE_CWD: 'C:\\Users\\green\\AppData\\Local\\Programs\\Antigravity',
+  VSCODE_ESM_ENTRYPOINT: 'vs/workbench/api/node/extensionHostProcess',
+  VSCODE_HANDLES_UNCAUGHT_ERRORS: 'true',
+  VSCODE_IPC_HOOK: '\\\\.\\pipe\\5726155f-1.104.0-main-sock',
+  VSCODE_NLS_CONFIG: '{"userLocale":"zh-tw","osLocale":"zh-tw","resolvedLanguage":"zh-tw","defaultMessagesFile":"C:\\\\Users\\\\green\\\\AppData\\\\Local\\\\Programs\\\\Antigravity\\\\resources\\\\app\\\\out\\\\nls.messages.json","languagePack":{"translationsConfigFile":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\tcf.json","messagesFile":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\94f91bc110994badc7c086033db813077a5226af\\\\nls.messages.json","corruptMarkerFile":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\corrupted.info"},"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"948f6366f2263018fd4f153e356946a6.zh-tw","_languagePackSupport":true,"_translationsConfigFile":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\tcf.json","_cacheRoot":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\94f91bc110994badc7c086033db813077a5226af","_corruptedFile":"C:\\\\Users\\\\green\\\\AppData\\\\Roaming\\\\Antigravity\\\\clp\\\\948f6366f2263018fd4f153e356946a6.zh-tw\\\\corrupted.info"}',
+  VSCODE_PID: '10908',
+  windir: 'C:\\WINDOWS'
+}
+2025-12-31T08:10:40.864Z vite:env loading env files: [
+  'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/.env',
+  'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/.env.local',
+  'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/.env.production',
+  'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/.env.production.local'
+]
+2025-12-31T08:10:40.865Z vite:env env files loaded in 0.85ms
+2025-12-31T08:10:40.866Z vite:env using resolved env: {}
+2025-12-31T08:10:40.897Z vite:config using resolved config: {
+  server: {
+    port: 3000,
+    strictPort: false,
+    host: '0.0.0.0',
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {},
+    warmup: { clientFiles: [], ssrFiles: [] },
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      deny: [ '.env', '.env.*', '*.{crt,pem}', '**/.git/**' ],
+      allow: [ 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst' ]
+    },
+    preTransformRequests: true,
+    perEnvironmentStartEndDuringDev: false,
+    sourcemapIgnoreList: [Function: isInNodeModules$1]
+  },
+  plugins: [
+    'vite:build-metadata',
+    'vite:watch-package-data',
+    'alias',
+    'vite:react-babel',
+    'vite:react-refresh',
+    'vite:modulepreload-polyfill',
+    'vite:resolve',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'vite:esbuild',
+    'vite:json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:react-virtual-preamble',
+    'vite:wasm-fallback',
+    'vite:define',
+    'vite:css-post',
+    'vite:build-html',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:force-systemjs-wrap-complete',
+    'commonjs',
+    'vite:data-uri',
+    'vite:rollup-options-plugins',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:build-import-analysis',
+    'vite:esbuild-transpile',
+    'vite:terser',
+    'vite:manifest',
+    'vite:ssr-manifest',
+    'vite:reporter',
+    'vite:load-fallback'
+  ],
+  define: {
+    'process.env.API_KEY': '"PLACEHOLDER_API_KEY"',
+    'process.env.GEMINI_API_KEY': '"PLACEHOLDER_API_KEY"'
+  },
+  resolve: {
+    externalConditions: [ 'node' ],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [],
+    noExternal: [],
+    external: [],
+    preserveSymlinks: false,
+    alias: [
+      {
+        find: '@',
+        replacement: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst'
+      },
+      {
+        find: /^\/?@vite\/env/,
+        replacement: '/@fs/C:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/vite/dist/client/env.mjs'
+      },
+      {
+        find: /^\/?@vite\/client/,
+        replacement: '/@fs/C:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/vite/dist/client/client.mjs'
+      }
+    ],
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [ 'module', 'browser', 'development|production' ],
+    builtins: []
+  },
+  build: {
+    target: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    polyfillModulePreload: true,
+    modulePreload: { polyfill: true },
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    sourcemap: false,
+    terserOptions: {},
+    rollupOptions: { onwarn: [Function: onwarn] },
+    commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+    dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+    write: true,
+    emptyOutDir: null,
+    copyPublicDir: true,
+    manifest: false,
+    lib: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    cssCodeSplit: true,
+    minify: false,
+    ssr: false,
+    emitAssets: true,
+    createEnvironment: [Function: createEnvironment],
+    cssTarget: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    cssMinify: false
+  },
+  esbuild: { jsxDev: false, jsx: 'automatic', jsxImportSource: undefined },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime'
+    ],
+    exclude: [],
+    needsInterop: [],
+    extensions: [],
+    disabled: undefined,
+    holdUntilCrawlEnd: true,
+    force: false,
+    noDiscovery: false,
+    esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+  },
+  environments: {
+    client: {
+      define: {
+        'process.env.API_KEY': '"PLACEHOLDER_API_KEY"',
+        'process.env.GEMINI_API_KEY': '"PLACEHOLDER_API_KEY"'
+      },
+      resolve: {
+        externalConditions: [ 'node' ],
+        extensions: [
+          '.mjs',  '.js',
+          '.mts',  '.ts',
+          '.jsx',  '.tsx',
+          '.json'
+        ],
+        dedupe: [],
+        noExternal: [],
+        external: [],
+        preserveSymlinks: false,
+        alias: [
+          {
+            find: '@',
+            replacement: 'C:\\Users\\green\\Desktop\\社區發展\\taiwan-village-analyst'
+          },
+          {
+            find: /^\/?@vite\/env/,
+            replacement: '/@fs/C:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/vite/dist/client/env.mjs'
+          },
+          {
+            find: /^\/?@vite\/client/,
+            replacement: '/@fs/C:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/vite/dist/client/client.mjs'
+          }
+        ],
+        mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+        conditions: [ 'module', 'browser', 'development|production' ],
+        builtins: []
+      },
+      keepProcessEnv: false,
+      consumer: 'client',
+      optimizeDeps: {
+        include: [
+          'react',
+          'react-dom',
+          'react/jsx-dev-runtime',
+          'react/jsx-runtime'
+        ],
+        exclude: [],
+        needsInterop: [],
+        extensions: [],
+        disabled: undefined,
+        holdUntilCrawlEnd: true,
+        force: false,
+        noDiscovery: false,
+        esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' }
+      },
+      dev: {
+        warmup: [],
+        sourcemap: { js: true },
+        sourcemapIgnoreList: [Function: isInNodeModules$1],
+        preTransformRequests: true,
+        createEnvironment: [Function: defaultCreateClientDevEnvironment],
+        recoverable: true,
+        moduleRunnerTransform: false
+      },
+      build: {
+        target: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+        polyfillModulePreload: true,
+        modulePreload: { polyfill: true },
+        outDir: 'dist',
+        assetsDir: 'assets',
+        assetsInlineLimit: 4096,
+        sourcemap: false,
+        terserOptions: {},
+        rollupOptions: { onwarn: [Function: onwarn] },
+        commonjsOptions: { include: [ /node_modules/ ], extensions: [ '.js', '.cjs' ] },
+        dynamicImportVarsOptions: { warnOnError: true, exclude: [ /node_modules/ ] },
+        write: true,
+        emptyOutDir: null,
+        copyPublicDir: true,
+        manifest: false,
+        lib: false,
+        ssrManifest: false,
+        ssrEmitAssets: false,
+        reportCompressedSize: true,
+        chunkSizeWarningLimit: 500,
+        watch: null,
+        cssCodeSplit: true,
+        minify: false,
+        ssr: false,
+        emitAssets: true,
+        createEnvironment: [Function: createEnvironment],
+        cssTarget: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+        cssMinify: false
+      }
+    }
+  },
+  configFile: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/vite.config.ts',
+  configFileDependencies: [
+    'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/vite.config.ts'
+  ],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    configLoader: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    build: {}
+  },
+  root: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst',
+  base: '/',
+  decodedBase: '/',
+  rawBase: '/',
+  publicDir: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/public',
+  cacheDir: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/.vite',
+  command: 'build',
+  mode: 'production',
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: true,
+  css: {
+    transformer: 'postcss',
+    preprocessorMaxWorkers: 0,
+    devSourcemap: false
+  },
+  json: { namedExports: true, stringify: 'auto' },
+  builder: undefined,
+  preview: {
+    port: 4173,
+    strictPort: false,
+    host: '0.0.0.0',
+    allowedHosts: [],
+    https: undefined,
+    open: false,
+    proxy: undefined,
+    cors: {
+      origin: /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/
+    },
+    headers: {}
+  },
+  envDir: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst',
+  env: { BASE_URL: '/', MODE: 'production', DEV: false, PROD: true },
+  assetsInclude: [Function: assetsInclude],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_C:/Users/green/Desktop/社區發展/taiwan-village-analyst' => {
+      dir: 'C:/Users/green/Desktop/社區發展/taiwan-village-analyst',
+      data: {
+        name: 'taiwan-village-analyst',
+        private: true,
+        version: '0.0.0',
+        type: 'module',
+        scripts: {
+          dev: 'vite',
+          build: 'node --max_old_space_size=8192 node_modules/vite/bin/vite.js build',
+          preview: 'vite preview'
+        },
+        dependencies: {
+          '@types/file-saver': '^2.0.7',
+          '@types/leaflet': '^1.9.21',
+          docx: '^9.5.1',
+          'file-saver': '^2.0.5',
+          firebase: '^12.7.0',
+          leaflet: '^1.9.4',
+          'lucide-react': '^0.556.0',
+          'pdf-parse': '^1.1.1',
+          react: '^19.2.1',
+          'react-dom': '^19.2.1',
+          'react-leaflet': '^5.0.0',
+          'react-markdown': '^10.1.0',
+          'react-quill-new': '^3.7.0',
+          'react-router-dom': '^7.11.0',
+          tinyglobby: '^0.2.15',
+          'topojson-client': '^3.1.0',
+          xlsx: '^0.18.5'
+        },
+        devDependencies: {
+          '@types/node': '^22.14.0',
+          '@vitejs/plugin-react': '^5.0.0',
+          typescript: '~5.8.2',
+          vite: '^6.2.0'
+        }
+      },
+      hasSideEffects: [Function: hasSideEffects],
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  worker: { format: 'iife', plugins: '() => plugins', rollupOptions: {} },
+  appType: 'spa',
+  experimental: { importGlobRestoreExtension: false, hmrPartialAccept: false },
+  future: undefined,
+  ssr: {
+    target: 'node',
+    optimizeDeps: { esbuildOptions: { preserveSymlinks: false } },
+    resolve: { conditions: undefined, externalConditions: undefined }
+  },
+  dev: {
+    warmup: [],
+    sourcemap: { js: true },
+    sourcemapIgnoreList: [Function: isInNodeModules$1],
+    preTransformRequests: false,
+    createEnvironment: [Function: defaultCreateDevEnvironment],
+    recoverable: false,
+    moduleRunnerTransform: false
+  },
+  webSocketToken: 'DMFl92CBM8b0',
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks],
+  createResolver: [Function: createResolver],
+  fsDenyGlob: [Function: arrayMatcher],
+  safeModulePaths: Set(0) {},
+  additionalAllowedHosts: [ '0.0.0.0', '0.0.0.0' ],
+  Symbol(vite:resolved-config): true
+}
+[36mvite v6.4.1 [32mbuilding for production...[36m[39m
+transforming...
+2025-12-31T08:10:41.714Z vite:resolve [32m1.75ms[39m [36mimages/layers.png[39m -> [2mC:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/leaflet/dist/images/layers.png[22m
+2025-12-31T08:10:41.714Z vite:resolve [32m1.81ms[39m [36mimages/layers-2x.png[39m -> [2mC:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/leaflet/dist/images/layers-2x.png[22m
+2025-12-31T08:10:41.714Z vite:resolve [32m1.86ms[39m [36mimages/marker-icon.png[39m -> [2mC:/Users/green/Desktop/社區發展/taiwan-village-analyst/node_modules/leaflet/dist/images/marker-icon.png[22m
+[32m✓[39m 2709 modules transformed.

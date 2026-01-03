@@ -1,0 +1,1102 @@
+{
+  "竹北市_斗崙里": {
+    "population": 10631,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_鹿場里": {
+    "population": 17044,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_東平里": {
+    "population": 19674,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_中興里": {
+    "population": 13219,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_隘口里": {
+    "population": 6307,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_東海里": {
+    "population": 4358,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_竹北里": {
+    "population": 11981,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_竹仁里": {
+    "population": 10978,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_竹義里": {
+    "population": 7470,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_泰和里": {
+    "population": 7797,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_新社里": {
+    "population": 8901,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_聯興里": {
+    "population": 5280,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_麻園里": {
+    "population": 2427,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_溪州里": {
+    "population": 2911,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_白地里": {
+    "population": 2476,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_新港里": {
+    "population": 1409,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_大義里": {
+    "population": 1931,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_崇義里": {
+    "population": 2071,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_大眉里": {
+    "population": 2200,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_尚義里": {
+    "population": 1908,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_十興里": {
+    "population": 10674,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_新國里": {
+    "population": 8326,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_新庄里": {
+    "population": 1330,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_北崙里": {
+    "population": 5057,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_新崙里": {
+    "population": 8505,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_福德里": {
+    "population": 3871,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_東興里": {
+    "population": 12186,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_北興里": {
+    "population": 10792,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_興安里": {
+    "population": 4917,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_文化里": {
+    "population": 4230,
+    "male": 0,
+    "female": 0
+  },
+  "竹北市_中崙里": {
+    "population": 9971,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_東興里": {
+    "population": 489,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_西安里": {
+    "population": 2160,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_南雄里": {
+    "population": 724,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_北斗里": {
+    "population": 4196,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_仁安里": {
+    "population": 980,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_北山里": {
+    "population": 740,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_南山里": {
+    "population": 1100,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_東安里": {
+    "population": 4461,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_東光里": {
+    "population": 1268,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_新富里": {
+    "population": 531,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_金山里": {
+    "population": 527,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_錦山里": {
+    "population": 947,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_玉山里": {
+    "population": 418,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_大同里": {
+    "population": 773,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_石光里": {
+    "population": 1856,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_上林里": {
+    "population": 809,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_新力里": {
+    "population": 547,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_南和里": {
+    "population": 808,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_東山里": {
+    "population": 850,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_南新里": {
+    "population": 880,
+    "male": 0,
+    "female": 0
+  },
+  "關西鎮_東平里": {
+    "population": 946,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_內立里": {
+    "population": 1132,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_寶石里": {
+    "population": 886,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_文山里": {
+    "population": 5632,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_五埔里": {
+    "population": 2171,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_四座里": {
+    "population": 3587,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_旱坑里": {
+    "population": 1809,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_田新里": {
+    "population": 5189,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_新埔里": {
+    "population": 1002,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_新生里": {
+    "population": 526,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_新民里": {
+    "population": 1086,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_上寮里": {
+    "population": 1978,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_下寮里": {
+    "population": 2780,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_南平里": {
+    "population": 1022,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_北平里": {
+    "population": 655,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_巨埔里": {
+    "population": 1142,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_照門里": {
+    "population": 1351,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_清水里": {
+    "population": 388,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_鹿鳴里": {
+    "population": 687,
+    "male": 0,
+    "female": 0
+  },
+  "新埔鎮_新北里": {
+    "population": 565,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_上坪里": {
+    "population": 296,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_瑞峰里": {
+    "population": 381,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_軟橋里": {
+    "population": 394,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_員崠里": {
+    "population": 2573,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_東寧里": {
+    "population": 3748,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_上舘里": {
+    "population": 10921,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_大鄉里": {
+    "population": 5167,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_東華里": {
+    "population": 659,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_商華里": {
+    "population": 3455,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_竹東里": {
+    "population": 1375,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_榮樂里": {
+    "population": 1427,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_鷄林里": {
+    "population": 4271,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_仁愛里": {
+    "population": 3788,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_五豐里": {
+    "population": 9225,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_三重里": {
+    "population": 7835,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_頭重里": {
+    "population": 5307,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_員山里": {
+    "population": 2129,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_柯湖里": {
+    "population": 622,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_二重里": {
+    "population": 16854,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_中山里": {
+    "population": 1788,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_中正里": {
+    "population": 3107,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_南華里": {
+    "population": 1129,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_榮華里": {
+    "population": 9140,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_忠孝里": {
+    "population": 1688,
+    "male": 0,
+    "female": 0
+  },
+  "竹東鎮_陸豐里": {
+    "population": 630,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_孝勢村": {
+    "population": 1321,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_仁勢村": {
+    "population": 960,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_愛勢村": {
+    "population": 4775,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_信勢村": {
+    "population": 6609,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_中勢村": {
+    "population": 4868,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_德盛村": {
+    "population": 6140,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_和興村": {
+    "population": 3265,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_長嶺村": {
+    "population": 3730,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_長安村": {
+    "population": 1129,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_湖口村": {
+    "population": 3139,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_湖鏡村": {
+    "population": 2952,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_湖南村": {
+    "population": 1762,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_波羅村": {
+    "population": 2539,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_鳳凰村": {
+    "population": 6343,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_鳳山村": {
+    "population": 3664,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_中興村": {
+    "population": 7762,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_信義村": {
+    "population": 5620,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_中正村": {
+    "population": 6073,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_東興村": {
+    "population": 7139,
+    "male": 0,
+    "female": 0
+  },
+  "湖口鄉_勝利村": {
+    "population": 5141,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_橫山村": {
+    "population": 3529,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_田寮村": {
+    "population": 899,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_南昌村": {
+    "population": 175,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_豐鄉村": {
+    "population": 224,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_豐田村": {
+    "population": 345,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_內灣村": {
+    "population": 906,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_福興村": {
+    "population": 390,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_沙坑村": {
+    "population": 947,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_新興村": {
+    "population": 1719,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_大肚村": {
+    "population": 1965,
+    "male": 0,
+    "female": 0
+  },
+  "橫山鄉_力行村": {
+    "population": 818,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_福興村": {
+    "population": 1178,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_後湖村": {
+    "population": 1971,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_青埔村": {
+    "population": 2166,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_埔和村": {
+    "population": 3209,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_瑞興村": {
+    "population": 2135,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_坡頭村": {
+    "population": 860,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_中崙村": {
+    "population": 3750,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_重興村": {
+    "population": 6540,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_新豐村": {
+    "population": 2408,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_員山村": {
+    "population": 3692,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_松林村": {
+    "population": 5848,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_上坑村": {
+    "population": 1849,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_鳳坑村": {
+    "population": 1138,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_忠孝村": {
+    "population": 4481,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_山崎村": {
+    "population": 5402,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_松柏村": {
+    "population": 5598,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_崎頂村": {
+    "population": 3608,
+    "male": 0,
+    "female": 0
+  },
+  "新豐鄉_明新村": {
+    "population": 3980,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_五龍村": {
+    "population": 487,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_華龍村": {
+    "population": 378,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_秀湖村": {
+    "population": 963,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_永興村": {
+    "population": 456,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_石潭村": {
+    "population": 2840,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_新鳳村": {
+    "population": 1681,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_中坑村": {
+    "population": 667,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_水坑村": {
+    "population": 853,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_文林村": {
+    "population": 2612,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_芎林村": {
+    "population": 1768,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_上山村": {
+    "population": 6247,
+    "male": 0,
+    "female": 0
+  },
+  "芎林鄉_下山村": {
+    "population": 1471,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_雙溪村": {
+    "population": 3060,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_大崎村": {
+    "population": 2174,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_三峰村": {
+    "population": 1060,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_新城村": {
+    "population": 1216,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_深井村": {
+    "population": 812,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_寶斗村": {
+    "population": 725,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_山湖村": {
+    "population": 550,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_寶山村": {
+    "population": 1248,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_油田村": {
+    "population": 569,
+    "male": 0,
+    "female": 0
+  },
+  "寶山鄉_雙新村": {
+    "population": 3183,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_北埔村": {
+    "population": 1156,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_南興村": {
+    "population": 1222,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_埔尾村": {
+    "population": 2793,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_水磜村": {
+    "population": 868,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_南埔村": {
+    "population": 377,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_大林村": {
+    "population": 776,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_大湖村": {
+    "population": 519,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_南坑村": {
+    "population": 317,
+    "male": 0,
+    "female": 0
+  },
+  "北埔鄉_外坪村": {
+    "population": 275,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_峨眉村": {
+    "population": 847,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_中盛村": {
+    "population": 699,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_石井村": {
+    "population": 550,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_富興村": {
+    "population": 1422,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_七星村": {
+    "population": 596,
+    "male": 0,
+    "female": 0
+  },
+  "峨眉鄉_湖光村": {
+    "population": 859,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_義興村": {
+    "population": 671,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_嘉樂村": {
+    "population": 887,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_新樂村": {
+    "population": 1454,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_梅花村": {
+    "population": 764,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_錦屏村": {
+    "population": 1487,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_玉峰村": {
+    "population": 1812,
+    "male": 0,
+    "female": 0
+  },
+  "尖石鄉_秀巒村": {
+    "population": 2380,
+    "male": 0,
+    "female": 0
+  },
+  "五峰鄉_大隘村": {
+    "population": 1528,
+    "male": 0,
+    "female": 0
+  },
+  "五峰鄉_花園村": {
+    "population": 821,
+    "male": 0,
+    "female": 0
+  },
+  "五峰鄉_竹林村": {
+    "population": 408,
+    "male": 0,
+    "female": 0
+  },
+  "五峰鄉_桃山村": {
+    "population": 1642,
+    "male": 0,
+    "female": 0
+  },
+  "北區_西門里": {
+    "population": 635
+  },
+  "北區_仁德里": {
+    "population": 758
+  },
+  "北區_潛園里": {
+    "population": 782
+  },
+  "北區_中央里": {
+    "population": 504
+  },
+  "北區_崇禮里": {
+    "population": 1172
+  },
+  "北區_石坊里": {
+    "population": 552
+  },
+  "北區_興南里": {
+    "population": 1620
+  },
+  "北區_北門里": {
+    "population": 1165
+  },
+  "北區_中興里": {
+    "population": 1067
+  },
+  "北區_大同里": {
+    "population": 1011
+  },
+  "北區_中山里": {
+    "population": 1040
+  },
+  "北區_長和里": {
+    "population": 1692
+  },
+  "北區_新民里": {
+    "population": 1939
+  },
+  "北區_民富里": {
+    "population": 6100
+  },
+  "北區_水田里": {
+    "population": 3752
+  },
+  "北區_文雅里": {
+    "population": 4742
+  },
+  "北區_光田里": {
+    "population": 2419
+  },
+  "北區_士林里": {
+    "population": 2249
+  },
+  "北區_福林里": {
+    "population": 4448
+  },
+  "北區_古賢里": {
+    "population": 966
+  },
+  "北區_湳雅里": {
+    "population": 3243
+  },
+  "北區_舊社里": {
+    "population": 7141
+  },
+  "北區_武陵里": {
+    "population": 5188
+  },
+  "北區_南寮里": {
+    "population": 6698
+  },
+  "北區_舊港里": {
+    "population": 625
+  },
+  "北區_康樂里": {
+    "population": 3618
+  },
+  "北區_港北里": {
+    "population": 2396
+  },
+  "北區_中寮里": {
+    "population": 4415
+  },
+  "北區_海濱里": {
+    "population": 5099
+  },
+  "北區_客雅里": {
+    "population": 2125
+  },
+  "北區_育英里": {
+    "population": 4278
+  },
+  "北區_曲溪里": {
+    "population": 5969
+  },
+  "北區_西雅里": {
+    "population": 3179
+  },
+  "北區_南勢里": {
+    "population": 5078
+  },
+  "北區_大鵬里": {
+    "population": 244
+  },
+  "北區_境福里": {
+    "population": 5604
+  },
+  "北區_磐石里": {
+    "population": 6886
+  },
+  "北區_新雅里": {
+    "population": 5730
+  },
+  "北區_光華里": {
+    "population": 4706
+  },
+  "北區_金華里": {
+    "population": 5701
+  },
+  "北區_金竹里": {
+    "population": 7116
+  },
+  "北區_湳中里": {
+    "population": 7950
+  },
+  "北區_金雅里": {
+    "population": 3906
+  },
+  "北區_台溪里": {
+    "population": 1777
+  },
+  "北區_中雅里": {
+    "population": 4251
+  }
+}

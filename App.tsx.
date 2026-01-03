@@ -1,0 +1,51 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import AnalystTool from './pages/AnalystTool';
+import PublicHome from './pages/PublicHome';
+import PublicMap from './pages/PublicMap';
+import CommunityPage from './pages/CommunityPage';
+import CommunityGroupPage from './pages/CommunityGroupPage';
+import ProjectPage from './pages/ProjectPage';
+import ActivityPage from './pages/ActivityPage';
+import AboutPage from './pages/AboutPage';
+import { AccessibilityProvider } from './contexts/AccessibilityContext';
+import AccessibilityWidget from './components/AccessibilityWidget';
+
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  // Only show accessibility widget on public pages (not starting with /analyst)
+  const isPublicPage = !location.pathname.startsWith('/analyst');
+
+  return (
+    <>
+      <Routes>
+        {/* Public Routes - Frontend Prototype */}
+        <Route path="/" element={<PublicHome />} />
+        <Route path="/map" element={<PublicMap />} />
+        <Route path="/community/:id" element={<CommunityPage />} />
+        <Route path="/group/:id" element={<CommunityGroupPage />} />
+        <Route path="/project/:id" element={<ProjectPage />} />
+        <Route path="/activities" element={<ActivityPage />} />
+        <Route path="/about" element={<AboutPage />} />
+
+        {/* Analyst Tool - Backend / Admin */}
+        <Route path="/analyst/*" element={<AnalystTool />} />
+      </Routes>
+
+      {/* Floating Accessibility Widget */}
+      {isPublicPage && <AccessibilityWidget />}
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AccessibilityProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AccessibilityProvider>
+  );
+};
+
+export default App;

@@ -1,0 +1,39 @@
+{
+    "description": "村里資料儲存結構說明",
+    "structure": {
+        "data/": {
+            "{縣市}/": {
+                "{行政區}/": {
+                    "{村里}/": {
+                        "stage1_web_research.json": "網路搜尋資料 (Step 1)",
+                        "stage2_questionnaire.json": "訪談問卷內容 (Step 2)",
+                        "stage3_final_report.json": "完整整合報告 (Step 3)"
+                    }
+                }
+            }
+        }
+    },
+    "example": "data/新竹縣/竹北市/中興里/stage1_web_research.json",
+    "file_formats": {
+        "stage1_web_research.json": {
+            "location": "LocationData",
+            "markdown": "網路搜尋產生的 Markdown 報告",
+            "sources": "參考來源列表",
+            "createdAt": "ISO timestamp"
+        },
+        "stage2_questionnaire.json": {
+            "location": "LocationData",
+            "checklist": "AuditCategory[] - 訪談問卷項目",
+            "createdAt": "ISO timestamp"
+        },
+        "stage3_final_report.json": {
+            "location": "LocationData",
+            "markdown": "整合後的完整報告",
+            "sources": "參考來源列表",
+            "checklist": "已完成的問卷項目",
+            "transcript": "訪談逐字稿 (可選)",
+            "createdAt": "ISO timestamp",
+            "updatedAt": "ISO timestamp"
+        }
+    }
+}
