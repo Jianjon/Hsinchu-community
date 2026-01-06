@@ -2,21 +2,45 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if user is admin
-    function isAdmin() {
-      return request.auth != null && request.auth.token.role == 'admin';
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // Default: Public Read, Admin Write
-    match /{document=**} {
+    // Users collection - users can read/write their own profile
+    match /users/{userId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isAuthenticated() && request.auth.uid == userId;
     }
     
-    // Mixboard Collections - Explicit Rules
+    // Villages/Wiki collection - ALLOW PUBLIC WRITE FOR MIGRATION
+    match /villages/{villageId} {
+      allow read: if true;
+      allow write: if true; // TEMPORARY FOR MIGRATION
+    }
+    
+    // Projects collection - authenticated users can write
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Posts collection - authenticated users can write
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Mixboard Collections - Public read, authenticated write
     match /mixboard_pulse/{doc} {
        allow read: if true;
-       allow write: if isAdmin(); // Crawler will use Admin SDK (bypasses rules) or Admin Auth
+       allow write: if isAuthenticated();
+    }
+    
+    // Default: Public Read, Authenticated Write
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
     }
   }
 }

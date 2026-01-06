@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, X, Globe, Heart, ShieldCheck, Sparkles } from 'lucide-react';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
+import { getTotalUserCount } from '../services/firestoreService';
 
 interface LandingOverlayProps {
     onEnter: () => void;
@@ -10,6 +11,16 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
     const { login, visualMode, setVisualMode } = useUser();
     const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
+    const [userCount, setUserCount] = useState<number>(0);
+
+    // Fetch real user count on mount
+    useEffect(() => {
+        getTotalUserCount().then(count => {
+            // If count is very low (prototype stage), we can add a base number 
+            // but the user said "don't use fake", so let's show real count.
+            setUserCount(count);
+        });
+    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -115,7 +126,7 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
                             ))}
                         </div>
                         <div>
-                            <p className="text-sm font-black text-[#2D3436] mb-0.5">1,200+ 居民已加入</p>
+                            <p className="text-sm font-black text-[#2D3436] mb-0.5">{userCount > 0 ? userCount.toLocaleString() : '...'} 居民已加入</p>
                             <p className="text-[10px] font-bold text-[#8DAA91]/60 tracking-widest uppercase">Community Members</p>
                         </div>
                     </div>

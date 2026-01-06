@@ -38,6 +38,80 @@
       "location": "新竹縣北埔鄉南興村光復街28號",
       "phone": "933266432",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069191_860",
+      "title": "北埔鄉北埔社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣北埔鄉南興村光復街28號3樓的在地服務資源。",
+      "phone": "929041789",
+      "address": "新竹縣北埔鄉南興村光復街28號3樓",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767663069191_148",
+      "title": "北埔鄉南興社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣北埔鄉南興村光復街28號的在地服務資源。",
+      "phone": "933266432",
+      "address": "新竹縣北埔鄉南興村光復街28號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "travelSpots": [
+    {
+      "id": "travel_1767666707103_205",
+      "name": "北埔老街",
+      "description": "充滿客家風情的老街，匯集了金廣福公館、天水堂等古蹟，必嚐客家擂茶與石柿餅。",
+      "imageUrl": "https://images.unsplash.com/photo-1634316427339-4976c66a4087?q=80&w=800",
+      "rating": "4.4",
+      "reviewCount": "5,821",
+      "location": [
+        24.6990687,
+        121.0570766
+      ],
+      "address": "新竹縣北埔鄉北埔街",
+      "tags": [
+        "古蹟",
+        "美食",
+        "客家文化"
+      ]
+    }
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      },
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      }
+    ]
+  }
 }

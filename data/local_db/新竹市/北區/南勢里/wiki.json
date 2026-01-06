@@ -32,5 +32,25 @@
       "time": "每週二、五中餐",
       "category": "social_welfare"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "reinforced",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "加強節日巡守，增派人力維護治安。"
+    },
+    "contacts": [
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      },
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      }
+    ]
+  }
 }

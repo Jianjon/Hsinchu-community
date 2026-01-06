@@ -1,6 +1,6 @@
-import { Home, Star, Menu, User as UserIcon, MessageSquare } from 'lucide-react';
+import { Home, Star, Menu, User as UserIcon, MessageSquare, Info } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 interface FavoritesRailProps {
     activeVillageId: string | null;
@@ -10,6 +10,7 @@ interface FavoritesRailProps {
     onSelectCommunity: (id: string) => void;
     onToggleSidebar: () => void;
     onOpenProfile: () => void;
+    onOpenAbout: () => void;
     communities: Array<{ id: string; name: string; district: string }>;
 }
 
@@ -41,6 +42,7 @@ const FavoritesRail: React.FC<FavoritesRailProps> = ({
     onSelectCommunity,
     onToggleSidebar,
     onOpenProfile,
+    onOpenAbout,
     communities
 }) => {
     const { favorites } = useFavorites();
@@ -190,6 +192,19 @@ const FavoritesRail: React.FC<FavoritesRailProps> = ({
                     </span>
                 </div>
             )}
+
+            {/* Spacer to push About button to bottom */}
+            <div className="flex-1" />
+
+            {/* About Button */}
+            <button
+                onClick={onOpenAbout}
+                className="w-12 h-12 rounded-[24px] hover:rounded-[12px] flex items-center justify-center transition-all duration-200 mb-2 group relative"
+                style={{ backgroundColor: 'rgba(141,170,145,0.05)', color: '#6B6B6B' }}
+                title="關於本平台"
+            >
+                <Info className="w-5 h-5 opacity-70 group-hover:opacity-100" />
+            </button>
         </div>
     );
 };

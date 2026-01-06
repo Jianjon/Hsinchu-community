@@ -3,14 +3,21 @@ import { useParams, Link } from 'react-router-dom';
 import { PublicCommunity } from '../data/mock_public';
 import { getPublicCommunity } from '../services/publicDataAdaptor';
 import { MapPin, ArrowLeft, Users, Calendar, Hammer, Info, ExternalLink, ChevronRight, User } from 'lucide-react';
+import { useUser } from '../hooks/useUser';
 
 const CommunityPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const { recordVisit } = useUser();
     const [community, setCommunity] = useState<PublicCommunity | null | undefined>(undefined);
 
     useEffect(() => {
         if (id) {
-            getPublicCommunity(id).then(setCommunity);
+            getPublicCommunity(id).then(data => {
+                setCommunity(data);
+                if (data) {
+                    recordVisit(data.id, data.city, data.name);
+                }
+            });
         }
     }, [id]);
 

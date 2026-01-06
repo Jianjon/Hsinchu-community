@@ -2,7 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { X, Sparkles, Calendar, Clock, MapPin, Link as LinkIcon, Tag, Loader2, CheckCircle2, Camera, User, DollarSign, Wallet, Sun, AlertCircle, ArrowRight } from 'lucide-react';
 import ImageUploader from './ImageUploader';
 import MultiImageUploader from './MultiImageUploader';
-import { searchAddress, parseCoordinates } from '../services/geocodingService';
+import { parseCoordinates, searchAddress } from '../services/geocodingService';
+
+declare global {
+    interface Window {
+        google: any;
+    }
+}
+declare var google: any;
 
 interface QuickCreateModalProps {
     isOpen: boolean;
@@ -11,6 +18,7 @@ interface QuickCreateModalProps {
     channelType: 'events' | 'travel' | 'projects' | 'culture' | 'care' | 'resource' | 'facility';
     initialData?: Partial<CreateItemData & { metadata?: any }>;
     onOpenSmartImport?: () => void;
+    community?: any; // PublicCommunity (Use any to avoid circular dependency for now, or import if possible)
 }
 
 export interface CreateItemData {
@@ -61,7 +69,8 @@ const CHANNEL_CONFIG: Record<string, {
     projects: {
         emoji: '🛠️', label: '地方創生',
         titlePlaceholder: '發起一個改變社區的提案...', descPlaceholder: '說明計畫的初衷與願景...',
-        hasStatus: true, hasProgress: true, hasFunding: true
+        hasStatus: true, hasProgress: true, hasFunding: true,
+        hasLocation: true // Enabled for projects
     },
     culture: {
         emoji: '🏮', label: '文化資產',
@@ -91,7 +100,8 @@ const QuickCreateModal: React.FC<QuickCreateModalProps> = ({
     onCreate,
     channelType,
     initialData,
-    onOpenSmartImport
+    onOpenSmartImport,
+    community
 }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -118,24 +128,42 @@ const QuickCreateModal: React.FC<QuickCreateModalProps> = ({
     const [geocodeStatus, setGeocodeStatus] = useState<'none' | 'success' | 'fail'>('none');
 
     useEffect(() => {
-        if (isOpen && initialData) {
-            if (initialData.title) setTitle(initialData.title);
-            if (initialData.description) setDescription(initialData.description);
-            if (initialData.date) setDate(initialData.date);
-            if (initialData.time) setTime(initialData.time);
-            if (initialData.location) setLocation(initialData.location);
-            if (initialData.link) setLink(initialData.link);
-            if (initialData.tags) setTags(initialData.tags.join(', '));
-            if (initialData.metadata) {
-                if (initialData.metadata.organizer) setOrganizer(initialData.metadata.organizer);
-                if (initialData.metadata.cost) setCost(initialData.metadata.cost);
-                if (initialData.metadata.fundingSource) setFundingSource(initialData.metadata.fundingSource);
-                if (initialData.metadata.seasonality) setSeasonality(initialData.metadata.seasonality);
-                if (initialData.metadata.status) setStatus(initialData.metadata.status);
-                if (initialData.metadata.progress) setProgress(initialData.metadata.progress);
+        if (isOpen) {
+            if (initialData) {
+                if (initialData.title) setTitle(initialData.title);
+                if (initialData.description) setDescription(initialData.description);
+                if (initialData.date) setDate(initialData.date);
+                if (initialData.time) setTime(initialData.time);
+                if (initialData.location) setLocation(initialData.location);
+                if (initialData.link) setLink(initialData.link);
+                if (initialData.tags) setTags(initialData.tags.join(', '));
+                if (initialData.metadata) {
+                    if (initialData.metadata.organizer) setOrganizer(initialData.metadata.organizer);
+                    if (initialData.metadata.cost) setCost(initialData.metadata.cost);
+                    if (initialData.metadata.fundingSource) setFundingSource(initialData.metadata.fundingSource);
+                    if (initialData.metadata.seasonality) setSeasonality(initialData.metadata.seasonality);
+                    if (initialData.metadata.status) setStatus(initialData.metadata.status);
+                    if (initialData.metadata.progress) setProgress(initialData.metadata.progress);
+                }
+            } else {
+                // Explicit reset when opening empty
+                setTitle('');
+                setDescription('');
+                setImageUrls([]);
+                setDate('');
+                setTime('');
+                setLocation('');
+                setCoordinates(undefined);
+                setGeocodeStatus('none');
+                setLink('');
+                setTags('');
+                setOrganizer('');
+                setCost('');
+                setFundingSource('');
+                setSeasonality('');
+                setStatus('planning');
+                setProgress(0);
             }
-        } else if (!isOpen) {
-            // Only clear when fully closed to avoid flickering if needed, but handleClose already clears.
         }
     }, [isOpen, initialData]);
 
@@ -162,39 +190,99 @@ const QuickCreateModal: React.FC<QuickCreateModalProps> = ({
     }, [onClose]);
 
     // Handle Location Blur -> Trigger Geocoding
+    // Google Maps Autocomplete Ref
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const autocompleteRef = React.useRef<any | null>(null);
+
+    // Initialize Autocomplete
+    useEffect(() => {
+        if (config.hasLocation && inputRef.current && window.google?.maps?.places) {
+            // const bounds = community?.boundary ? ... : undefined; // Could bias to community bounds
+            // For now, bias to Taiwan or Community Location
+            let bounds: any | undefined;
+            if (community?.location) {
+                const [lat, lng] = community.location;
+                bounds = new window.google.maps.LatLngBounds(
+                    new window.google.maps.LatLng(lat - 0.05, lng - 0.05),
+                    new window.google.maps.LatLng(lat + 0.05, lng + 0.05)
+                );
+            }
+
+            autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+                componentRestrictions: { country: 'tw' },
+                fields: ['geometry', 'formatted_address', 'name'],
+                bounds: bounds,
+                strictBounds: false
+            });
+
+            autocompleteRef.current.addListener('place_changed', () => {
+                const place = autocompleteRef.current?.getPlace();
+                if (place?.geometry?.location) {
+                    const lat = place.geometry.location.lat();
+                    const lng = place.geometry.location.lng();
+
+                    // Boundary Validation
+                    let inBounds = true;
+                    if (community?.boundary && window.google?.maps?.geometry?.poly) {
+                        const polygon = new google.maps.Polygon({
+                            paths: community.boundary.map((p: any) => ({ lat: p[0], lng: p[1] }))
+                        });
+                        inBounds = google.maps.geometry.poly.containsLocation(place.geometry.location, polygon);
+                    }
+
+                    if (!inBounds) {
+                        alert(`提醒：此地點似乎位於 ${community.name} 範圍之外，請確認是否正確。`);
+                        // Optional: Don't block, just warn. Or block if strict.
+                    }
+
+                    setCoordinates([lat, lng]);
+                    setLocation(place.formatted_address || place.name || '');
+                    setGeocodeStatus('success');
+                } else {
+                    setGeocodeStatus('fail');
+                }
+            });
+        }
+    }, [config.hasLocation, community]);
+
     const handleLocationBlur = async () => {
+        // Fallback for manual coordinate entry if not picked from autocomplete
         if (!location.trim()) {
             setCoordinates(undefined);
             setGeocodeStatus('none');
             return;
         }
 
-        // 1. Check for manual coordinates first
-        const parsed = parseCoordinates(location);
-        if (parsed) {
-            setCoordinates(parsed);
+        // 1. Manual Coordinate Parse (lat, lng)
+        const latLngRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+        const match = location.match(latLngRegex);
+        if (match) {
+            setCoordinates([parseFloat(match[1]), parseFloat(match[3])]);
             setGeocodeStatus('success');
             return;
         }
 
-        // 2. Geocode Address
-        setIsGeocoding(true);
-        setGeocodeStatus('none');
-        try {
-            const results = await searchAddress(location);
-            if (results && results.length > 0) {
-                const best = results[0];
-                setCoordinates([best.lat, best.lng]);
-                setGeocodeStatus('success');
-            } else {
-                setCoordinates(undefined);
+        // 2. Fallback: If valid coordinates aren't set (e.g. didn't click Autocomplete), try OpenStreetMap
+        // Only run if we don't have coordinates OR if the location text likely changed
+        if (!coordinates && location.length > 2) {
+            setIsGeocoding(true);
+            try {
+                // Determine bounds if possible (optional optimization)
+                const results = await searchAddress(location);
+                if (results && results.length > 0) {
+                    const best = results[0];
+                    setCoordinates([best.lat, best.lng]);
+                    setGeocodeStatus('success');
+                    console.log(`[QuickCreate] Fallback geocoding success: ${best.lat}, ${best.lng}`);
+                } else {
+                    setGeocodeStatus('fail');
+                }
+            } catch (err) {
+                console.error("Geocode fallback failed", err);
                 setGeocodeStatus('fail');
+            } finally {
+                setIsGeocoding(false);
             }
-        } catch (e) {
-            console.error("Geocode error", e);
-            setGeocodeStatus('fail');
-        } finally {
-            setIsGeocoding(false);
         }
     };
 
@@ -264,7 +352,7 @@ const QuickCreateModal: React.FC<QuickCreateModalProps> = ({
                 {/* Content - Scrollable */}
                 <div className="p-6 space-y-5 overflow-y-auto">
                     {/* AI Import Entry Point - Hidden for Facility */}
-                    {channelType !== 'facility' && onOpenSmartImport && (
+                    {onOpenSmartImport && (
                         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-xl bg-white border border-emerald-100 flex items-center justify-center text-emerald-600 shadow-sm">
@@ -477,18 +565,17 @@ const QuickCreateModal: React.FC<QuickCreateModalProps> = ({
                                     <label className="block text-xs font-bold mb-2 uppercase tracking-wider flex items-center gap-1" style={{ color: '#8B8B8B' }}>
                                         <MapPin className="w-3 h-3" /> 地點 / 地址
                                     </label>
-                                    {/* Geocoding Status Indicator */}
-                                    {isGeocoding && <span className="text-xs text-blue-500 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> 定位中...</span>}
                                     {!isGeocoding && geocodeStatus === 'success' && <span className="text-xs text-green-600 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> 已定位 ({coordinates?.[0].toFixed(3)}, {coordinates?.[1].toFixed(3)})</span>}
                                     {!isGeocoding && geocodeStatus === 'fail' && <span className="text-xs text-red-500">無法定位，請嘗試更詳細的地址</span>}
                                 </div>
                                 <div className="relative">
                                     <input
+                                        ref={inputRef}
                                         type="text"
                                         value={location}
                                         onChange={(e) => setLocation(e.target.value)}
                                         onBlur={handleLocationBlur} // Trigger Geocoding on Blur
-                                        placeholder="輸入地址或景點名稱 (自動定位)"
+                                        placeholder="輸入地址或景點名稱 (Google 搜尋)"
                                         className="w-full px-4 py-2 rounded-xl text-sm outline-none transition-all placeholder:text-slate-300 pr-10"
                                         style={{
                                             backgroundColor: 'rgba(141,170,145,0.05)',

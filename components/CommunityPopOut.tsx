@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Star, StarOff, MessageSquare, MapPin, Calendar, Hammer, Info, Layout, Hash, Send, User, ChevronRight, PlusCircle, Trophy, Settings, ArrowRight, ArrowLeft, Plus, Edit3, Trash2, Eye, Edit, Image as ImageIcon, Clock, Phone, Save, Coffee, Wind, BookOpen, TreePine, Library, Heart, Sparkles, Camera, Flag, Leaf, ShoppingBag } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 import { PublicCommunity } from '../data/mock_public';
 import PostFeed from './PostFeed';
 import GlobalSocialFeed from './GlobalSocialFeed';
@@ -130,6 +130,9 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
     const [aiInitialData, setAiInitialData] = useState<any>(null);
     const [refreshKey, setRefreshKey] = useState(0);
 
+    // Ref to track pending auto-save operations
+    const pendingSaveRef = useRef<{ id: string; reason: string } | null>(null);
+
     useEffect(() => {
         setLocalCommunity(community);
         setIsEditMode(false); // Reset edit mode when community changes
@@ -144,6 +147,21 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
     useEffect(() => {
         setSelectedItem(null);
     }, [activeChannelId]);
+
+    // Auto-save effect: triggers when localCommunity changes AND there's a pending save
+    useEffect(() => {
+        if (pendingSaveRef.current && localCommunity && onUpdate) {
+            const { id, reason } = pendingSaveRef.current;
+            // Only save if the community ID matches what we're expecting
+            if (localCommunity.id === id) {
+                console.log('[CommunityPopOut] 🔄 Auto-save triggered:', reason, 'careActions count:', localCommunity.careActions?.length);
+                onUpdate(id, localCommunity);
+                console.log('[CommunityPopOut] ✅ Auto-saved to Firestore:', reason);
+            }
+            // Clear the pending save
+            pendingSaveRef.current = null;
+        }
+    }, [localCommunity, onUpdate]);
 
     // Helper to get fresh data derived from localCommunity
     const getSelectedItemData = () => {
@@ -168,12 +186,15 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                 organizer: parsed.data.organizer,
                 cost: parsed.data.cost,
                 status: parsed.data.status,
-                progress: parsed.data.progress
+                progress: parsed.data.progress,
+                fundingSource: parsed.data.fundingSource,
+                seasonality: parsed.data.seasonality
             }
         });
         setCreateModalChannel(parsed.channelType);
         setIsCreateModalOpen(true);
     };
+
 
     const handleAddItem = (channelOrData: string | any) => {
         if (!isLoggedIn) {
@@ -221,6 +242,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
         else if (channel === '社區維基' || channel.startsWith('wiki_facility_')) mappedType = 'facility';
 
         if (mappedType) {
+            setAiInitialData(null); // Clear previous AI data
             setCreateModalChannel(mappedType);
             setIsCreateModalOpen(true);
             return;
@@ -246,6 +268,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     date: data.date || new Date().toISOString().split('T')[0],
                     time: data.time || "09:00",
                     location: data.location || localCommunity.name || "社區中心",
+                    coordinates: data.coordinates, // Add coordinates for map
                     registrationLink: data.link,
                     type: "workshop",
                     creatorId: user.id,
@@ -260,7 +283,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     description: data.description,
                     imageUrl: data.coverImage,
                     tags: data.tags || ["新景點"],
-                    location: [24, 121], // Mock coords
+                    location: data.coordinates || localCommunity.location || [24.5, 121], // Use real coords or community fallback
                     address: data.location,
                     googleMapLink: data.link,
                     creatorId: user.id,
@@ -278,6 +301,8 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     progress: data.metadata?.progress || 0,
                     status: data.metadata?.status || "planning",
                     creatorId: user.id,
+                    location: data.coordinates || localCommunity.location || [24.5, 121], // Add location for map visibility
+                    address: data.location,
                     fundingSource: data.metadata?.fundingSource,
                     updates: []
                 }, ...(next.projects || [])];
@@ -289,7 +314,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     description: data.description,
                     coverImage: data.coverImage,
                     category: "historic_site",
-                    location: [24, 121],
+                    location: data.coordinates || localCommunity.location || [24.5, 121], // Use real coords
                     address: data.location,
                     creatorId: user.id
                 }, ...(next.cultureHeritages || [])];
@@ -306,6 +331,8 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     date: data.date, // Generic: No default date if not provided
                     link: data.link,
                     tags: data.tags,
+                    location: data.coordinates, // Add location for map
+                    address: data.location,
                     creatorId: user.id
                 }, ...(next.careActions || [])];
                 newItemType = 'care_action';
@@ -318,6 +345,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     coverImage: data.coverImage,
                     type: "other", // Default, could be refined
                     icon: "🏛️",
+                    location: data.coordinates, // Add location for map
                     creatorId: user.id
                 };
 
@@ -326,14 +354,21 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                 }
                 newItemType = 'facility';
             }
+
             return next;
         });
+
+        // Mark pending save - will be handled by useEffect when state is updated
+        pendingSaveRef.current = { id: localCommunity.id, reason: `created:${newId}` };
+        console.log('[CommunityPopOut] 📝 Created item, pending save set:', createModalChannel, newId);
 
         // Open detail view for the newly created item
         setTimeout(() => setSelectedItem({ type: newItemType, id: newId }), 0);
     };
 
     const handleDeleteItem = (category: string, id: string) => {
+        const communityId = localCommunity?.id;
+
         setLocalCommunity(prev => {
             if (!prev) return prev;
             const next = { ...prev };
@@ -352,6 +387,12 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
             }
             return next;
         });
+
+        // Mark pending save - will be handled by useEffect when state is updated
+        if (communityId) {
+            pendingSaveRef.current = { id: communityId, reason: `deleted:${id}` };
+        }
+
         // If deleted item was selected, close detail view
         if (selectedItem?.id === id) setSelectedItem(null);
     };
@@ -655,8 +696,14 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                     careActions: (localCommunity || targetCommunity).wiki?.careActions || (localCommunity || targetCommunity).careActions,
                     coverImage: (localCommunity || targetCommunity).wiki?.coverImage,
                     coverImagePosition: (localCommunity || targetCommunity).wiki?.coverImagePosition,
-                    coverImageScale: (localCommunity || targetCommunity).wiki?.coverImageScale
+                    coverImageScale: (localCommunity || targetCommunity).wiki?.coverImageScale,
+                    // Inject location from community root if not present in wiki
+                    location: (localCommunity || targetCommunity).location ? {
+                        lat: (localCommunity || targetCommunity).location[0],
+                        lng: (localCommunity || targetCommunity).location[1]
+                    } : undefined
                 };
+                console.log('[CommunityPopOut] Rendering WikiDashboard, intro_history:', wiki.intro_history);
                 return (
                     <WikiDashboardView
                         communityName={targetCommunity.name}
@@ -764,7 +811,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                                     type="care_action"
                                     data={action}
                                     isEditMode={isEditMode}
-                                    onClick={() => { }} // No detail view for care action yet
+                                    onClick={() => setSelectedItem({ type: 'care_action', id: action.id })}
                                     onDelete={() => handleDeleteItem('care_action', action.id)}
                                 />
                             ))}
@@ -936,11 +983,13 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                         channelType={createModalChannel}
                         initialData={aiInitialData}
                         onOpenSmartImport={() => setIsSmartImportOpen(true)}
+                        community={localCommunity || community}
                     />
                     <SmartImportModal
                         isOpen={isSmartImportOpen}
                         onClose={() => setIsSmartImportOpen(false)}
                         onConfirmed={handleSmartImportConfirm}
+                        targetChannel={createModalChannel}
                     />
                 </div>
             </div>

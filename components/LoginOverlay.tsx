@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { X, Globe, Heart, Users, Shield, Loader2, ArrowRight } from 'lucide-react';
-import { useUser } from '../contexts/UserContext';
-import { authService, UserRole } from '../services/authService';
+import { useUser } from '../hooks/useUser';
+import { authService } from '../services/authService';
+import { UserRole } from '../types';
 
 interface LoginOverlayProps {
     isOpen: boolean;
@@ -9,7 +10,7 @@ interface LoginOverlayProps {
 }
 
 const LoginOverlay: React.FC<LoginOverlayProps> = ({ isOpen, onClose }) => {
-    const { setLoginOverlay, visualMode, setVisualMode } = useUser();
+    const { setLoginOverlay, visualMode, setVisualMode, bypassLogin } = useUser();
     const [mode, setMode] = useState<'login' | 'register'>('login');
     const [role, setRole] = useState<'resident' | 'admin'>('resident');
     const [email, setEmail] = useState('');
@@ -95,7 +96,12 @@ const LoginOverlay: React.FC<LoginOverlayProps> = ({ isOpen, onClose }) => {
                     handleClose();
                 }
             } else {
-                await authService.login(email, password);
+                const user = await authService.login(email, password);
+                // If we get a user back (especially Guest), force the context to update
+                // because onAuthStateChanged won't fire for our fake Guest login.
+                if (user) {
+                    bypassLogin(user);
+                }
                 handleClose();
             }
         } catch (err: any) {

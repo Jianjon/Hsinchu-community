@@ -13,21 +13,34 @@ import {
     Timestamp,
     increment,
     updateDoc,
-    getDoc
+    getDoc,
+    setDoc,
+    getCountFromServer,
+    Firestore
 } from "firebase/firestore";
 import { app } from "./firebase";
-import { CommunityPost, CommunityComment, ChannelId } from "../types";
+import { CommunityPost, CommunityComment, ChannelId, CommunityWikiData, PublicProject } from "../types";
 
 // ==========================================
 // Firestore Service for Community Platform
 // ==========================================
 
-const db = getFirestore(app);
+// Lazy Firestore initialization to avoid "null container" error
+let _db: Firestore | null = null;
+const getDb = (): Firestore => {
+    if (!_db) {
+        _db = getFirestore(app);
+    }
+    return _db;
+};
+// Getter for backwards compatibility
+const db = null as any; // Will throw if accessed directly - use getDb() instead
 
 // Collection Names
 const COLL_VILLAGES = "villages";
 const COLL_POSTS = "posts";
 const SUB_COMMENTS = "comments";
+const COLL_PROJECTS = "projects";
 
 // Converter to handle Timestamp -> Date
 const postConverter = {
@@ -52,6 +65,17 @@ const postConverter = {
             images: data.images || [],
             stats: data.stats || { likes: 0, comments: 0, views: 0 }
         } as CommunityPost;
+    }
+};
+
+const projectConverter = {
+    toFirestore: (proj: any) => {
+        const { id, ...rest } = proj;
+        return { ...rest };
+    },
+    fromFirestore: (snapshot: any, options: any) => {
+        const data = snapshot.data(options);
+        return { id: snapshot.id, ...data } as PublicProject;
     }
 };
 
@@ -87,7 +111,7 @@ export const getPosts = async (
         constraints.push(startAfter(lastDoc));
     }
 
-    const q = query(collection(db, COLL_POSTS).withConverter(postConverter), ...constraints);
+    const q = query(collection(getDb(), COLL_POSTS).withConverter(postConverter), ...constraints);
 
     // TODO: Need composite index for this query in Firestore Console
     // villageId + channelId + createdAt
@@ -125,7 +149,7 @@ export const getMapPins = async (villageId: string): Promise<CommunityPost[]> =>
     // Real Prod Solution: GeoHash or 'hasLocation'==true.
 
     const q = query(
-        collection(db, COLL_POSTS),
+        collection(getDb(), COLL_POSTS),
         where("villageId", "==", villageId),
         where("valid", "==", true),
         orderBy("createdAt", "desc"),
@@ -163,7 +187,7 @@ export const createPost = async (postData: Partial<CommunityPost>): Promise<stri
         stats: { likes: 0, comments: 0, views: 0 },
     };
 
-    const ref = await addDoc(collection(db, COLL_POSTS).withConverter(postConverter), payload);
+    const ref = await addDoc(collection(getDb(), COLL_POSTS).withConverter(postConverter), payload);
     return ref.id;
 };
 
@@ -179,11 +203,11 @@ export const addComment = async (postId: string, author: any, content: string): 
         likes: 0
     };
 
-    const commentsRef = collection(db, COLL_POSTS, postId, SUB_COMMENTS);
+    const commentsRef = collection(getDb(), COLL_POSTS, postId, SUB_COMMENTS);
     const docRef = await addDoc(commentsRef, commentPayload);
 
     // Update Post Stats
-    const postRef = doc(db, COLL_POSTS, postId);
+    const postRef = doc(getDb(), COLL_POSTS, postId);
     updateDoc(postRef, {
         "stats.comments": increment(1)
     });
@@ -202,7 +226,7 @@ export const addComment = async (postId: string, author: any, content: string): 
  * Get Comments for a Post
  */
 export const getComments = async (postId: string): Promise<CommunityComment[]> => {
-    const commentsRef = collection(db, COLL_POSTS, postId, SUB_COMMENTS);
+    const commentsRef = collection(getDb(), COLL_POSTS, postId, SUB_COMMENTS);
     const q = query(commentsRef, orderBy("createdAt", "asc"));
 
     const snapshot = await getDocs(q);
@@ -220,8 +244,75 @@ export const getComments = async (postId: string): Promise<CommunityComment[]> =
  * Like a Post
  */
 export const likePost = async (postId: string): Promise<void> => {
-    const postRef = doc(db, COLL_POSTS, postId);
+    const postRef = doc(getDb(), COLL_POSTS, postId);
     await updateDoc(postRef, {
         "stats.likes": increment(1)
     });
+};
+
+// ==========================================
+// Knowledge Page (Wiki) Support
+// ==========================================
+
+export const getVillageWiki = async (villageId: string): Promise<CommunityWikiData | null> => {
+    try {
+        const docRef = doc(getDb(), COLL_VILLAGES, villageId);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+            return snap.data() as CommunityWikiData;
+        }
+        return null;
+    } catch (e) {
+        console.error("Error fetching village wiki:", e);
+        return null;
+    }
+};
+
+export const updateVillageWiki = async (villageId: string, data: Partial<CommunityWikiData>): Promise<void> => {
+    const docRef = doc(getDb(), COLL_VILLAGES, villageId);
+    // Use setDoc with merge to support both creating new docs and updating existing ones
+    await setDoc(docRef, { ...data, updatedAt: serverTimestamp() }, { merge: true });
+    console.log('[Firestore] Village wiki saved:', villageId);
+};
+
+// ==========================================
+// PO Space (Projects) Support
+// ==========================================
+
+export const getProjects = async (villageId: string): Promise<PublicProject[]> => {
+    const q = query(
+        collection(getDb(), COLL_PROJECTS).withConverter(projectConverter),
+        where("owner", "==", villageId)
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => d.data());
+};
+
+export const createProject = async (villageId: string, project: PublicProject): Promise<string> => {
+    const payload = {
+        ...project,
+        owner: villageId,
+        createdAt: serverTimestamp()
+    };
+    const ref = await addDoc(collection(getDb(), COLL_PROJECTS).withConverter(projectConverter), payload);
+    return ref.id;
+};
+
+export const updateProject = async (projectId: string, data: Partial<PublicProject>): Promise<void> => {
+    const ref = doc(getDb(), COLL_PROJECTS, projectId);
+    await updateDoc(ref, data);
+};
+
+/**
+ * Get Total User Count from Firestore
+ */
+export const getTotalUserCount = async (): Promise<number> => {
+    try {
+        const coll = collection(getDb(), "users");
+        const snapshot = await getCountFromServer(coll);
+        return snapshot.data().count;
+    } catch (e) {
+        console.error("Error fetching user count:", e);
+        return 0;
+    }
 };

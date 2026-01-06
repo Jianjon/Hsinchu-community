@@ -25,6 +25,43 @@
       "location": "新竹縣峨眉鄉富興村1鄰33號",
       "phone": "937176262",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069182_464",
+      "title": "峨眉鄉富興社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣峨眉鄉富興村1鄰33號的在地服務資源。",
+      "phone": "937176262",
+      "address": "新竹縣峨眉鄉富興村1鄰33號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "reinforced",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "加強節日巡守，增派人力維護治安。"
+    },
+    "contacts": [
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

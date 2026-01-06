@@ -1,72 +1,65 @@
-import React from 'react';
-import { Palette, Share2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Palette, Sparkles } from 'lucide-react';
 import AIPulseWidget from './widgets/AIPulseWidget';
 import WeatherWidget from './widgets/WeatherWidget';
 import VillageFeedsWidget from './widgets/VillageFeedsWidget';
 import NeighborhoodCalendarWidget from './widgets/NeighborhoodCalendarWidget';
 import TravelRecommendWidget from './widgets/TravelRecommendWidget';
+import SafetyGuardWidget from './widgets/SafetyGuardWidget';
+import AISearchOverlay from './AISearchOverlay';
 import { useMixboardData } from '../hooks/useMixboardData';
+import { useUser } from '../hooks/useUser';
 import { PublicCommunity } from '../data/mock_public';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface GlobalMixboardViewProps {
-    community: PublicCommunity; // Make explicit
+    community?: PublicCommunity;
 }
 
 const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) => {
-    const { feeds, calendarEvents, travelSpots, currentLocation, loadMoreFeeds, loading } = useMixboardData();
+    const { feeds, calendarEvents, travelSpots, safetyInfo, currentLocation } = useMixboardData();
+    const { user, updateProfile } = useUser();
+    const [showAISearch, setShowAISearch] = useState(false);
 
-    // Static Layout Definition
-    // Grid: 3 columns on XL screen
-    // Row 1: AI Pulse (Top Left, 2 cols) | Weather (Top Right, 1 col)
-    // Row 2: Feeds (Bottom Left, 2 cols, 2 rows) | Calendar (Mid Right, 1 col)
-    // Row 3: (Feeds continues) | Travel (Bottom Right, 1 col)
-    // Result: Feeds and Travel align at the bottom.
-    const widgets = [
-        {
-            id: 'w-ai-pulse',
-            component: AIPulseWidget,
-            colSpan: 2,
-            rowSpan: 1,
-            props: {}
-        },
-        {
-            id: 'w-weather',
-            component: WeatherWidget,
-            colSpan: 1,
-            rowSpan: 1,
-            props: { location: currentLocation }
-        },
-        {
-            id: 'w-feeds',
-            component: VillageFeedsWidget,
-            colSpan: 2,
-            rowSpan: 2,
-            props: {
-                feeds,
-                onLoadMore: loadMoreFeeds,
-                loading
-            }
-        },
-        {
-            id: 'w-calendar',
-            component: NeighborhoodCalendarWidget,
-            colSpan: 1,
-            rowSpan: 1,
-            props: { events: calendarEvents }
-        },
-        {
-            id: 'w-travel',
-            component: TravelRecommendWidget,
-            colSpan: 1,
-            rowSpan: 1,
-            props: { recommendations: travelSpots }
-        },
-    ];
+    // Widget Definitions
+    const WIDGETS: Record<string, React.ReactNode> = {
+        safety: <SafetyGuardWidget safety={safetyInfo} />,
+        pulse: <AIPulseWidget />,
+        weather: <WeatherWidget location={currentLocation} />,
+        calendar: <NeighborhoodCalendarWidget events={calendarEvents} />,
+        travel: <TravelRecommendWidget recommendations={travelSpots} />
+    };
+
+    const DEFAULT_ORDER = ['safety', 'pulse', 'weather', 'calendar', 'travel'];
+    const currentOrder = user?.widgetOrder || DEFAULT_ORDER;
+
+    const moveWidget = (id: string, direction: 'up' | 'down') => {
+        const index = currentOrder.indexOf(id);
+        if (index === -1) return;
+
+        const newOrder = [...currentOrder];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+
+        if (newIndex < 0 || newIndex >= newOrder.length) return;
+
+        // Swap
+        [newOrder[index], newOrder[newIndex]] = [newOrder[newIndex], newOrder[index]];
+        updateProfile({ widgetOrder: newOrder });
+    };
 
     return (
-        <div className="p-4 md:p-8 space-y-8 max-w-[1440px] mx-auto min-h-screen bg-[#FDFCF8]">
+        <div className="p-4 md:p-8 space-y-8 max-w-[1440px] mx-auto min-h-screen bg-[#FDFCF8] relative">
+            {/* ... (keep header parts same) ... */}
+            {/* AI Search Overlay */}
+            {showAISearch && (
+                <AISearchOverlay
+                    onClose={() => setShowAISearch(false)}
+                    currentLocation={`${currentLocation.city} ${currentLocation.district || ''}`}
+                />
+            )}
+
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 px-8 bg-white/50 backdrop-blur-sm rounded-[2rem] border border-[#E7E5E4] transition-all hover:shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 px-8 bg-white/50 backdrop-blur-sm rounded-[2rem] border border-[#E7E5E4] shadow-sm hover:shadow-md transition-all relative z-10">
                 <div className="flex items-center gap-5">
                     <div className="p-3.5 bg-[#FAF9F6] rounded-2xl border border-[#E7E5E4] shadow-sm">
                         <Palette className="w-7 h-7 text-[#78716C]" />
@@ -80,10 +73,12 @@ const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) =>
                 </div>
                 <div className="flex items-center gap-3">
                     <button
-                        className="p-3 bg-[#FAF9F6] hover:bg-[#F5F5F4] text-[#A8A29E] hover:text-[#57534E] rounded-full transition-all border border-[#E7E5E4]"
-                        title="分享我的佈局"
+                        onClick={() => setShowAISearch(!showAISearch)}
+                        className={`p-3 rounded-full transition-all border shadow-sm flex items-center gap-2 ${showAISearch ? 'bg-emerald-500 text-white border-emerald-600' : 'bg-[#FAF9F6] hover:bg-[#F5F5F4] text-[#A8A29E] hover:text-[#57534E] border-[#E7E5E4]'}`}
+                        title="AI 智能社區助理"
                     >
-                        <Share2 className="w-4 h-4" />
+                        <Sparkles className="w-4 h-4" />
+                        <span className="text-xs font-bold hidden md:inline">{showAISearch ? '關閉助理' : '智能助理'}</span>
                     </button>
                 </div>
             </div>
@@ -97,28 +92,29 @@ const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) =>
                 </div>
 
                 {/* RIGHT: Sidebar Tools (Independent Scroll) - 4/12 width */}
-                <div className="lg:col-span-4 h-full overflow-y-auto custom-scrollbar space-y-4 pr-1">
-
-                    {/* AI Pulse - Standardized Height */}
-                    <div className="rounded-[2rem] overflow-hidden bg-white border border-[#E7E5E4] shadow-sm h-[280px] shrink-0">
-                        <AIPulseWidget />
-                    </div>
-
-                    {/* Weather - Standardized Height */}
-                    <div className="rounded-[2rem] overflow-hidden bg-white border border-[#E7E5E4] shadow-sm h-[280px] shrink-0">
-                        <WeatherWidget location={currentLocation} />
-                    </div>
-
-                    {/* Calendar - Standardized Height */}
-                    <div className="rounded-[2rem] overflow-hidden bg-white border border-[#E7E5E4] shadow-sm h-[280px] shrink-0">
-                        <NeighborhoodCalendarWidget events={calendarEvents} />
-                    </div>
-
-                    {/* Travel - Standardized Height */}
-                    <div className="rounded-[2rem] overflow-hidden bg-white border border-[#E7E5E4] shadow-sm h-[280px] shrink-0">
-                        <TravelRecommendWidget recommendations={travelSpots} />
-                    </div>
-
+                <div className="lg:col-span-4 h-full overflow-y-auto custom-scrollbar space-y-4 pr-1 relative">
+                    {currentOrder.map((widgetId, idx) => (
+                        <div key={widgetId} className="group relative rounded-[2rem] overflow-hidden bg-white border border-[#E7E5E4] shadow-sm h-[280px] shrink-0">
+                            {/* Reorder Controls */}
+                            <div className="absolute top-4 right-16 z-20 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                    onClick={() => moveWidget(widgetId, 'up')}
+                                    disabled={idx === 0}
+                                    className="p-1.5 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 text-slate-400 hover:text-emerald-600 disabled:opacity-30 shadow-sm transition-all"
+                                >
+                                    <ChevronUp className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => moveWidget(widgetId, 'down')}
+                                    disabled={idx === currentOrder.length - 1}
+                                    className="p-1.5 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 text-slate-400 hover:text-emerald-600 disabled:opacity-30 shadow-sm transition-all"
+                                >
+                                    <ChevronDown className="w-4 h-4" />
+                                </button>
+                            </div>
+                            {WIDGETS[widgetId]}
+                        </div>
+                    ))}
                 </div>
             </div>
 

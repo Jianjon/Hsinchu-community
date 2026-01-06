@@ -58,6 +58,30 @@ export interface PublicCommunity {
 
     // Phase 23: Community Action (formerly Care)
     careActions?: CommunityAction[];
+
+    // Phase 28: Safety Guard
+    safety?: SafetyInfo;
+}
+
+export interface SafetyInfo {
+    alerts: {
+        id: string;
+        type: 'typhoon' | 'earthquake' | 'wind' | 'rain' | 'general';
+        level: 'low' | 'medium' | 'high'; // Green, Yellow, Red
+        title: string;
+        description: string;
+        date: string;
+    }[];
+    patrolStatus: {
+        status: 'active' | 'inactive' | 'reinforced';
+        lastPatrolTime?: string;
+        description: string;
+    };
+    contacts: {
+        name: string;
+        title: string;
+        phone: string;
+    }[];
 }
 
 export interface PublicFacility {
@@ -110,6 +134,8 @@ export interface PublicProject {
     milestones?: string;
     impactKPIs?: string;
     updates?: ProjectUpdate[]; // Phase 28: Dynamic progress updates
+    location?: [number, number];
+    address?: string;
 }
 
 export interface PublicEvent {
@@ -133,6 +159,7 @@ export interface PublicEvent {
     cost?: string;
     capacity?: number;
     targetAudience?: string;
+    coordinates?: [number, number];
 }
 
 export interface PublicTravelSpot {
@@ -197,7 +224,7 @@ export interface CommunityAction {
     imageUrls?: string[]; // Added for multi-image support
     icon?: string;
     title: string; // Was name/content
-    type: 'care_visit' | 'meal_delivery' | 'maintenance' | 'patrol' | 'event_support' | 'other';
+    type: string; // 'care_action' | 'other' etc.
     area: string; // e.g. "1維護區", "Zone A"
     status: 'ongoing' | 'completed' | 'planned';
     description: string;
@@ -207,6 +234,10 @@ export interface CommunityAction {
     creatorId?: string; // The reporter
     beneficiaries?: string;
     tags?: string[];
+    location?: [number, number]; // Phase 26: Added for precise map pins
+    phone?: string; // Phase 26: Added for care point contact
+    time?: string; // Phase 26: Added for care point service/meal hours
+    address?: string; // Phase 26: Explicit address field
     // Extended Fields
     sdgs?: number[];
     volunteerPoints?: number;
@@ -271,39 +302,12 @@ export const MOCK_USERS: Record<string, UserIdentity> = {
 
 // Load generated data
 import { GENERATED_COMMUNITIES } from './generated_communities';
+import { enrichCommunityData } from '../services/dataEnrichment';
 
 export const MOCK_COMMUNITIES: PublicCommunity[] = GENERATED_COMMUNITIES as any;
 
-// Inject some mock data for visualization if empty
-// This ensures the widgets have content to link to
-const targetCommunityId = '新竹縣_竹北市_中興里'; // Example community
-const targetCommunity = MOCK_COMMUNITIES.find(c => c.name === '中興里');
-
-if (targetCommunity) {
-    if (!targetCommunity.events) targetCommunity.events = [];
-    targetCommunity.events.push({
-        id: 'evt-sample-01',
-        title: '中興里週末市集',
-        date: '2025-10-15',
-        time: '14:00',
-        location: '中興里集會所前广场',
-        description: '本週末中興里舉辦社區交流市集，邀請在地小農與手作職人共襄盛舉。現場有音樂表演與親子DIY活動，歡迎大家一起來玩！\n\n活動流程：\n14:00 市集開始\n15:00 街頭藝人表演\n16:00 親子DIY\n18:00 市集結束',
-        type: 'market',
-        coverImage: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?q=80&w=800&auto=format&fit=crop',
-        tags: ['市集', '親子', '音樂']
-    });
-
-    if (!targetCommunity.travelSpots) targetCommunity.travelSpots = [];
-    targetCommunity.travelSpots.push({
-        id: 'spot-sample-01',
-        name: '新瓦屋客家文化保存區',
-        description: '新瓦屋客家文化保存區是全台第一個客家文化保存區。園區內保留了許多傳統客家建築，經過整修後，進駐了許多藝文團體與特色店家。適合週末全家大小一同來散步、野餐，感受濃厚的客家文化氛圍。',
-        location: [24.814, 121.031],
-        coverImage: 'https://images.unsplash.com/photo-1597818861217-1d377b5a5933?q=80&w=800&auto=format&fit=crop',
-        tags: ['文化', '歷史', '親子'],
-        imageUrls: ['https://images.unsplash.com/photo-1597818861217-1d377b5a5933?q=80&w=800&auto=format&fit=crop']
-    });
-}
+// Inject mock data and real-world care resources using the centralized service
+enrichCommunityData(MOCK_COMMUNITIES);
 
 
 export const MOCK_FOLLOWED_COMMUNITIES = [
@@ -312,4 +316,4 @@ export const MOCK_FOLLOWED_COMMUNITIES = [
     { id: '新竹縣_竹北市_鹿場里', name: '鹿場里', avatar: '🦌' },
     { id: '新竹縣_竹東鎮_二重里', name: '二重里', avatar: '🛤️' },
 ];
-// Force Update 2026年 1月 2日 週五 08時37分50秒 CST
+// Force Update 2026年 1月 5日 週一 09時30分00秒 CST

@@ -38,6 +38,77 @@
       "location": "新竹縣新埔鎮旱坑里上樟路1段162號",
       "phone": "975904344",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069179_959",
+      "title": "新埔鎮旱坑社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣新埔鎮旱坑里旱坑路一段87號的在地服務資源。",
+      "phone": "980003875",
+      "address": "新竹縣新埔鎮旱坑里旱坑路一段87號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767663069179_812",
+      "title": "新竹縣吧哩國故事協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣新埔鎮旱坑里上樟路1段162號的在地服務資源。",
+      "phone": "975904344",
+      "address": "新竹縣新埔鎮旱坑里上樟路1段162號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_food_bank_1767665117677_121",
+      "title": "新埔1919服務中心",
+      "type": "care_action",
+      "subtype": "food_bank",
+      "description": "[實物銀行] 位於新竹縣新埔鎮義民路一段20號的在地服務資源。",
+      "phone": "-35883196",
+      "address": "新竹縣新埔鎮義民路一段20號",
+      "time": "14:00-17:00",
+      "tags": [
+        "食物銀行",
+        "物資發放",
+        "社會救助"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "弱勢家庭"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

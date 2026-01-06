@@ -30,6 +30,69 @@
       "location": "新竹縣竹東鎮大鄉里18鄰文林路168號",
       "phone": "963666198",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069181_228",
+      "title": "慈濟竹東共修處",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣竹東鎮大鄉里18鄰文林路168號的在地服務資源。",
+      "phone": "963666198",
+      "address": "新竹縣竹東鎮大鄉里18鄰文林路168號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_food_bank_1767665110948_7",
+      "title": "竹東社會福利服務中心",
+      "type": "care_action",
+      "subtype": "food_bank",
+      "description": "[實物銀行] 位於新竹縣竹東鎮中豐路三段58號的在地服務資源。",
+      "phone": "-35100818",
+      "address": "新竹縣竹東鎮中豐路三段58號",
+      "time": "週一至週五08:00-17:30",
+      "tags": [
+        "食物銀行",
+        "物資發放",
+        "社會救助"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "弱勢家庭"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [
+      {
+        "id": "alert_1767667268482_4",
+        "type": "general",
+        "level": "low",
+        "title": "登革熱防治",
+        "description": "請落實「巡、倒、清、刷」，清除積水容器，守護家園。",
+        "date": "2026/1/6"
+      }
+    ],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      },
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      }
+    ]
+  }
 }

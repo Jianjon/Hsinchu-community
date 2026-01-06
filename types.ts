@@ -1,4 +1,33 @@
 
+export type UserRole = 'resident' | 'admin' | 'guest' | 'volunteer' | 'official';
+
+export interface UserIdentity {
+  organization: string;
+  title: string;
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email?: string;
+  identities: UserIdentity[];
+  township?: string;
+  village?: string;
+  avatar?: string;
+  coverImage?: string;
+  coverImagePosition?: { x: number; y: number };
+  coverImageScale?: number;
+  points: number;
+  joinedDate: string;
+  bio?: string;
+  role: UserRole;
+  favorites?: string[];
+  interests?: string[];
+  recentlyViewed?: Array<{ id: string; name: string; time: number }>;
+  achievements?: string[];
+  widgetOrder?: string[];
+}
+
 export interface LocationData {
   city: string;
   district: string;
@@ -115,6 +144,21 @@ export interface CommunityWikiData {
     parks?: string[];
     schools?: string[];
   };
+
+  // Content Arrays (Persisted)
+  careActions?: any[];
+  travelSpots?: any[];
+  communityBuildings?: any[];
+  cultureHeritages?: any[];
+  events?: any[];
+  people?: any[];
+  projects?: any[];
+
+  // Metadata (Persisted)
+  tags?: string[];
+  description?: string;
+  chief?: string;
+  population?: string;
 }
 
 // Local Database Record
@@ -235,4 +279,50 @@ export interface CommunityComment {
   createdAt: Date;
   likes: number;
   replyToId?: string; // For nested threads
+}
+
+// ==========================================
+// Public Data Interfaces (Promoted from mock_public.ts)
+// ==========================================
+
+export interface PublicProject {
+  id: string;
+  coverImage?: string;
+  imageUrls?: string[];
+  icon?: string;
+  title: string;
+  description: string;
+  what: string;
+  progress: number;
+  budget?: string;
+  owner: string;
+  imageUrl?: string;
+  beforeImage?: string;
+  duringImage?: string;
+  afterImage?: string;
+  status: 'planning' | 'active' | 'completed';
+  startDate?: string;
+  endDate?: string;
+  tags?: string[];
+  creatorId?: string;
+  fundingSource?: string;
+  milestones?: string;
+  impactKPIs?: string;
+  updates?: any[];
+}
+
+export interface PublicFacility {
+  id?: string;
+  coverImage?: string;
+  imageUrls?: string[];
+  name: string;
+  type: 'park' | 'library' | 'police' | 'school' | 'hospital' | 'activity_center' | 'gov' | 'culture_center' | 'other';
+  icon?: string;
+  location?: [number, number];
+  creatorId?: string;
+  address?: string;
+  phone?: string;
+  openingHours?: string;
+  description?: string;
+  googleMapUrl?: string;
 }

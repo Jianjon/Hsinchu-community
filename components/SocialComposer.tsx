@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 import { createPost } from '../services/interactionService';
 import { User, PlusCircle, X, ImageIcon, Video, Send } from 'lucide-react';
 

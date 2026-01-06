@@ -1,4 +1,4 @@
-import { Newspaper, Bell, MapPin, Info, MessageCircle, Heart, Share2, PlayCircle, MoreHorizontal } from 'lucide-react';
+import { Newspaper, MapPin, Info, MessageCircle, Heart, Share2, PlayCircle, MoreHorizontal } from 'lucide-react';
 import { FeedItem } from '../../hooks/useMixboardData';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -145,10 +145,6 @@ const VillageFeedsWidget: React.FC<VillageFeedsWidgetProps> = ({ title = "村里
                     <h3 className="font-bold text-[#1C1E21] text-lg">{title}</h3>
                 </div>
                 <div className="flex gap-2">
-                    <button className="p-2 bg-[#F0F2F5] hover:bg-[#E4E6EB] rounded-full transition-colors relative">
-                        <Bell className="w-5 h-5 text-black" />
-                        <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
-                    </button>
                 </div>
             </div>
 

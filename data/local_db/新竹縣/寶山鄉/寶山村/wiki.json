@@ -31,6 +31,77 @@
       "location": "新竹縣寶山鄉寶山村新湖路一段270號",
       "phone": "932276911",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069184_551",
+      "title": "寶山鄉寶山社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣寶山鄉寶山村新湖路一段270號的在地服務資源。",
+      "phone": "932276911",
+      "address": "新竹縣寶山鄉寶山村新湖路一段270號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767664271765_872",
+      "title": "寶山鄉雙溪社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣寶山鄉雙園路二段347號的在地服務資源。",
+      "phone": "910156149",
+      "address": "新竹縣寶山鄉雙園路二段347號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767664271765_728",
+      "title": "寶山鄉新城社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣寶山鄉寶新路2段251巷25號的在地服務資源。",
+      "phone": "35762295",
+      "address": "新竹縣寶山鄉寶新路2段251巷25號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

@@ -4,7 +4,7 @@ import { getVillagePosts, createPost, likePost, reactToPost, addComment, likeCom
 import { User, MessageSquare, ThumbsUp, Send, Image as ImageIcon, Video, Share2, X, PlusCircle, Hash, Link as LinkIcon, Check, Copy, Trash2 } from 'lucide-react';
 import { MOCK_ROLES } from '../data/mock_public';
 
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 interface PostFeedProps {
     villageId: string;

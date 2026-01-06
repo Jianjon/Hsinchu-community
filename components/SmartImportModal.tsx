@@ -6,9 +6,10 @@ interface SmartImportModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirmed: (parsed: ParsedCommunityContent) => void;
+    targetChannel?: string;
 }
 
-const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, onConfirmed }) => {
+const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, onConfirmed, targetChannel }) => {
     const [rawText, setRawText] = useState('');
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<ParsedCommunityContent | null>(null);
@@ -20,7 +21,7 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
         setIsAnalyzing(true);
         setError(null);
         try {
-            const result = await parseCommunityContent(rawText);
+            const result = await parseCommunityContent(rawText, targetChannel);
             if (result) {
                 setAnalysisResult(result);
             } else {
@@ -52,7 +53,7 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
                         </div>
                         <div>
                             <h2 className="text-xl font-black text-slate-800 font-serif-tc">AI 轉介助理</h2>
-                            <p className="text-xs text-emerald-700 font-bold">輕鬆轉換 LINE/FB 內容</p>
+                            <p className="text-xs text-emerald-700 font-bold">自動解析並填寫表單內容</p>
                         </div>
                     </div>
                     <button onClick={onClose} className="p-2 hover:bg-white rounded-full transition-colors">
@@ -67,7 +68,7 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
                                 <MessageSquare className="w-5 h-5 text-blue-500 shrink-0" />
                                 <div className="text-sm text-blue-700 leading-relaxed">
                                     <p className="font-bold mb-1">提示：</p>
-                                    直接貼上來自 Facebook 社團貼文或 LINE 群組的長訊息，AI 會自動幫您判斷應該發布到哪個頻道。
+                                    貼入來自 Facebook 社團或 LINE 的內容，AI 會自動幫您提取資訊並填寫表單欄位。
                                 </div>
                             </div>
 
@@ -129,7 +130,7 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
                                 <div className="p-5 space-y-4 bg-white font-sans-tc">
                                     <div className="flex items-center gap-3">
                                         <div className="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-500 uppercase">
-                                            建議頻道
+                                            解析為
                                         </div>
                                         <ArrowRight className="w-3 h-3 text-slate-300" />
                                         <div className="px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-black">
@@ -185,7 +186,7 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
                                     onClick={() => onConfirmed(analysisResult)}
                                     className="flex-[2] py-4 bg-emerald-600 text-white rounded-2xl font-black text-lg flex items-center justify-center gap-2 shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all active:scale-95"
                                 >
-                                    確認並繼續發布 <ArrowRight className="w-5 h-5" />
+                                    套用至表單 <ArrowRight className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
@@ -195,5 +196,6 @@ const SmartImportModal: React.FC<SmartImportModalProps> = ({ isOpen, onClose, on
         </div>
     );
 };
+
 
 export default SmartImportModal;

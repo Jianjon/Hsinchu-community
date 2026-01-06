@@ -1,5 +1,4 @@
-import { getAI, getGenerativeModel, SchemaType } from "firebase/ai";
-import { app } from "./firebase";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface ParsedCommunityContent {
     channelType: 'events' | 'travel' | 'projects' | 'culture' | 'care' | 'resource' | 'facility';
@@ -15,15 +14,31 @@ export interface ParsedCommunityContent {
         cost?: string;
         status?: string;
         progress?: string;
+        fundingSource?: string;
+        seasonality?: string;
     };
     confidence: number;
     reasoning: string;
 }
 
-const SYSTEM_INSTRUCTION = `
-你是一位專業的「社區資訊分析官」。你的任務是將來自 Facebook 社團、LINE 群組或新聞的非結構化文字，轉換為「社區發展平台」所需的格式。
+// Initialize the Google AI SDK directly with the API Key
+const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || '';
+const genAI = new GoogleGenerativeAI(apiKey);
+const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig: {
+        responseMimeType: "application/json",
+    }
+});
 
-【頻道定義】
+export const parseCommunityContent = async (text: string, targetChannel?: string): Promise<ParsedCommunityContent | null> => {
+    const systemInstruction = `
+你是一位專業的「社區資訊分析官」。你的任務是將來自 Facebook 社團、LINE 群組或新聞的非結構化文字，轉換為「社區發展平台」表單所需的結構化資料。
+
+【當前表單類型】
+${targetChannel ? `用戶目前正在填寫「${targetChannel}」表單。請優先提取適用於此表單的欄位。` : '請判斷內容最適合哪種表單類型。'}
+
+【頻道/表單定義】
 - events (在地活動): 具有具體日期、時間、地點的集會、講座、團拜等。
 - travel (輕旅行): 景點推薦、步道紀錄、旅遊攻略。
 - projects (地方創生): 提案、計畫回報、募資、社區建設進度。
@@ -33,58 +48,38 @@ const SYSTEM_INSTRUCTION = `
 - resource (一般討論): 閒聊、小道消息、好物推薦。
 
 【輸出規範】
-1. 輸出必須為純 JSON。
-2. 根據內容決定最適合的 channelType。
-3. 盡可能提取時間 (YYYY-MM-DD)、地點、標題、詳細描述。
-4. 若有主辦單位 (organizer) 或費用 (cost) 請一併提取。
-5. 信心指數 (confidence) 介於 0-1。
+1. 輸出必須為純 JSON 格式。
+2. 根據內容決定最適合的 channelType (若用戶已指定則盡量符合)。
+3. 盡可能提取以下欄位：
+   - title: 標題 (必填)
+   - description: 詳細描述 (必填)
+   - date: 日期 (格式: YYYY-MM-DD)
+   - time: 時間 (格式: HH:mm)
+   - location: 地點/地址
+   - link: 網址
+   - tags: 標籤陣列
+   - organizer: 主辦單位
+   - cost: 費用
+   - status: 狀態 (events->none, projects->'planning'|'active'|'completed')
+   - progress: 進度 (0-100)
+   - fundingSource: 經費來源
+   - seasonality: 適合季節
+4. 信心指數 (confidence) 介於 0-1。
+5. 思考邏輯 (reasoning): 簡短說明為何這樣解析。
+6. **語言限制**：**所有文字描述欄位 (title, description, reasoning) 必須完全使用「繁體中文 (台灣)」**。嚴禁混入印地語 (Hindi) 或其他語言。
 `;
 
-export const parseCommunityContent = async (text: string): Promise<ParsedCommunityContent | null> => {
     try {
-        const vertexAI = getAI(app);
-        const model = getGenerativeModel(vertexAI, {
-            model: "gemini-1.5-flash",
-            systemInstruction: SYSTEM_INSTRUCTION,
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: SchemaType.OBJECT,
-                    properties: {
-                        channelType: {
-                            type: SchemaType.STRING,
-                            enum: ['events', 'travel', 'projects', 'culture', 'care', 'resource', 'facility']
-                        },
-                        data: {
-                            type: SchemaType.OBJECT,
-                            properties: {
-                                title: { type: SchemaType.STRING },
-                                description: { type: SchemaType.STRING },
-                                date: { type: SchemaType.STRING },
-                                time: { type: SchemaType.STRING },
-                                location: { type: SchemaType.STRING },
-                                link: { type: SchemaType.STRING },
-                                tags: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-                                organizer: { type: SchemaType.STRING },
-                                cost: { type: SchemaType.STRING },
-                                status: { type: SchemaType.STRING },
-                                progress: { type: SchemaType.STRING }
-                            },
-                            required: ["title", "description"]
-                        },
-                        confidence: { type: SchemaType.NUMBER },
-                        reasoning: { type: SchemaType.STRING }
-                    },
-                    required: ["channelType", "data", "confidence", "reasoning"]
-                }
-            }
-        });
-
-        const result = await model.generateContent(`請解析以下內容：\n\n${text}`);
+        const prompt = `請解析以下文字內容，並按照 JSON 格式輸出：\n\n${text}`;
+        const result = await model.generateContent([systemInstruction, prompt]);
         const responseText = result.response.text();
-        return JSON.parse(responseText || "null") as ParsedCommunityContent;
+
+        // Remove markdown code blocks if present
+        const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(cleanJson) as ParsedCommunityContent;
     } catch (error) {
         console.error("AI Parsing Error:", error);
         return null;
     }
 };
+

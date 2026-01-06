@@ -7,7 +7,7 @@ import { generateCommunityContent } from '../services/genAIService';
 import EditableText from './EditableText';
 import RichTextEditor from './RichTextEditor';
 import AuthorTag from './AuthorTag';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 interface ItemDetailViewProps {
     data: any;
@@ -78,6 +78,7 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
                     { label: '時程', field: 'startDate', rangeField: 'endDate', icon: <Sparkles className="w-4 h-4" />, isDate: true },
                     { label: '狀態', field: 'status', icon: <AlertCircle className="w-4 h-4" />, placeholder: 'active/planning' },
                     { label: '人選', field: 'owner', icon: <User className="w-4 h-4" />, placeholder: '提案人' },
+                    { label: '地點', field: 'address', icon: <MapPin className="w-4 h-4" />, isAddress: true, placeholder: '專案位置' },
                     { label: '資源', field: 'budget', icon: <Tag className="w-4 h-4" />, placeholder: '專案預算' },
                     { label: '進度 %', field: 'progress', icon: <Clock className="w-4 h-4" />, placeholder: '0-100', isProgress: true },
                     { label: '來源', field: 'fundingSource', icon: <ExternalLink className="w-4 h-4" />, placeholder: '例如：公部門補助' },
@@ -94,12 +95,15 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
                 ];
             case 'care_action':
                 return [
+                    { label: '服務時間', field: 'time', icon: <Clock className="w-4 h-4" />, placeholder: '例如：每週四中餐' },
+                    { label: '地址', field: 'address', icon: <MapPin className="w-4 h-4" />, isAddress: true, placeholder: '詳細地址' },
+                    { label: '電話', field: 'phone', icon: <Phone className="w-4 h-4" />, placeholder: '聯絡電話' },
                     { label: '狀態', field: 'status', icon: <AlertCircle className="w-4 h-4" />, placeholder: 'ongoing/completed' },
                     { label: '行動類型', field: 'type', icon: <Hammer className="w-4 h-4" />, placeholder: '例如：送餐、修繕' },
-                    { label: '標籤', field: 'tags', icon: <Tag className="w-4 h-4" />, isTags: true },
                     { label: '相關連結', field: 'link', icon: <LinkIcon className="w-4 h-4" />, isLink: true, placeholder: '資源連結' },
                     { label: '服務區域', field: 'area', icon: <MapPin className="w-4 h-4" />, isAddress: true, placeholder: '例如：第一鄰' },
                     { label: '受益對象', field: 'beneficiaries', icon: <User className="w-4 h-4" />, placeholder: '例如：5位長者' },
+                    { label: '標籤', field: 'tags', icon: <Tag className="w-4 h-4" />, isTags: true },
                     { label: 'SDGs', field: 'sdgs', icon: <Sparkles className="w-4 h-4" />, isSDGs: true },
                     { label: '志工積點', field: 'volunteerPoints', icon: <Star className="w-4 h-4" />, placeholder: '積點數' },
                 ];
@@ -174,121 +178,128 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
                 </div>
             )}
 
-            {properties.map((prop) => (
-                <div key={prop.field} className="flex items-start lg:items-center text-sm group min-h-[32px] py-1">
-                    {/* Label Column */}
-                    <div className="w-32 lg:w-28 flex items-center gap-2 text-slate-500 shrink-0">
-                        <span className="text-slate-400">{prop.icon}</span>
-                        <span className="text-xs font-bold uppercase tracking-tight">{prop.label}</span>
-                    </div>
-                    {/* Value Column */}
-                    <div className="flex-1 text-slate-800 font-medium flex items-center justify-between gap-2 overflow-hidden">
-                        <div className="flex-1 min-w-0">
-                            {prop.isTags ? (
-                                <div className="flex flex-wrap gap-1.5 items-center">
-                                    {(data[prop.field] || []).map((t: string) => (
-                                        <span key={t} className="px-2 py-0.5 bg-slate-100 rounded text-slate-600 text-[10px] font-bold flex items-center gap-1">
-                                            {t}
-                                            {isEditMode && (
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        const filtered = (data[prop.field] || []).filter((tag: string) => tag !== t);
-                                                        handleFieldUpdate(prop.field, filtered);
-                                                    }}
-                                                    className="hover:text-red-500 transition-colors"
-                                                >
-                                                    <X className="w-3 h-3" />
-                                                </button>
-                                            )}
-                                        </span>
-                                    ))}
-                                    {isEditMode && (
-                                        <input
-                                            type="text"
-                                            placeholder="+ 標籤"
-                                            className="text-[10px] bg-transparent border-b border-slate-200 focus:border-emerald-500 outline-none w-16 px-1 py-0.5"
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    e.preventDefault();
-                                                    const val = e.currentTarget.value.trim();
-                                                    if (val && !(data[prop.field] || []).includes(val)) {
-                                                        handleFieldUpdate(prop.field, [...(data[prop.field] || []), val]);
-                                                        e.currentTarget.value = '';
+            {properties.map((prop) => {
+                const value = data[prop.field];
+                const hasValue = value !== undefined && value !== null && value !== '' && (Array.isArray(value) ? value.length > 0 : true);
+
+                if (!isEditMode && !hasValue) return null;
+
+                return (
+                    <div key={prop.field} className="flex items-start lg:items-center text-sm group min-h-[32px] py-1">
+                        {/* Label Column */}
+                        <div className="w-32 lg:w-28 flex items-center gap-2 text-slate-500 shrink-0">
+                            <span className="text-slate-400">{prop.icon}</span>
+                            <span className="text-xs font-bold uppercase tracking-tight">{prop.label}</span>
+                        </div>
+                        {/* Value Column */}
+                        <div className="flex-1 text-slate-800 font-medium flex items-center justify-between gap-2 overflow-hidden">
+                            <div className="flex-1 min-w-0">
+                                {prop.isTags ? (
+                                    <div className="flex flex-wrap gap-1.5 items-center">
+                                        {(data[prop.field] || []).map((t: string) => (
+                                            <span key={t} className="px-2 py-0.5 bg-slate-100 rounded text-slate-600 text-[10px] font-bold flex items-center gap-1">
+                                                {t}
+                                                {isEditMode && (
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            const filtered = (data[prop.field] || []).filter((tag: string) => tag !== t);
+                                                            handleFieldUpdate(prop.field, filtered);
+                                                        }}
+                                                        className="hover:text-red-500 transition-colors"
+                                                    >
+                                                        <X className="w-3 h-3" />
+                                                    </button>
+                                                )}
+                                            </span>
+                                        ))}
+                                        {isEditMode && (
+                                            <input
+                                                type="text"
+                                                placeholder="+ 標籤"
+                                                className="text-[10px] bg-transparent border-b border-slate-200 focus:border-emerald-500 outline-none w-16 px-1 py-0.5"
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        const val = e.currentTarget.value.trim();
+                                                        if (val && !(data[prop.field] || []).includes(val)) {
+                                                            handleFieldUpdate(prop.field, [...(data[prop.field] || []), val]);
+                                                            e.currentTarget.value = '';
+                                                        }
                                                     }
-                                                }
-                                            }}
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                ) : prop.isDate ? (
+                                    <div className="flex items-center gap-2 w-full">
+                                        <EditableText
+                                            value={data[prop.field]}
+                                            onChange={(v) => handleFieldUpdate(prop.field, v)}
+                                            isEditMode={isEditMode}
+                                            placeholder="開始日期"
+                                            className="flex-1 text-slate-800"
                                         />
-                                    )}
-                                </div>
-                            ) : prop.isDate ? (
-                                <div className="flex items-center gap-2 w-full">
+                                        {prop.rangeField && (
+                                            <>
+                                                <span className="text-slate-300">→</span>
+                                                <EditableText
+                                                    value={data[prop.rangeField]}
+                                                    onChange={(v) => handleFieldUpdate(prop.rangeField, v)}
+                                                    isEditMode={isEditMode}
+                                                    placeholder="結束日期"
+                                                    className="flex-1 text-slate-800"
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                ) : prop.isLink ? (
                                     <EditableText
                                         value={data[prop.field]}
                                         onChange={(v) => handleFieldUpdate(prop.field, v)}
                                         isEditMode={isEditMode}
-                                        placeholder="開始日期"
-                                        className="flex-1 text-slate-800"
+                                        placeholder={prop.placeholder || "Empty"}
+                                        className="w-full text-blue-600 hover:underline truncate block"
+                                        renderView={(val) => val ? <a href={val} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1"><ExternalLink className="w-3 h-3" /> {val}</a> : <span className="text-slate-300">No link</span>}
                                     />
-                                    {prop.rangeField && (
-                                        <>
-                                            <span className="text-slate-300">→</span>
-                                            <EditableText
-                                                value={data[prop.rangeField]}
-                                                onChange={(v) => handleFieldUpdate(prop.rangeField, v)}
-                                                isEditMode={isEditMode}
-                                                placeholder="結束日期"
-                                                className="flex-1 text-slate-800"
-                                            />
-                                        </>
-                                    )}
-                                </div>
-                            ) : prop.isLink ? (
-                                <EditableText
-                                    value={data[prop.field]}
-                                    onChange={(v) => handleFieldUpdate(prop.field, v)}
-                                    isEditMode={isEditMode}
-                                    placeholder={prop.placeholder || "Empty"}
-                                    className="w-full text-blue-600 hover:underline truncate block"
-                                    renderView={(val) => val ? <a href={val} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1"><ExternalLink className="w-3 h-3" /> {val}</a> : <span className="text-slate-300">No link</span>}
-                                />
-                            ) : prop.isAddress ? (
-                                <EditableText
-                                    value={data[prop.field]}
-                                    onChange={(v) => handleFieldUpdate(prop.field, v)}
-                                    isEditMode={isEditMode}
-                                    placeholder={prop.placeholder || "Empty"}
-                                    className="w-full text-blue-600 hover:underline truncate block"
-                                    renderView={(val) => {
-                                        if (!val) return <span className="text-slate-300">No address</span>;
-                                        const query = encodeURIComponent(val);
-                                        return (
-                                            <a
-                                                href={`https://www.google.com/maps/search/?api=1&query=${query}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-1.5"
-                                            >
-                                                <ExternalLink className="w-3 h-3 shrink-0" />
-                                                <span className="truncate">{val}</span>
-                                            </a>
-                                        );
-                                    }}
-                                />
-                            ) : (
-                                <EditableText
-                                    value={data[prop.field]}
-                                    onChange={(v) => handleFieldUpdate(prop.field, v)}
-                                    isEditMode={isEditMode}
-                                    multiline={prop.isMultiline}
-                                    placeholder={prop.placeholder || "Empty"}
-                                    className="w-full text-slate-800"
-                                />
-                            )}
+                                ) : prop.isAddress ? (
+                                    <EditableText
+                                        value={data[prop.field]}
+                                        onChange={(v) => handleFieldUpdate(prop.field, v)}
+                                        isEditMode={isEditMode}
+                                        placeholder={prop.placeholder || "Empty"}
+                                        className="w-full text-blue-600 hover:underline truncate block"
+                                        renderView={(val) => {
+                                            if (!val) return <span className="text-slate-300">No address</span>;
+                                            const query = encodeURIComponent(val);
+                                            return (
+                                                <a
+                                                    href={`https://www.google.com/maps/search/?api=1&query=${query}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1.5"
+                                                >
+                                                    <ExternalLink className="w-3 h-3 shrink-0" />
+                                                    <span className="truncate">{val}</span>
+                                                </a>
+                                            );
+                                        }}
+                                    />
+                                ) : (
+                                    <EditableText
+                                        value={data[prop.field]}
+                                        onChange={(v) => handleFieldUpdate(prop.field, v)}
+                                        isEditMode={isEditMode}
+                                        multiline={prop.isMultiline}
+                                        placeholder={prop.placeholder || "Empty"}
+                                        className="w-full text-slate-800"
+                                    />
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 
@@ -655,7 +666,7 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
                                     className={`w-32 h-32 text-8xl flex items-center justify-center -mt-24 mb-4 group/icon transition-all duration-300 relative z-30 ${isEditMode ? 'cursor-pointer hover:scale-110 active:scale-95' : ''}`}
                                     onClick={() => isEditMode && setIsIconPickerOpen(!isIconPickerOpen)}
                                 >
-                                    {data.icon || (type === 'event' ? '🗓️' : type === 'travel' ? '🗺️' : type === 'project' ? '💡' : type === 'culture' ? '🏛️' : '📄')}
+                                    {data.icon || (type === 'event' ? '🗓️' : type === 'travel' ? '🗺️' : type === 'project' ? '💡' : type === 'culture' ? '🏛️' : type === 'care_action' ? '💝' : '📄')}
 
                                     {isEditMode && (
                                         <div className="absolute -right-2 -bottom-2 p-1.5 bg-white rounded-full shadow-md border border-slate-100 opacity-0 group-hover/icon:opacity-100 transition-opacity">

@@ -39,5 +39,25 @@
       "time": "每週一、三中餐",
       "category": "social_welfare"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

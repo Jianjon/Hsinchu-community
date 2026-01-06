@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, User, Camera, Trophy, Calendar, MapPin, LogOut, CheckCircle, Edit3, Save, Plus, Trash2, Home, Image as ImageIcon } from 'lucide-react';
-import { useUser, UserIdentity } from '../contexts/UserContext';
+import { Link } from 'react-router-dom';
+import { useUser } from '../hooks/useUser';
+import { UserIdentity } from '../types';
 import ImageUploader from './ImageUploader';
 
 interface ProfileOverlayProps {
@@ -29,6 +31,10 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
     const [newTitleInput, setNewTitleInput] = useState('');
     const [showNewRoleInput, setShowNewRoleInput] = useState(false);
 
+    // Personalization 2.0 States
+    const [editedInterests, setEditedInterests] = useState<string[]>(user?.interests || []);
+    const AVAILABLE_INTERESTS = ['生態環保', '文化資產', '在地美食', '親子活動', '長者照護', '運動健身', '地方創生', '志工參與'];
+
     useEffect(() => {
         if (user) {
             setEditedName(user.name);
@@ -42,6 +48,7 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
             setEditedIdentities(user.identities && user.identities.length > 0
                 ? user.identities
                 : [{ organization: '新竹縣', title: '居民' }]);
+            setEditedInterests(user.interests || []);
         }
     }, [user, isOpen]);
 
@@ -57,9 +64,18 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
             avatar: editedAvatar,
             coverImage: editedCoverImage,
             coverImagePosition: editedCoverPosition,
-            coverImageScale: editedCoverScale
+            coverImageScale: editedCoverScale,
+            interests: editedInterests
         });
         setIsEditing(false);
+    };
+
+    const toggleInterest = (interest: string) => {
+        setEditedInterests(prev =>
+            prev.includes(interest)
+                ? prev.filter(i => i !== interest)
+                : [...prev, interest]
+        );
     };
 
     const addIdentity = () => {
@@ -90,7 +106,7 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300" style={{ backgroundColor: '#FDFBF7' }}>
+            <div className="relative w-full max-w-xl rounded-[40px] shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar animate-in zoom-in-95 duration-300" style={{ backgroundColor: '#FDFBF7' }}>
                 {/* Header Background - Customizable Cover */}
                 <div className="h-40 md:h-56 relative group/cover overflow-hidden bg-slate-100 shrink-0">
                     {isEditing ? (
@@ -231,15 +247,25 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
                                 </>
                             )}
                         </div>
-                        <button
-                            onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-                            className="px-6 py-3 rounded-2xl text-sm font-black transition-all flex items-center gap-2 border-2 shrink-0 font-sans-tc"
-                            style={isEditing
-                                ? { backgroundColor: '#8DAA91', borderColor: '#8DAA91', color: 'white', boxShadow: '0 8px 24px rgba(141,170,145,0.3)' }
-                                : { backgroundColor: '#FDFBF7', borderColor: 'rgba(141,170,145,0.2)', color: '#4A4A4A' }}
-                        >
-                            {isEditing ? <><Save className="w-4 h-4" /> 儲存修改</> : <><Edit3 className="w-4 h-4" /> 編輯資料</>}
-                        </button>
+                        <div className="flex items-center gap-2">
+                            {user.role === 'admin' && (
+                                <span
+                                    className="px-3 py-1.5 rounded-full text-xs font-black font-sans-tc"
+                                    style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', color: '#6366F1', border: '1px solid rgba(99, 102, 241, 0.3)' }}
+                                >
+                                    管理員
+                                </span>
+                            )}
+                            <button
+                                onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+                                className="px-6 py-3 rounded-2xl text-sm font-black transition-all flex items-center gap-2 border-2 shrink-0 font-sans-tc"
+                                style={isEditing
+                                    ? { backgroundColor: '#8DAA91', borderColor: '#8DAA91', color: 'white', boxShadow: '0 8px 24px rgba(141,170,145,0.3)' }
+                                    : { backgroundColor: '#FDFBF7', borderColor: 'rgba(141,170,145,0.2)', color: '#4A4A4A' }}
+                            >
+                                {isEditing ? <><Save className="w-4 h-4" /> 儲存修改</> : <><Edit3 className="w-4 h-4" /> 編輯資料</>}
+                            </button>
+                        </div>
                     </div>
 
                     {/* Identities Section - Organization + Title */}
@@ -337,6 +363,94 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
                             )}
                         </div>
                     </div>
+
+                    {/* Personalization 2.0: Interests Section */}
+                    <div className="mb-8">
+                        <label className="text-[10px] font-black uppercase tracking-widest block mb-3 px-1 font-sans-tc" style={{ color: '#8B8B8B' }}>我的興趣標籤</label>
+                        <div className="flex flex-wrap gap-2">
+                            {isEditing ? (
+                                AVAILABLE_INTERESTS.map(interest => (
+                                    <button
+                                        key={interest}
+                                        onClick={() => toggleInterest(interest)}
+                                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${editedInterests.includes(interest)
+                                            ? 'bg-[#8DAA91] text-white border-[#8DAA91] shadow-md'
+                                            : 'bg-white text-[#8DAA91] border-slate-200 hover:border-[#8DAA91]'
+                                            }`}
+                                    >
+                                        {interest}
+                                    </button>
+                                ))
+                            ) : (
+                                (user.interests || []).length > 0 ? (
+                                    user.interests!.map(interest => (
+                                        <span
+                                            key={interest}
+                                            className="px-4 py-2 rounded-xl text-xs font-bold bg-[#8DAA91]/10 text-[#8DAA91] border border-[#8DAA91]/20"
+                                        >
+                                            {interest}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className="text-xs text-slate-400 italic">尚未設定感興趣的主題</span>
+                                )
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Personalization 2.0: Recently Viewed Section */}
+                    {!isEditing && (user.recentlyViewed || []).length > 0 && (
+                        <div className="mb-8">
+                            <label className="text-[10px] font-black uppercase tracking-widest block mb-3 px-1 font-sans-tc" style={{ color: '#8B8B8B' }}>最近瀏覽社區</label>
+                            <div className="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                                {user.recentlyViewed!.map((item, idx) => (
+                                    <Link
+                                        key={idx}
+                                        to={`/community/${item.id}`}
+                                        className="min-w-[120px] p-3 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all group/item"
+                                    >
+                                        <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center mb-2 group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors">
+                                            <Home className="w-4 h-4 text-emerald-600 group-hover/item:text-white" />
+                                        </div>
+                                        <div className="text-xs font-bold text-slate-700 truncate">{item.name}</div>
+                                        <div className="text-[10px] text-slate-400 mt-0.5">{new Date(item.time).toLocaleDateString()}</div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Personalization 2.0: Achievements Section */}
+                    {!isEditing && (
+                        <div className="mb-8">
+                            <label className="text-[10px] font-black uppercase tracking-widest block mb-3 px-1 font-sans-tc" style={{ color: '#8B8B8B' }}>榮譽勳章</label>
+                            <div className="flex gap-4">
+                                {(user.achievements || []).includes('pioneer') && (
+                                    <div className="group relative">
+                                        <div className="p-3 bg-amber-100 rounded-2xl border border-amber-200">
+                                            <Trophy className="w-6 h-6 text-amber-600" />
+                                        </div>
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                                            社區先行者 (收藏超過 3 個社區)
+                                        </div>
+                                    </div>
+                                )}
+                                {(user.achievements || []).includes('explorer') && (
+                                    <div className="group relative">
+                                        <div className="p-3 bg-blue-100 rounded-2xl border border-blue-200">
+                                            <MapPin className="w-6 h-6 text-blue-600" />
+                                        </div>
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                                            村里探索家 (瀏覽超過 5 個村里)
+                                        </div>
+                                    </div>
+                                )}
+                                {(user.achievements || []).length === 0 && (
+                                    <span className="text-xs text-slate-400 italic">參與社區互動，贏得您的第一面勳章！</span>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Bio Section */}
                     <div

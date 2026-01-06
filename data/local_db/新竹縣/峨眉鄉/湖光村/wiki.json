@@ -38,6 +38,60 @@
       "location": "新竹縣峨眉鄉湖光村11鄰32號",
       "phone": "933516413",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069182_660",
+      "title": "無負擔農村生活產業發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣峨眉鄉湖光村1鄰28號的在地服務資源。",
+      "phone": "937829142",
+      "address": "新竹縣峨眉鄉湖光村1鄰28號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767663069182_126",
+      "title": "峨眉鄉湖光社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣峨眉鄉湖光村11鄰32號的在地服務資源。",
+      "phone": "933516413",
+      "address": "新竹縣峨眉鄉湖光村11鄰32號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      },
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      }
+    ]
+  }
 }

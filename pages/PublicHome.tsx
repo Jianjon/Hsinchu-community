@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, MapPin, Compass } from 'lucide-react';
 import { getPublicCommunities } from '../services/publicDataAdaptor';
+import { getVillagePosts } from '../services/interactionService';
+import { DataMigrationTools } from '../components/DataMigrationTools';
+import { useUser } from '../hooks/useUser';
+import { useFavorites } from '../contexts/FavoritesContext';
 import { PublicCommunity } from '../data/mock_public';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -56,13 +60,80 @@ const PublicHome: React.FC = () => {
     const [activityItems, setActivityItems] = useState<{ title: string; image: string; district: string; village: string; communityId: string }[]>([]);
     const [actionItems, setActionItems] = useState<{ title: string; icon: string; district: string; village: string; communityId: string; desc?: string }[]>([]);
 
+    const { user } = useUser();
+    const { favorites } = useFavorites();
+
     useEffect(() => {
         const load = async () => {
             const comms = await getPublicCommunities();
 
-            // Build activity items (events + travel spots) - Take 3
+            // 1. Resolve User's Home Community ID
+            let homeCommunityId: string | undefined;
+            if (user?.township && user?.village) {
+                const found = comms.find(c => c.district === user.township && c.name === user.village);
+                if (found) homeCommunityId = found.id;
+            }
+
+            // 2. Collect target village IDs (Home + Favorites)
+            const targetVillageIds = new Set<string>();
+            if (homeCommunityId) targetVillageIds.add(homeCommunityId);
+            favorites.forEach(id => targetVillageIds.add(id));
+
+            const hasPersonalData = targetVillageIds.size > 0;
+
+            // 3. Fetch Discussion Posts from these villages
+            let discussionItems: typeof activityItems = [];
+
+            if (hasPersonalData) {
+                for (const vid of Array.from(targetVillageIds)) {
+                    try {
+                        // Fetch posts for the village
+                        const posts = await getVillagePosts(vid);
+
+                        // Filter for 'general', 'discussion', or 'public_discussion' channels (or untagged)
+                        // This logic aligns with the user's request for "一般討論"
+                        const relevantPosts = posts.filter(p =>
+                            !p.channelId ||
+                            p.channelId === 'general' ||
+                            p.channelId === 'discussion' ||
+                            p.channelId === 'public_discussion' ||
+                            p.tags?.includes('discussion')
+                        );
+
+                        const community = comms.find(c => c.id === vid);
+                        const villageName = community?.name || vid;
+                        const district = community?.district || '';
+
+                        relevantPosts.forEach(p => {
+                            discussionItems.push({
+                                title: p.content.length > 25 ? p.content.substring(0, 25) + '...' : p.content,
+                                image: '💬', // Icon for discussions
+                                district: district,
+                                village: villageName,
+                                communityId: vid
+                            });
+                        });
+                    } catch (e) {
+                        console.error(`Failed to load posts for ${vid}`, e);
+                    }
+                }
+            }
+
+            // 4. Build standard activity items (events + travel spots)
             const activities: typeof activityItems = [];
-            comms.forEach(c => {
+
+            // Filter source communities if we have personal data? 
+            // The prompt implies content comes exclusively (or prioritized) from home/favorites
+            // "內容來自 個人資料裡的村里，來自用戶收藏的村里"
+            // Let's fallback to all if no personal data found, to avoid empty state.
+            const sourceComms = hasPersonalData
+                ? comms.filter(c => targetVillageIds.has(c.id))
+                : comms;
+
+            // If strict filtering results in empty, maybe fallback? 
+            // For now, respect the personalized filter if IDs exist.
+
+            sourceComms.forEach(c => {
                 c.events?.forEach(e => {
                     activities.push({ title: e.title, image: '📅', district: c.district, village: c.name, communityId: c.id });
                 });
@@ -70,11 +141,17 @@ const PublicHome: React.FC = () => {
                     activities.push({ title: t.name, image: '🗺️', district: c.district, village: c.name, communityId: c.id });
                 });
             });
-            setActivityItems(activities.slice(0, 20));
 
-            // Build action items (community buildings + care actions) - Take 3
+            // Combine: Discussions first, then Activities
+            // Sort by "freshness" if possible? we lack unified timestamps here easily. 
+            // Just putting discussions on top as they are likely more "dynamic".
+            const combined = [...discussionItems, ...activities];
+            setActivityItems(combined.slice(0, 20));
+
+            // 5. Build action items (Right Column)
+            // Use same source filter for consistency
             const actions: typeof actionItems = [];
-            comms.forEach(c => {
+            sourceComms.forEach(c => {
                 c.communityBuildings?.forEach(b => {
                     actions.push({ title: b.name, icon: '🏗️', district: c.district, village: c.name, communityId: c.id, desc: b.description });
                 });
@@ -85,7 +162,7 @@ const PublicHome: React.FC = () => {
             setActionItems(actions.slice(0, 20));
         };
         load();
-    }, []);
+    }, [user, favorites]);
 
     const handleItemClick = (communityId: string) => {
         navigate(`/community/${communityId}`);
@@ -288,6 +365,8 @@ const PublicHome: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {/* Migration Tool - Remove after use */}
+            {/* <DataMigrationTools /> */}
         </div>
     );
 };

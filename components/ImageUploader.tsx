@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Image as ImageIcon, Upload, Loader2, X, Move, ZoomIn, CheckCircle2 } from 'lucide-react';
 import { storageService } from '../services/storageService';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 interface ImageUploaderProps {
     value?: string;

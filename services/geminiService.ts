@@ -1,32 +1,38 @@
-import { getAI, getGenerativeModel, SchemaType } from "firebase/ai";
-import { app } from "./firebase";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { LocationData, AnalysisResult, GroundingChunk, ProgressCallback, AuditCategory } from "../types";
 
-// Helper to extract sources from Vertex AI response (structure might be slightly different or same, handling safe access)
+// Initialize the Google AI SDK directly with the API Key
+const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || '';
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// Helper to extract sources (Note: Browser-side SDK might not have full grounding metadata yet, but we'll try to keep compat)
 const extractSources = (response: any): Array<{ title: string; uri: string }> => {
   const sources: Array<{ title: string; uri: string }> = [];
-  const candidates = response.candidates;
-  if (!candidates || candidates.length === 0) return sources;
+  // For standard Google AI SDK, grounding metadata might be in a different place or format
+  // For now, we'll try to keep it safe.
+  try {
+    const candidate = response.candidates?.[0];
+    const chunks = candidate?.groundingMetadata?.groundingChunks as GroundingChunk[] | undefined;
 
-  const candidate = candidates[0];
-  const chunks = candidate.groundingMetadata?.groundingChunks as GroundingChunk[] | undefined;
-
-  if (chunks) {
-    chunks.forEach(chunk => {
-      if (chunk.web) {
-        sources.push({ title: chunk.web.title, uri: chunk.web.uri });
-      }
-      if (chunk.maps) {
-        sources.push({ title: chunk.maps.title, uri: chunk.maps.uri });
-      }
-    });
+    if (chunks) {
+      chunks.forEach(chunk => {
+        if (chunk.web) {
+          sources.push({ title: chunk.web.title, uri: chunk.web.uri });
+        }
+        if (chunk.maps) {
+          sources.push({ title: chunk.maps.title, uri: chunk.maps.uri });
+        }
+      });
+    }
+  } catch (e) {
+    console.warn("Grounding metadata extraction failed", e);
   }
   return sources;
 };
 
 // Common configuration
-const MODEL_NAME_FLASH = "gemini-1.5-flash"; // Stable for production
-const MODEL_NAME_PRO = "gemini-2.0-flash-exp"; // Use experimental for complex tasks if desired, or stick to 1.5-pro/flash
+const MODEL_NAME_FLASH = "gemini-1.5-flash";
+const MODEL_NAME_PRO = "gemini-2.0-flash-exp";
 
 // ==========================================
 // STEP 1: Web Data Collection (Simulated Crawler)
@@ -95,20 +101,11 @@ const draftReport = async (location: LocationData): Promise<{ text: string; sour
 `;
 
   try {
-    const vertexAI = getAI(app);
-    // Ensure Google Search Grounding is enabled in Vertex AI Console if using tools: [{googleSearch: {}}]
-    // Note: firebase/vertexai support for tools might vary by version; 
-    // Assuming googleSearch tool is supported or we rely on model internal knowledge if not.
-    // Current official SDK support for googleSearch in Vertex AI for Firebase is in preview.
-    // We will check 'tools' config.
-
-    const model = getGenerativeModel(vertexAI, {
-      model: MODEL_NAME_PRO,
-      systemInstruction: SYSTEM_INSTRUCTION_CRAWLER,
-      // tools: [{ googleSearch: {} }] // Uncomment if enabled in your project and supported by SDK version
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME_PRO
     });
 
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent([SYSTEM_INSTRUCTION_CRAWLER, prompt]);
     const response = result.response;
     return { text: response.text() || "", sources: extractSources(response) };
   } catch (error) {
@@ -117,15 +114,12 @@ const draftReport = async (location: LocationData): Promise<{ text: string; sour
   }
 };
 
-// ==========================================
-// STEP 1.2: Fact Checker Agent (QA Bot)
-// ==========================================
 const verifyReportAccuracy = async (
   location: LocationData,
   draftText: string
 ): Promise<{ text: string; verifiedSources: any[] }> => {
 
-  const SYSTEM_INSTRUCTION_VERIFY = `
+  const systemInstruction = `
   你是一個自動化 QA (Quality Assurance) 機器人。
   你的任務是驗證上一階段爬取的資料準確性，特別是針對「層級錯誤 (Hierarchy Error)」進行除錯。
   
@@ -138,7 +132,7 @@ const verifyReportAccuracy = async (
   if (報告提到有 "農村再生計畫") {
      執行搜尋確認是否在該村里範圍內;
   }
-
+  
   請回傳修正後的 Markdown。若無錯誤，請回傳原稿。
   所有修正請標註：*(自動修正)*。
   `;
@@ -151,13 +145,11 @@ const verifyReportAccuracy = async (
   `;
 
   try {
-    const vertexAI = getAI(app);
-    const model = getGenerativeModel(vertexAI, {
-      model: MODEL_NAME_FLASH,
-      systemInstruction: SYSTEM_INSTRUCTION_VERIFY
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME_FLASH
     });
 
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent([systemInstruction, prompt]);
     const outputText = result.response.text();
     return { text: outputText || draftText, verifiedSources: extractSources(result.response) };
   } catch (e) {
@@ -166,11 +158,8 @@ const verifyReportAccuracy = async (
   }
 };
 
-// ==========================================
-// STEP 1.5: Generate Checklist (JSON)
-// ==========================================
 const generateAuditChecklist = async (location: LocationData, draftText: string): Promise<AuditCategory[]> => {
-  const SYSTEM_INSTRUCTION_CHECKLIST = `
+  const systemInstruction = `
 你是專業訪談計畫規劃師。
 你的任務是比對調查報告，找出缺漏的關鍵資訊，並整理成一份「待訪談 Check List」。
 
@@ -191,64 +180,35 @@ Generate Checklist for: ${location.city}${location.district}${location.village}
 `;
 
   try {
-    const vertexAI = getAI(app);
-    const model = getGenerativeModel(vertexAI, {
+    const model = genAI.getGenerativeModel({
       model: MODEL_NAME_FLASH,
-      systemInstruction: SYSTEM_INSTRUCTION_CHECKLIST,
       generationConfig: {
         responseMimeType: "application/json",
-        responseSchema: {
-          type: SchemaType.ARRAY,
-          items: {
-            type: SchemaType.OBJECT,
-            properties: {
-              name: { type: SchemaType.STRING },
-              items: {
-                type: SchemaType.ARRAY,
-                items: {
-                  type: SchemaType.OBJECT,
-                  properties: {
-                    id: { type: SchemaType.STRING },
-                    category: { type: SchemaType.STRING },
-                    actionItem: { type: SchemaType.STRING },
-                    description: { type: SchemaType.STRING },
-                    status: { type: SchemaType.STRING, enum: ["missing", "resolved"] }
-                  },
-                  required: ["id", "category", "actionItem", "description", "status"]
-                }
-              }
-            },
-            required: ["name", "items"]
-          }
-        }
       }
     });
 
-    const result = await model.generateContent(prompt);
-    const rawJSON = JSON.parse(result.response.text() || "[]");
-    return rawJSON;
+    const result = await model.generateContent([systemInstruction, prompt]);
+    const responseText = result.response.text();
+    const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(cleanJson || "[]");
   } catch (e) {
     console.error("JSON Parse Error", e);
     return [];
   }
 };
 
-
-// ==========================================
-// STEP 3: Integration (Text Merge)
-// ==========================================
 const integrateInterview = async (
   location: LocationData,
   originalDraft: string,
   transcript: string
 ): Promise<{ text: string }> => {
 
-  const SYSTEM_INSTRUCTION_INTEGRATE = `
+  const systemInstruction = `
 任務：產出最終《村里資料分析》報告。
 操作說明：
 1. 將「實地訪談紀錄 (Source B)」合併至「網路爬取報告 (Source A)」。
 2. 若有衝突，以「Source B (訪談)」為準。
-3. 移除所有「待訪談」、「資料不足」或「Checklist」字眼。
+3. 移除所有「待訪談」、「資料不足」或協助字眼。
 4. 保持專業、客觀、數據导向的語氣。
 
 【最終輸出格式：必須嚴格遵守 7 大段落】
@@ -287,13 +247,11 @@ Output Final Report for: ${location.city} ${location.district} ${location.villag
 `;
 
   try {
-    const vertexAI = getAI(app);
-    const model = getGenerativeModel(vertexAI, {
-      model: MODEL_NAME_PRO, // Use Pro for better synthesis
-      systemInstruction: SYSTEM_INSTRUCTION_INTEGRATE,
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME_PRO
     });
 
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent([systemInstruction, prompt]);
     return { text: result.response.text() || "" };
   } catch (e) {
     console.error("Integration Error", e);
@@ -301,28 +259,16 @@ Output Final Report for: ${location.city} ${location.district} ${location.villag
   }
 };
 
-
-
-
-// ==========================================
-// Main Exports
-// ==========================================
-
-// Step 1 Trigger
 export const runStep1_Draft = async (location: LocationData, onProgress: ProgressCallback): Promise<AnalysisResult> => {
-  // 1. Simulated Crawler Search
   onProgress("啟動模擬爬蟲：檢索政府公開資料庫 (EPA, MOHW, SFA)...");
   const draft = await draftReport(location);
 
-  // 2. Automated QA (Fact Check)
   onProgress("執行自動化 QA：驗證資料層級準確性...");
   const verifiedDraft = await verifyReportAccuracy(location, draft.text);
 
-  // Merge sources
   const allSources = [...draft.sources, ...verifiedDraft.verifiedSources];
   const uniqueSources = Array.from(new Map(allSources.map(item => [item.uri, item])).values());
 
-  // 3. Generate Checklist
   onProgress("產生差異分析 (Gap Analysis) 與訪談提綱...");
   const checklist = await generateAuditChecklist(location, verifiedDraft.text);
 
@@ -333,7 +279,6 @@ export const runStep1_Draft = async (location: LocationData, onProgress: Progres
   };
 };
 
-// Step 3 Trigger
 export const runStep3_Integrate = async (
   location: LocationData,
   currentResult: AnalysisResult,
@@ -349,3 +294,4 @@ export const runStep3_Integrate = async (
     checklist: currentResult.checklist
   };
 };
+

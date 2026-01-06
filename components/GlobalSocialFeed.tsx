@@ -4,7 +4,7 @@ import { getAllPosts, getVillagePosts, createPost, reactToPost, addComment, like
 import { User, MessageSquare, ThumbsUp, Send, Image as ImageIcon, Video, Share2, X, PlusCircle, Hash, Link as LinkIcon, Check, Copy, Trash2, MapPin, ChevronRight, Navigation } from 'lucide-react';
 import { MOCK_ROLES } from '../data/mock_public';
 import { Link } from 'react-router-dom';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 interface GlobalSocialFeedProps {
     compact?: boolean;

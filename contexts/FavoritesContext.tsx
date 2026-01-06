@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useUser } from '../hooks/useUser';
 
 interface FavoritesContextType {
   favorites: string[];
@@ -12,32 +13,53 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 const STORAGE_KEY = 'community_favorites';
 
 export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  const { user, isLoggedIn, updateProfile } = useUser();
+  const [favorites, setFavorites] = useState<string[]>([]);
 
+  // 1. Initial Load and Sync with User Profile
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
-    } catch (e) {
-      console.error('Failed to save favorites to localStorage', e);
+    const localStored = localStorage.getItem(STORAGE_KEY);
+    const localFavs = localStored ? JSON.parse(localStored) : [];
+
+    if (isLoggedIn && user) {
+      // Combine cloud favorites with local ones
+      const cloudFavs = user.favorites || [];
+      const merged = Array.from(new Set([...cloudFavs, ...localFavs]));
+      setFavorites(merged);
+
+      // If local had data not in cloud, sync to cloud
+      if (localFavs.length > 0 && merged.length > cloudFavs.length) {
+        updateProfile({ favorites: merged });
+      }
+    } else {
+      // For guest, use local storage
+      setFavorites(localFavs);
     }
+  }, [isLoggedIn, user?.id]);
+
+  // 2. Persist to LocalStorage as fallback
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
   }, [favorites]);
 
   const addFavorite = (id: string) => {
     setFavorites(prev => {
-      if (prev.includes(id)) return prev;
-      return [...prev, id];
+      const updated = prev.includes(id) ? prev : [...prev, id];
+      if (isLoggedIn) {
+        updateProfile({ favorites: updated });
+      }
+      return updated;
     });
   };
 
   const removeFavorite = (id: string) => {
-    setFavorites(prev => prev.filter(f => f !== id));
+    setFavorites(prev => {
+      const updated = prev.filter(f => f !== id);
+      if (isLoggedIn) {
+        updateProfile({ favorites: updated });
+      }
+      return updated;
+    });
   };
 
   const isFavorite = (id: string) => favorites.includes(id);

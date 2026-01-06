@@ -12,7 +12,7 @@ import { saveVillageRecord } from '../services/localDatabase';
 import { Trees, Database, History, ShieldAlert, Mail, ArrowLeft } from 'lucide-react';
 import { authService } from '../services/authService';
 import { auth } from '../services/firebase';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 
 const AnalystTool: React.FC = () => {
   const { user } = useUser();

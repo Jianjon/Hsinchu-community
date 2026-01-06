@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, User, Clock, Phone, MousePointer2, Plus, Trash2, Building, Image as ImageIcon, Smile, Tag, X } from 'lucide-react';
-import { useUser } from '../contexts/UserContext';
+import WikiMiniMap from './WikiMiniMap';
+import { useUser } from '../hooks/useUser';
 import EditableText from './EditableText';
 import ImageUploader from './ImageUploader';
 import { PublicFacility } from '../data/mock_public';
@@ -110,13 +111,13 @@ const WikiDashboardView: React.FC<WikiDashboardViewProps> = ({
                     <div className="flex flex-col lg:flex-row gap-8 items-stretch">
                         <div className="w-full lg:w-[38%] flex flex-col">
                             <a
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`新竹縣${district}${communityName}`)}`}
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${district}${communityName}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex-1 min-h-[320px] bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden relative group cursor-pointer hover:shadow-lg transition block"
                             >
                                 <iframe
-                                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(`新竹縣${district}${communityName}`)}&zoom=15&language=zh-TW`}
+                                    src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_KEY}&q=${encodeURIComponent(`${district}${communityName}`)}&zoom=15&language=zh-TW`}
                                     className="w-full h-full border-0 pointer-events-none"
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
@@ -258,13 +259,14 @@ const WikiDashboardView: React.FC<WikiDashboardViewProps> = ({
 
                             {/* Segment 2: History & Culture */}
                             <div className="relative">
+                                {(() => { console.log('[WikiDashboard] Rendering History Section. Data:', wiki.intro_history); return null; })()}
                                 <h3 className="text-xl font-black text-slate-800 flex items-center gap-3 mb-6">
                                     <div className="w-1.5 h-6 bg-orange-400 rounded-full shadow-[0_0_10px_rgba(251,146,60,0.5)]" />
                                     歷史與人文特色
                                 </h3>
                                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed whitespace-pre-wrap text-[16px] bg-orange-50/30 p-6 rounded-2xl border border-orange-100/50">
                                     <EditableText
-                                        value={wiki.intro_history}
+                                        value={wiki.intro_history || (canEdit ? "" : "（暫無歷史資料）")}
                                         onChange={v => onUpdate('intro_history', v)}
                                         isEditMode={canEdit}
                                         placeholder="描述社區演變、居民特質、傳統活動或老地名起源..."
@@ -428,7 +430,7 @@ const WikiDashboardView: React.FC<WikiDashboardViewProps> = ({
                     <div className="mt-20 pt-8 border-t border-slate-100 flex justify-between items-center text-slate-400 text-xs">
                         <div className="flex items-center gap-2">
                             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                            數據管理模式中
+                            數據管理模式中 {(wiki as any)._source && <span className="ml-2 text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500">來源: {(wiki as any)._source.toUpperCase()}</span>}
                         </div>
                         <button
                             onClick={() => {

@@ -8,17 +8,38 @@ import L from 'leaflet';
 import { Map as MapIcon, Sparkles, Camera, TreePine, BookOpen, ChevronRight, Menu, MessageSquare, Wind, User, Library, ChevronDown, MapPin, Heart } from 'lucide-react';
 import { renderToString } from 'react-dom/server';
 import { FavoritesProvider } from '../contexts/FavoritesContext';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../hooks/useUser';
 import FavoritesRail from '../components/FavoritesRail';
 import CommunityPopOut from '../components/CommunityPopOut';
 import ItemDetailOverlay from '../components/ItemDetailOverlay';
 import CalendarSidebar from '../components/CalendarSidebar';
 import LandingOverlay from '../components/LandingOverlay';
+import AboutOverlay from '../components/AboutOverlay';
 import { MapSearchControl } from '../components/MapSearchControl';
+import DataValidator from '../components/DataValidator';
 // Fallback to community object's chief data since CHIEFS_DATA is deprecated
 
 // ... (Keep existing custom icons and helper components: createCustomIcon, WikiIcon, etc., MapController, MapInvalidator)
 // --- CUSTOM ICONS ---
+// Helper to sanitize data for Firestore (remove undefined, convert to null if needed)
+const sanitizeForFirestore = (obj: any): any => {
+    if (obj === undefined) return null;
+    if (obj === null) return null;
+    if (obj instanceof Date) return obj;
+    if (Array.isArray(obj)) return obj.map(sanitizeForFirestore);
+    if (typeof obj === 'object') {
+        const newObj: any = {};
+        Object.keys(obj).forEach(key => {
+            const val = obj[key];
+            if (val !== undefined) {
+                newObj[key] = sanitizeForFirestore(val);
+            }
+        });
+        return newObj;
+    }
+    return obj;
+};
+
 const createCustomIcon = (icon: React.ReactNode, colorClass: string) => {
     const iconHtml = renderToString(
         <div className={`w-8 h-8 rounded-full ${colorClass} text-white flex items-center justify-center shadow-lg border-2 border-white transform hover:scale-110 transition-transform`}>
@@ -138,6 +159,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
     const [isCalendarView, setIsCalendarView] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     const [expandedCity, setExpandedCity] = useState<'新竹縣' | '新竹市' | null>('新竹縣');
+    const [showAbout, setShowAbout] = useState(false);
     const { user, isLoggedIn } = useUser();
 
     // Independent Page State
@@ -245,17 +267,14 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
             // Show Community Markers (Villages)
             items = filteredComms
                 .filter(c => isValid(c.location))
-                .map(c => {
-                    // Try to find correct office location
-                    // 1. Check Manual Mock
+                .flatMap(c => {
+                    // 1. Community Marker (Village Center / Office)
                     const mockCoord = MOCK_GEOCODED_OFFICES[c.name];
-                    // 2. Fallback to village center
                     const position = mockCoord || c.location;
-
                     const chief: any = c.wiki?.chief || (c.chief ? { name: c.chief } : null);
                     const title = chief?.officeAddress ? `${c.name} (村里長辦公處)` : c.name;
 
-                    return {
+                    const communityMarker = {
                         type: 'wiki',
                         id: c.id,
                         position: position,
@@ -265,6 +284,22 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                         icon: WikiIcon,
                         link: `/community/${c.id}`
                     };
+
+                    // 2. Facility Markers (from Wiki)
+                    const facilityMarkers = (c.wiki?.facilities || [])
+                        .filter(f => f.location && isValid(f.location))
+                        .map(f => ({
+                            type: 'facility',
+                            id: f.id,
+                            position: f.location!,
+                            boundary: undefined,
+                            title: f.name,
+                            desc: f.description || f.type,
+                            icon: WikiIcon, // Consider a different icon or reuse
+                            link: '#'
+                        }));
+
+                    return [communityMarker, ...facilityMarkers];
                 });
         }
         else if (selectedLayer === 'travel') {
@@ -289,7 +324,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     .map((e, idx) => ({
                         type: 'event',
                         id: e.id,
-                        position: [c.location[0] - 0.001 * (idx + 1), c.location[1]] as [number, number],
+                        position: e.coordinates || [c.location[0] - 0.001 * (idx + 1), c.location[1]] as [number, number],
                         boundary: undefined,
                         title: e.title,
                         desc: e.description,
@@ -299,8 +334,8 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
             );
         }
         else if (selectedLayer === 'projects') {
-            items = filteredComms.flatMap(c =>
-                (c.communityBuildings || [])
+            items = filteredComms.flatMap(c => {
+                const buildings = (c.communityBuildings || [])
                     .filter(b => isValid(b.location))
                     .map(b => ({
                         type: 'projects',
@@ -311,8 +346,23 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                         desc: b.description,
                         icon: ProjectIcon,
                         link: '#'
-                    }))
-            );
+                    }));
+
+                const projects = (c.projects || [])
+                    .filter(p => p.location && isValid(p.location))
+                    .map(p => ({
+                        type: 'projects',
+                        id: p.id,
+                        position: p.location!,
+                        boundary: undefined,
+                        title: p.title,
+                        desc: p.description,
+                        icon: ProjectIcon,
+                        link: '#'
+                    }));
+
+                return [...buildings, ...projects];
+            });
         }
         else if (selectedLayer === 'culture') {
             items = filteredComms.flatMap(c =>
@@ -336,7 +386,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     .map((a, idx) => ({
                         type: 'care_action',
                         id: a.id,
-                        position: [c.location[0] + 0.001 * (idx + 1), c.location[1]] as [number, number],
+                        position: a.location || [c.location[0] + 0.001 * (idx + 1), c.location[1]] as [number, number],
                         boundary: undefined,
                         title: a.title,
                         desc: a.description,
@@ -378,15 +428,65 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
         }
     };
 
-    const handleUpdateCommunity = (id: string, updated: any) => {
+    const handleUpdateCommunity = async (id: string, updated: any) => {
+        // Update local state immediately for responsive UI
         setCommunities(prev => prev.map(c => c.id === id ? updated : c));
+
+        // Persist to Firestore
+        try {
+            // Dynamically import to avoid bundle issues
+            const { updateVillageWiki } = await import('../services/firestoreService');
+
+            // Save ALL community data types to Firestore for full persistence
+            const dataToSave = {
+                // Wiki structured data
+                ...(updated.wiki || {}),
+
+                // Community metadata
+                name: updated.name,
+                district: updated.district,
+                city: updated.city,
+                description: updated.description,
+                tags: updated.tags || [],
+
+                // All content arrays - FULLY PERSISTED
+                careActions: updated.careActions || [],
+                travelSpots: updated.travelSpots || [],
+                communityBuildings: updated.communityBuildings || [],
+                cultureHeritages: updated.cultureHeritages || [],
+                events: updated.events || [],
+                people: updated.people || [],
+                projects: updated.projects || [],
+
+                // Administrative data
+                chief: updated.chief,
+                population: updated.population,
+            };
+
+            // Sanitize data to remove undefined values which Firestore rejects
+            const safeData = sanitizeForFirestore(dataToSave);
+
+            console.log('[PublicMap] 📤 Saving to Firestore:', id);
+            console.log('[PublicMap] 📤 careActions being saved:', safeData.careActions?.length, 'items:', JSON.stringify(safeData.careActions?.map((c: any) => c.title)));
+
+            await updateVillageWiki(id, safeData);
+            console.log('[PublicMap] ✅ Community fully saved to Firestore:', id);
+        } catch (error) {
+            console.error('[PublicMap] Failed to save community to Firestore:', error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            alert(`儲存失敗: ${errorMessage}`);
+        }
     };
 
     return (
-        <FavoritesProvider>
+        <>
+            <AboutOverlay isOpen={showAbout} onClose={() => setShowAbout(false)} />
             <div className="h-screen w-full relative flex overflow-hidden bg-slate-100">
 
-                {/* FAVORITES RAIL */}
+                {/* Data Validator (Headless) */}
+                <DataValidator communities={communities} />
+
+                {/* --- MAP CONTAINER --- */}
                 <FavoritesRail
                     activeVillageId={selectedVillageId}
                     drawerMode={drawerMode}
@@ -401,6 +501,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     onSelectCommunity={handleNavigateToVillage}
                     onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
                     onOpenProfile={() => onOpenProfile?.()}
+                    onOpenAbout={() => setShowAbout(true)}
                     communities={communities.map(c => ({ id: c.id, name: c.name, district: c.district }))}
                 />
 
@@ -648,7 +749,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                                 >
                                     {/* Tooltips for all townships except the currently selected one to keep the center clear for villages */}
                                     {!isSelected && (
-                                        <Tooltip sticky direction="center" className={`font-bold transition-all ${isAnySelected ? 'text-sm opacity-50' : 'text-lg opacity-90'}`}>
+                                        <Tooltip direction="center" className={`font-bold transition-all ${isAnySelected ? 'text-sm opacity-50' : 'text-lg opacity-90'}`}>
                                             {t.name}
                                         </Tooltip>
                                     )}
@@ -693,7 +794,6 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                                     }}
                                 >
                                     <Tooltip
-                                        sticky
                                         direction="top"
                                         className="custom-village-tooltip"
                                         opacity={1}
@@ -708,121 +808,141 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                         })}
 
                         {/* MARKERS LAYER (On top of polygons) */}
-                        {selectedTownshipId && displayMarkers.map((item, idx) => (
-                            <Marker
-                                key={`marker-${item.type}-${item.id}-${idx}`}
-                                position={item.position}
-                                icon={item.icon}
-                                eventHandlers={{
-                                    click: (e) => {
-                                        if (e.originalEvent) {
-                                            L.DomEvent.stopPropagation(e.originalEvent);
+                        {selectedTownshipId && displayMarkers.map((item, idx) => {
+                            // Safety Check for LatLng to prevent Leaflet Crash
+                            if (!item.position || !Array.isArray(item.position) || item.position.length !== 2
+                                || typeof item.position[0] !== 'number' || typeof item.position[1] !== 'number') {
+                                return null;
+                            }
+                            const lat = item.position[0];
+                            const lng = item.position[1];
+                            if (isNaN(lat) || isNaN(lng)) return null;
+
+                            return (
+                                <Marker
+                                    key={`marker-${item.type}-${item.id}-${idx}`}
+                                    position={[lat, lng]}
+                                    icon={item.icon || WikiIcon}
+                                    eventHandlers={{
+                                        click: (e) => {
+                                            if (e.originalEvent) {
+                                                L.DomEvent.stopPropagation(e.originalEvent);
+                                            }
+                                            if (item.type === 'wiki') {
+                                                handleVillageSelect(item.id);
+                                            } else if (item.type === 'facility') {
+                                                const village = communities.find(c => c.district === selectedTownshipId && c.wiki?.facilities?.some((f: any) => f.id === item.id));
+                                                setViewingItem({
+                                                    type: 'facility',
+                                                    data: { ...item, name: item.title, description: item.desc }, // Reconstruct minimal data or find full object
+                                                    communityName: village?.name || '',
+                                                    district: selectedTownshipId || ''
+                                                });
+                                                setViewState({ center: item.position, zoom: 16, mode: 'flyTo' });
+                                            } else {
+                                                setViewState({ center: item.position, zoom: 15, mode: 'flyTo' });
+                                            }
                                         }
-                                        if (item.type === 'wiki') {
-                                            handleVillageSelect(item.id);
-                                        } else {
-                                            setViewState({ center: item.position, zoom: 15, mode: 'flyTo' });
-                                        }
-                                    }
-                                }}
-                            >
-                                <Popup className="custom-popup" closeButton={false}>
-                                    <div
-                                        className="p-0 min-w-[240px] overflow-hidden rounded-lg"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <div className={`p-3 text-white
+                                    }}
+                                >
+                                    <Popup className="custom-popup" closeButton={false}>
+                                        <div
+                                            className="p-0 min-w-[240px] overflow-hidden rounded-lg"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <div className={`p-3 text-white
                                         ${item.type === 'wiki' ? 'bg-blue-500' :
-                                                item.type === 'travel' ? 'bg-orange-500' :
-                                                    item.type === 'event' ? 'bg-purple-500' :
-                                                        item.type === 'care_action' ? 'bg-rose-500' :
-                                                            item.type === 'culture' ? 'bg-amber-600' : 'bg-emerald-500'
-                                            }`}>
-                                            <div className="flex items-center gap-2 mb-1">
-                                                {item.type === 'wiki' && <BookOpen size={16} />}
-                                                {item.type === 'travel' && <Camera size={16} />}
-                                                {item.type === 'event' && <Sparkles size={16} />}
-                                                {item.type === 'projects' && <TreePine size={16} />}
-                                                {item.type === 'culture' && <Library size={16} />}
-                                                {item.type === 'care_action' && <Heart size={16} />}
-                                                <span className="text-xs font-bold uppercase tracking-wider">
-                                                    {item.type === 'wiki' ? '社區維基' :
-                                                        item.type === 'travel' ? '輕旅行' :
-                                                            item.type === 'event' ? '在地活動' :
-                                                                item.type === 'care_action' ? '永續共好' :
-                                                                    item.type === 'culture' ? '文化資產' : '地方創生'}
-                                                </span>
+                                                    item.type === 'travel' ? 'bg-orange-500' :
+                                                        item.type === 'event' ? 'bg-purple-500' :
+                                                            item.type === 'care_action' ? 'bg-rose-500' :
+                                                                item.type === 'culture' ? 'bg-amber-600' : 'bg-emerald-500'
+                                                }`}>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    {item.type === 'wiki' && <BookOpen size={16} />}
+                                                    {item.type === 'travel' && <Camera size={16} />}
+                                                    {item.type === 'event' && <Sparkles size={16} />}
+                                                    {item.type === 'projects' && <TreePine size={16} />}
+                                                    {item.type === 'culture' && <Library size={16} />}
+                                                    {item.type === 'care_action' && <Heart size={16} />}
+                                                    <span className="text-xs font-bold uppercase tracking-wider">
+                                                        {item.type === 'wiki' ? '社區維基' :
+                                                            item.type === 'travel' ? '輕旅行' :
+                                                                item.type === 'event' ? '在地活動' :
+                                                                    item.type === 'care_action' ? '永續共好' :
+                                                                        item.type === 'culture' ? '文化資產' : '地方創生'}
+                                                    </span>
+                                                </div>
+                                                <h3 className="text-lg font-bold leading-tight">{item.title}</h3>
                                             </div>
-                                            <h3 className="text-lg font-bold leading-tight">{item.title}</h3>
-                                        </div>
 
-                                        <div className="p-3 bg-white">
-                                            <p className="text-sm text-slate-600 mb-3 leading-relaxed whitespace-pre-wrap">
-                                                {item.desc}
-                                            </p>
+                                            <div className="p-3 bg-white">
+                                                <p className="text-sm text-slate-600 mb-3 leading-relaxed whitespace-pre-wrap">
+                                                    {item.desc}
+                                                </p>
 
-                                            {item.link ? (
-                                                <button
-                                                    onClick={() => {
-                                                        // Find the full data object
-                                                        // Fallback search across all communities (since we might be in global view)
-                                                        let foundData = null;
-                                                        let foundCommName = '';
+                                                {item.link ? (
+                                                    <button
+                                                        onClick={() => {
+                                                            // Find the full data object
+                                                            // Fallback search across all communities (since we might be in global view)
+                                                            let foundData = null;
+                                                            let foundCommName = '';
 
-                                                        // Candidates: if township selected, limit search; otherwise search all.
-                                                        const candidates = selectedTownshipId
-                                                            ? communities.filter(c => c.district === selectedTownshipId)
-                                                            : communities;
-                                                        for (const c of candidates) {
-                                                            if (item.type === 'event') {
-                                                                foundData = c.events?.find(e => e.id === item.id);
-                                                            } else if (item.type === 'travel') {
-                                                                foundData = c.travelSpots?.find(t => t.id === item.id);
-                                                            } else if (item.type === 'projects') {
-                                                                foundData = c.communityBuildings?.find(p => p.id === item.id);
-                                                            } else if (item.type === 'culture') {
-                                                                foundData = c.cultureHeritages?.find(h => h.id === item.id);
-                                                            } else if (item.type === 'care_action') {
-                                                                foundData = c.careActions?.find(a => a.id === item.id);
+                                                            // Candidates: if township selected, limit search; otherwise search all.
+                                                            const candidates = selectedTownshipId
+                                                                ? communities.filter(c => c.district === selectedTownshipId)
+                                                                : communities;
+                                                            for (const c of candidates) {
+                                                                if (item.type === 'event') {
+                                                                    foundData = c.events?.find(e => e.id === item.id);
+                                                                } else if (item.type === 'travel') {
+                                                                    foundData = c.travelSpots?.find(t => t.id === item.id);
+                                                                } else if (item.type === 'projects') {
+                                                                    foundData = c.communityBuildings?.find(p => p.id === item.id);
+                                                                } else if (item.type === 'culture') {
+                                                                    foundData = c.cultureHeritages?.find(h => h.id === item.id);
+                                                                } else if (item.type === 'care_action') {
+                                                                    foundData = c.careActions?.find(a => a.id === item.id);
+                                                                }
+                                                                if (foundData) {
+                                                                    foundCommName = c.name;
+                                                                    break;
+                                                                }
                                                             }
+
                                                             if (foundData) {
-                                                                foundCommName = c.name;
-                                                                break;
-                                                            }
-                                                        }
-
-                                                        if (foundData) {
-                                                            setViewingItem({
-                                                                type: item.type === 'projects' ? 'project' : item.type as any,
-                                                                data: foundData,
-                                                                communityName: foundCommName
-                                                            });
-                                                        } else if (item.type === 'wiki') {
-                                                            // For Wiki, item.id is community id. We find the wiki data.
-                                                            const comm = communities.find(c => c.id === item.id);
-                                                            if (comm) {
                                                                 setViewingItem({
-                                                                    type: 'wiki',
-                                                                    data: comm.wiki || {
-                                                                        introduction: "", population: 0, area: "0", type: 'mixed',
-                                                                        chief: {}, association: {}, facilities: [], awards: [], features: []
-                                                                    },
-                                                                    communityName: comm.name,
-                                                                    district: comm.district
+                                                                    type: item.type === 'projects' ? 'project' : item.type as any,
+                                                                    data: foundData,
+                                                                    communityName: foundCommName
                                                                 });
+                                                            } else if (item.type === 'wiki') {
+                                                                // For Wiki, item.id is community id. We find the wiki data.
+                                                                const comm = communities.find(c => c.id === item.id);
+                                                                if (comm) {
+                                                                    setViewingItem({
+                                                                        type: 'wiki',
+                                                                        data: comm.wiki || {
+                                                                            introduction: "", population: 0, area: "0", type: 'mixed',
+                                                                            chief: {}, association: {}, facilities: [], awards: [], features: []
+                                                                        },
+                                                                        communityName: comm.name,
+                                                                        district: comm.district
+                                                                    });
+                                                                }
                                                             }
-                                                        }
-                                                    }}
-                                                    className="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded transition"
-                                                >
-                                                    查看詳細內容
-                                                </button>
-                                            ) : null}
+                                                        }}
+                                                        className="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded transition"
+                                                    >
+                                                        查看詳細內容
+                                                    </button>
+                                                ) : null}
+                                            </div>
                                         </div>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        ))}
+                                    </Popup>
+                                </Marker>
+                            )
+                        })}
                     </MapContainer>
 
                     {/* LAYER CONTROLS (Floating Block) - Rendered OUTSIDE MapContainer to prevent click-through */}
@@ -1074,7 +1194,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     pointer-events: auto !important;
                 }
             `}</style>
-        </FavoritesProvider>
+        </>
     );
 };
 

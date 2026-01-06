@@ -55,7 +55,12 @@ const CalendarSidebar: React.FC<CalendarSidebarProps> = ({
             });
         });
 
-        return activities.sort((a, b) => a.date.localeCompare(b.date));
+        return activities.sort((a, b) => {
+            if (!a.date && !b.date) return 0;
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return a.date.localeCompare(b.date);
+        });
     }, [communities]);
 
     // Calendar logic

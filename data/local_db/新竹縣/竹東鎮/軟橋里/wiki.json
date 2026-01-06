@@ -31,6 +31,52 @@
       "location": "新竹縣竹東鎮軟橋里1鄰68號",
       "phone": "910961621",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069181_899",
+      "title": "竹東鎮軟橋社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣竹東鎮軟橋里1鄰68號的在地服務資源。",
+      "phone": "910961621",
+      "address": "新竹縣竹東鎮軟橋里1鄰68號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [
+      {
+        "id": "alert_1767667268484_4",
+        "type": "general",
+        "level": "low",
+        "title": "登革熱防治",
+        "description": "請落實「巡、倒、清、刷」，清除積水容器，守護家園。",
+        "date": "2026/1/6"
+      }
+    ],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

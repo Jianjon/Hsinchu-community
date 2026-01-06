@@ -38,6 +38,86 @@
       "location": "新竹縣橫山鄉橫山村中豐路一段172號",
       "phone": "910005914",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069181_484",
+      "title": "財團法人福智慈善基金會橫山分會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣橫山鄉橫山村3鄰96號的在地服務資源。",
+      "phone": "926083652",
+      "address": "新竹縣橫山鄉橫山村3鄰96號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_care_center_1767663069182_826",
+      "title": "社團法人新竹縣智障福利協進會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣橫山鄉橫山村中豐路一段172號的在地服務資源。",
+      "phone": "910005914",
+      "address": "新竹縣橫山鄉橫山村中豐路一段172號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
+    },
+    {
+      "id": "import_food_bank_1767664271770_686",
+      "title": "橫山社會福利服務中心",
+      "type": "care_action",
+      "subtype": "food_bank",
+      "description": "[實物銀行] 位於新竹縣橫山鄉永昌街53號的在地服務資源。",
+      "phone": "-35933232",
+      "address": "新竹縣橫山鄉永昌街53號",
+      "time": "週一至週五08:00-17:30",
+      "tags": [
+        "食物銀行",
+        "物資發放",
+        "社會救助"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "弱勢家庭"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [
+      {
+        "id": "alert_1767667268450_1",
+        "type": "rain",
+        "level": "medium",
+        "title": "山區豪雨特報",
+        "description": "午後易有雷陣雨，山區道路請小心落石，非必要請勿前往溪邊戲水。",
+        "date": "2026/1/6"
+      }
+    ],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

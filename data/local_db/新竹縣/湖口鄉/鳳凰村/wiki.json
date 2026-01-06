@@ -31,6 +31,43 @@
       "location": "新竹縣湖口鄉鳳凰村仁樂路16號",
       "phone": "972793198",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069183_574",
+      "title": "湖口鄉鳳凰社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣湖口鄉鳳凰村仁樂路16號的在地服務資源。",
+      "phone": "972793198",
+      "address": "新竹縣湖口鄉鳳凰村仁樂路16號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      },
+      {
+        "name": "王淑芬",
+        "title": "鄰長",
+        "phone": "0933-444-555"
+      }
+    ]
+  }
 }

@@ -48,7 +48,7 @@ const CommunityItemCard: React.FC<CommunityItemCardProps> = ({
                 return null;
             case 'project':
             case 'care_action':
-                if (data.status) {
+                if (data.status && data.status !== 'ongoing') {
                     const colorClass = data.status === 'completed' || data.status === 'active' ? 'bg-emerald-500' : 'bg-amber-500';
                     return (
                         <div className="absolute top-2 right-2">

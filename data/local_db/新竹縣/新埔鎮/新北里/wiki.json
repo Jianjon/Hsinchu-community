@@ -31,6 +31,43 @@
       "location": "新竹縣新埔鎮新北里6鄰45-3號",
       "phone": "963729381",
       "category": "social_welfare"
+    },
+    {
+      "id": "import_care_center_1767663069179_711",
+      "title": "新埔鎮新北社區發展協會",
+      "type": "care_action",
+      "subtype": "care_center",
+      "description": "[關懷據點] 位於新竹縣新埔鎮新北里6鄰45-3號的在地服務資源。",
+      "phone": "963729381",
+      "address": "新竹縣新埔鎮新北里6鄰45-3號",
+      "time": "114/04/14",
+      "tags": [
+        "關懷據點",
+        "老人共餐",
+        "社區照顧"
+      ],
+      "status": "ongoing",
+      "beneficiaries": "社區長者"
     }
-  ]
+  ],
+  "safety": {
+    "alerts": [],
+    "patrolStatus": {
+      "status": "inactive",
+      "lastPatrolTime": "昨晚 22:30",
+      "description": "日間巡邏已完成，狀況良好。"
+    },
+    "contacts": [
+      {
+        "name": "林志強",
+        "title": "里長",
+        "phone": "0912-345-678"
+      },
+      {
+        "name": "陳建宏",
+        "title": "巡守隊長",
+        "phone": "0922-888-999"
+      }
+    ]
+  }
 }

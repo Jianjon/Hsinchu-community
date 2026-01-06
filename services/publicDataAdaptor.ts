@@ -1,9 +1,25 @@
 import { getAllVillageRecords } from './localDatabase';
 import { PublicCommunity, PublicProject, PublicEvent, PublicPerson, MOCK_COMMUNITIES } from '../data/mock_public';
 import { calculatePolygonCentroid } from './geoUtils';
+import { getFirestore, collection, getDocs, Firestore } from 'firebase/firestore';
+import { app, initFirebase } from './firebase'; // Import initFirebase to ensure connection
+import { CommunityWikiData } from '../types';
 // Imports removed to prevent bundling large JSONs
 // import villageGeoData from '../data/public_hsinchu_villages.json';
 // import villageCityGeoData from '../data/public_hsinchu_city_villages.json';
+
+// Lazy Firestore initialization to avoid "null container" error
+let _db: Firestore | null = null;
+const getDb = (): Firestore | null => {
+    if (!_db && app) {
+        try {
+            _db = getFirestore(app);
+        } catch (e) {
+            console.warn('[publicDataAdaptor] Firestore not available:', e);
+        }
+    }
+    return _db;
+};
 
 // Type definition for the imported GeoJSON
 interface GeoJSONFeature {
@@ -27,30 +43,87 @@ interface GeoJSONFeature {
 // Leaflet supports MultiPolygon as [ [[lat,lng],..], [[lat,lng],..] ] (Array of Polygons)
 // Coordinates in GeoJSON MultiPolygon: [ [ [lng,lat],... ], ... ] (Array of Polygons, where Polygon is Array of Rings)
 const processGeometry = (geometry: any): { boundary: [number, number][], center: [number, number] } => {
-    let coords: [number, number][] = [];
+    try {
+        let coords: [number, number][] = [];
 
-    if (geometry.type === 'Polygon') {
-        // Polygon: [ [lng, lat], ... ] (Outer ring is index 0)
-        coords = geometry.coordinates[0].map((p: any) => [p[1], p[0]]);
-    } else if (geometry.type === 'MultiPolygon') {
-        // MultiPolygon: Find largest polygon by length as primary boundary for prototype simplicity
-        // Or specific logic. For now, take the first polygon's outer ring.
-        // Usually index 0 is the main landmass.
-        coords = geometry.coordinates[0][0].map((p: any) => [p[1], p[0]]);
+        if (geometry.type === 'Polygon') {
+            // Polygon: [ [lng, lat], ... ] (Outer ring is index 0)
+            if (geometry.coordinates && geometry.coordinates[0]) {
+                coords = geometry.coordinates[0].map((p: any) => [p[1], p[0]]);
+            }
+        } else if (geometry.type === 'MultiPolygon') {
+            // MultiPolygon: Find largest polygon or take first
+            if (geometry.coordinates && geometry.coordinates[0] && geometry.coordinates[0][0]) {
+                coords = geometry.coordinates[0][0].map((p: any) => [p[1], p[0]]);
+            }
+        }
+
+        if (coords.length === 0) {
+            console.warn('[processGeometry] Empty coordinates found');
+            return { boundary: [], center: [24.8, 121.0] }; // Fallback
+        }
+
+        const center = calculatePolygonCentroid(coords);
+        return { boundary: coords, center };
+    } catch (e) {
+        console.error('[processGeometry] Error processing geometry:', e, geometry);
+        return { boundary: [], center: [24.8, 121.0] };
     }
-
-    const center = calculatePolygonCentroid(coords);
-    return { boundary: coords, center };
 };
 
 export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
     try {
         const dbRecords = await getAllVillageRecords();
-        // Fetch data at runtime
-        const [villageGeoData, villageCityGeoData] = await Promise.all([
-            fetch('/data/public_hsinchu_villages.json').then(res => res.json()),
-            fetch('/data/public_hsinchu_city_villages.json').then(res => res.json())
+
+        console.log("🚀 [API] Starting to fetch GeoJSON and Firestore data...");
+
+        // Fetch GeoJSON and Firestore data in parallel
+        const [villageGeoData, villageCityGeoData, firestoreSnap] = await Promise.all([
+            fetch('/data/public_hsinchu_villages.json').then(res => {
+                if (!res.ok) throw new Error(`Failed hsinchu_villages: ${res.status}`);
+                console.log("✅ [API] Fetched hsinchu_villages");
+                return res.json();
+            }),
+            fetch('/data/public_hsinchu_city_villages.json').then(res => {
+                if (!res.ok) throw new Error(`Failed hsinchu__city_villages: ${res.status}`);
+                console.log("✅ [API] Fetched hsinchu_city_villages");
+                return res.json();
+            }),
+            // Fetch persisted village data from Firestore
+            (async () => {
+                let db = getDb();
+                if (!db) {
+                    console.log('🔄 [API] Firebase not ready, attempting auto-init...');
+                    initFirebase();
+                    db = getDb();
+                }
+
+                if (!db) {
+                    console.warn('⚠️ [API] Firestore STILL not initialized after retry, skipping persistence.');
+                    return null;
+                }
+                try {
+                    console.log('🚀 [API] Fetching Firestore "villages" collection...');
+                    return await getDocs(collection(db, 'villages'));
+                } catch (e) {
+                    console.error('⚠️ [API] Failed to fetch Firestore villages:', e);
+                    return null;
+                }
+            })()
         ]);
+
+        // Build a map of persisted village data from Firestore
+        const firestoreData: Record<string, any> = {};
+        if (firestoreSnap) {
+            firestoreSnap.forEach(doc => {
+                firestoreData[doc.id] = doc.data();
+            });
+            console.log(`✅ [API] Loaded ${Object.keys(firestoreData).length} villages from Firestore. Keys:`, Object.keys(firestoreData).slice(0, 3));
+        } else {
+            console.warn('⚠️ [API] firestoreSnap is null, no persisted data loaded.');
+        }
+
+        console.log(`📦 [API] GeoJSON Loaded. Counties: ${(villageGeoData as any).features?.length}, Cities: ${(villageCityGeoData as any).features?.length}`);
 
         const features = [
             ...(villageGeoData as any).features,
@@ -146,6 +219,11 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
                     };
                 }
 
+                // CRITICAL FIX: Always sync realtime care actions from mock data, even if DB record exists
+                if (mock && mock.careActions) {
+                    comm.careActions = mock.careActions;
+                }
+
                 // If we also have DB facilities, we might want to merge them, 
                 // but the user requested to CLEAR AI index, so we should prefer the wiki.facilities (empty)
                 // if it came from our clean local_db.
@@ -177,51 +255,98 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
                 // Keep Real Location/Boundary though!
             }
 
-            // --- AUTO-GENERATE MOCK CONTENT FOR DEMO (If empty) ---
-            if (comm.travelSpots.length === 0) {
-                comm.travelSpots.push({
-                    id: `travel_${comm.id}`,
-                    name: `${comm.name}私房景點 (AI推薦)`,
-                    description: `[AI自動生成遊程預覽]\n探索${comm.name}的隱藏秘境，感受${comm.district}的獨特風情。此處適合午後散步與拍照。\n\n🔗 [Google Map 導航](#)\n🔗 [部落格遊記連結](#)`,
-                    location: [comm.location[0] + 0.002, comm.location[1] + 0.002],
-                    tags: ["輕旅行", "打卡熱點"],
-                    photo: "https://images.unsplash.com/photo-1542051841857-5f90071e7989"
-                });
+            /*
+            // UNIVERSAL BEILUN FIX: Apply outside of if/else to always run for Beilun Li
+            // DEBUG: Log all communities being processed
+            console.log(`[DataAdaptor] Processing: ${comm.name} in ${comm.district}`);
+            if (comm.name && comm.name.includes('北崙') && comm.district && comm.district.includes('竹北')) {
+                console.log('[DataAdaptor] ✅ MATCH FOUND: 北崙里 - Injecting Care Point!');
+                // Prepend local care point to existing array (from mock), don't overwrite
+                const localCarePoint = {
+                    id: 'care-point-beilun',
+                    title: '竹北市北崙社區發展協會 (據點)',
+                    type: 'care_action',
+                    area: '竹北市北崙里',
+                    address: '竹北市北崙里博愛街 27-16 號',
+                    location: [24.8385, 121.0050] as [number, number], // 竹北市北崙里博愛街正確座標
+                    phone: '0966-830668',
+                    time: '每週五次供餐',
+                    status: 'ongoing' as const,
+                    description: '北崙里社區關懷據點，提供在地長者五天完整共餐與關懷服務。',
+                    beneficiaries: '65歲以上里民',
+                    sdgs: [3, 11],
+                    tags: ['社區共餐', '長者關懷']
+                };
+                // Check if already exists to avoid duplicates
+                if (!comm.careActions?.find((c: any) => c.id === 'care-point-beilun')) {
+                    comm.careActions = [localCarePoint, ...(comm.careActions || [])];
+                }
+            }
+            */
+
+            // ==========================================
+            // FINAL PRIORITY: Firestore Persisted Data
+            // ==========================================
+            // If this village has saved data in Firestore, use it as the source of truth
+            const persisted = firestoreData[id];
+            if (persisted) {
+                console.log(`[DataAdaptor] 🔥 Found Firestore data for ${id}`);
+
+                // Override ALL content arrays with persisted versions if they exist
+                if (persisted.careActions) {
+                    console.log(`[DataAdaptor] 📥 Loading ${persisted.careActions.length} careActions from Firestore for ${id}`);
+                    comm.careActions = persisted.careActions;
+                }
+                if (persisted.travelSpots) {
+                    comm.travelSpots = persisted.travelSpots;
+                }
+                if (persisted.communityBuildings) {
+                    comm.communityBuildings = persisted.communityBuildings;
+                }
+                if (persisted.cultureHeritages) {
+                    comm.cultureHeritages = persisted.cultureHeritages;
+                }
+                if (persisted.events) {
+                    comm.events = persisted.events;
+                }
+                if (persisted.people) {
+                    comm.people = persisted.people;
+                }
+                if (persisted.projects) {
+                    comm.projects = persisted.projects;
+                }
+
+                // Override metadata if persisted
+                if (persisted.description) comm.description = persisted.description;
+                if (persisted.tags) comm.tags = persisted.tags;
+                if (persisted.chief) comm.chief = persisted.chief;
+                if (persisted.population) comm.population = persisted.population;
+
+                // Merge wiki data if present
+                // Merge wiki data if present - STRICT PRIORITY
+                if (persisted.wiki) {
+                    console.log(`[DataAdaptor] 🧬 Merging Firestore Wiki for ${id}`, persisted.wiki);
+                    comm.wiki = {
+                        ...comm.wiki,       // Base defaults from Mock (if any)
+                        ...persisted.wiki,  // OVERRIDE with Firestore data
+                        _source: 'firestore' // explicit flag
+                    };
+                } else if (persisted.introduction || persisted.facilities) {
+                    // Legacy migration case: flat fields on village document
+                    comm.wiki = {
+                        ...comm.wiki,
+                        ...persisted,
+                        _source: 'firestore_legacy'
+                    };
+                }
             }
 
-            if (comm.events.length === 0) {
-                comm.events.push({
-                    id: `evt_${comm.id}`,
-                    title: `${comm.name}週末市集`,
-                    date: "2024-12-25",
-                    time: "09:00",
-                    location: `${comm.name}集會所廣場`,
-                    description: `[即時活動]\n本週${comm.name}舉辦社區交流市集，歡迎共襄盛舉。\n\n🔗 [活動報名連結](#)`,
-                    type: "market"
-                });
-            }
+            // AUTO-GENERATE MOCK CONTENT REMOVED to ensure only real data is shown
+            // if (comm.travelSpots.length === 0) { ... }
 
-            if (comm.communityBuildings.length === 0) {
-                comm.communityBuildings.push({
-                    id: `bld_${comm.id}`,
-                    name: `${comm.name}社區活動中心`,
-                    description: `[地方建設]\n本社區重要的公共活動空間，提供長輩照護與青少年共學課程。`,
-                    category: 'care_center',
-                    location: [comm.location[0] - 0.002, comm.location[1] + 0.002],
-                    tags: ["公共空間", "長輩照顧"]
-                });
-            }
-
-            if (comm.cultureHeritages.length === 0) {
-                comm.cultureHeritages.push({
-                    id: `cul_${comm.id}`,
-                    name: `${comm.name}百年伯公廟`,
-                    description: `[文化資產]\n見證社區開發超過百年的歷史建築，是居民信仰的中心與情感連結。`,
-                    category: 'temple',
-                    location: [comm.location[0] + 0.002, comm.location[1] - 0.002],
-                    tags: ["信仰中心", "歷史建築"]
-                });
-            }
+            // AUTO-GENERATE MOCK CONTENT REMOVED to ensure only real data is shown
+            // if (comm.events.length === 0) { ... }
+            // if (!comm.careActions || comm.careActions.length === 0) { ... }
 
             return comm;
         });
@@ -229,8 +354,17 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
         return communities;
 
     } catch (error) {
-        console.error("Failed to load public data:", error);
-        return MOCK_COMMUNITIES;
+        console.error("❌ [API] Failed to load public data:", error);
+
+        // Critical Fallback: Try to construct minimal viable data from MOCK if fetch fails
+        // This ensures the map isn't empty even if JSONs create 404 or Parse Error
+        console.warn("⚠️ [API] Switching to Emergency Mock Data Mode");
+        return MOCK_COMMUNITIES.map(m => ({
+            ...m,
+            // Mock a boundary if missing so it renders something? 
+            // Actually MOCK_COMMUNITIES usually have no boundary. 
+            // Let's at least return them so the list sidebar works.
+        }));
     }
 };
 

@@ -10,15 +10,35 @@ import { AnalysisResult, LocationData } from "../types";
 // 🔴 USER CONFIGURATION AREA 🔴
 // 請將您的 Firebase Config 貼在下方物件中
 // ==========================================
-const getFirebaseConfig = () => ({
-  apiKey: "AIzaSyA3hJYv8ZNYPRmXxeSpXaS6x75WPM4JsRk",
-  authDomain: "country-analyst-ai.firebaseapp.com",
-  projectId: "country-analyst-ai",
-  storageBucket: "country-analyst-ai.firebasestorage.app",
-  messagingSenderId: "616755013100",
-  appId: "1:616755013100:web:64d8784658f30d7d33ccc9",
-  measurementId: "G-WKM127P92L"
-});
+const getFirebaseConfig = () => {
+  // 1. Try to read from Environment Variables
+  const envConfig = {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  };
+
+  // 2. If Project ID is missing, fallback to the original Demo Config
+  if (!envConfig.projectId) {
+    console.warn("[Firebase] No VITE_FIREBASE_PROJECT_ID found. Reverting to DEMO 'country-analyst-ai' config.");
+    return {
+      // 🔴 CRITICAL FIX: Use the original Demo Key for Auth, NOT the user's new AI Key
+      apiKey: "AIzaSyDlbVAeyH1uKQn2EezjiRNK0LnngBx81zQ",
+      authDomain: "country-analyst-ai.firebaseapp.com",
+      projectId: "country-analyst-ai",
+      storageBucket: "country-analyst-ai.firebasestorage.app",
+      messagingSenderId: "616755013100",
+      appId: "1:616755013100:web:64d8784658f30d7d33ccc9",
+      measurementId: "G-WKM127P92L"
+    };
+  }
+
+  return envConfig;
+};
 
 
 
@@ -36,9 +56,11 @@ export const initFirebase = (config: any = null) => {
     const configToUse = config || envConfig;
 
     if (!configToUse.apiKey) {
-      console.warn("No Firebase API Key found. Please run 'scripts/fetch_secrets.ps1' or check .env.local");
+      console.warn("No Firebase API Key found. Please check .env.local");
       return false;
     }
+
+    console.log(`[Firebase] Initializing with Project Code: ${configToUse.projectId || 'UNKNOWN'}`);
 
     app = initializeApp(configToUse);
     db = getFirestore(app);

@@ -2,46 +2,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { db, auth } from '../services/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { authService } from '../services/authService';
+import { UserProfile, UserRole, UserIdentity } from '../types';
 
-export type UserRole = 'resident' | 'admin' | 'guest';
+import { UserContext, UserContextType } from './UserContextInstance';
 
-export interface UserIdentity {
-    organization: string;
-    title: string;
-}
-
-export interface UserProfile {
-    id: string;
-    name: string;
-    email?: string;
-    identities: UserIdentity[]; // Structured identities
-    township?: string;
-    village?: string;
-    avatar?: string;
-    coverImage?: string;
-    coverImagePosition?: { x: number; y: number };
-    coverImageScale?: number;
-    points: number;
-    joinedDate: string;
-    bio?: string;
-    role: UserRole; // Now mandatory for RBAC
-}
-
-interface UserContextType {
-    user: UserProfile | null;
-    isLoggedIn: boolean;
-    showLoginOverlay: boolean;
-    setLoginOverlay: (open: boolean) => void;
-    login: (name?: string) => void;
-    logout: () => void;
-    updateProfile: (updates: Partial<UserProfile>) => void;
-    addPoints: (amount: number) => void;
-    visualMode: 'standard' | 'senior';
-    setVisualMode: (mode: 'standard' | 'senior') => void;
-}
-
-const UserContext = createContext<UserContextType | undefined>(undefined);
+// Admin email whitelist - add your admin emails here
+const ADMIN_EMAILS = [
+    'jonchang@localexp.co',
+    'admin@localexp.co',
+    'jonchang1980@gmail.com',
+    'jonchaung@gmail.com',
+    'jianchaung@gmail.com',
+    // Add more admin emails as needed
+];
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserProfile | null>(null);
@@ -78,11 +51,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 // Verification gating is handled at the feature level (e.g. AnalystTool).
                 let userProfile: UserProfile | null = null;
 
+                // Determine if user should be admin based on email whitelist
+                const isAdminEmail = ADMIN_EMAILS.includes(firebaseUser.email?.toLowerCase() || '');
+
                 if (db) {
                     const docRef = doc(db, 'users', firebaseUser.uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         userProfile = docSnap.data() as UserProfile;
+                        // Update role if email is in admin whitelist but role isn't admin
+                        if (isAdminEmail && userProfile.role !== 'admin') {
+                            userProfile.role = 'admin';
+                            await setDoc(docRef, { role: 'admin' }, { merge: true });
+                            console.log('Admin role auto-assigned for:', firebaseUser.email);
+                        }
                     } else {
                         // First time login (new user registration happened)
                         userProfile = {
@@ -92,7 +74,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             identities: [],
                             points: 0,
                             joinedDate: new Date().toISOString().split('T')[0],
-                            role: 'resident'
+                            role: isAdminEmail ? 'admin' : 'resident'
                         };
                         // Save to Firestore
                         await setDoc(docRef, userProfile);
@@ -123,8 +105,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = async () => {
         if (auth) {
             try {
-                const { signOut } = await import('firebase/auth');
-                await signOut(auth);
+                const { authService } = await import('../services/authService');
+                await authService.logout();
             } catch (error) {
                 console.error("Logout Error:", error);
             }
@@ -155,9 +137,76 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const updated = { ...user, points: user.points + amount };
         setUser(updated);
         localStorage.setItem('village_user', JSON.stringify(updated));
+        // Sync points to Firestore
+        if (db) {
+            setDoc(doc(db, 'users', user.id), { points: updated.points }, { merge: true });
+        }
     };
 
+    const recordVisit = async (villageId: string, cityName: string, villageName: string) => {
+        if (!user || user.id === 'guest_user') return;
+
+        const now = Date.now();
+        const visitItem = { id: villageId, name: `${cityName}${villageName}`, time: now };
+
+        // 1. Update Recently Viewed (Keep top 5 unique, most recent first)
+        let recent = [...(user.recentlyViewed || [])];
+        // Remove if already exists
+        recent = recent.filter(item => item.id !== villageId);
+        // Add to front
+        recent.unshift(visitItem);
+        // Limit to 5
+        recent = recent.slice(0, 5);
+
+        // 2. Check Achievements
+        const achievements = [...(user.achievements || [])];
+        if (recent.length >= 5 && !achievements.includes('explorer')) {
+            achievements.push('explorer');
+        }
+
+        await updateProfile({
+            recentlyViewed: recent,
+            achievements: achievements
+        });
+    };
+
+    // Auto-check achievement for favorites (run whenever user changed)
+    useEffect(() => {
+        if (user && user.id !== 'guest_user') {
+            const achievements = [...(user.achievements || [])];
+            if ((user.favorites || []).length >= 3 && !achievements.includes('pioneer')) {
+                achievements.push('pioneer');
+                updateProfile({ achievements });
+            }
+        }
+    }, [user?.favorites?.length]);
+
     const setLoginOverlay = (open: boolean) => setShowLoginOverlay(open);
+
+    // NEW: Allow manual login for Guest/Fallback scenarios
+    // Also applies admin whitelist check
+    const bypassLogin = (forcedUser: UserProfile) => {
+        // Check admin whitelist
+        const email = forcedUser.email?.toLowerCase() || '';
+        const isAdminEmail = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email);
+
+        if (isAdminEmail && forcedUser.role !== 'admin') {
+            forcedUser.role = 'admin';
+            console.log('[bypassLogin] Admin role auto-assigned for:', email);
+
+            // Also update Firestore if we have the user ID
+            if (db && forcedUser.id && forcedUser.id !== 'guest_user') {
+                setDoc(doc(db, 'users', forcedUser.id), { role: 'admin' }, { merge: true })
+                    .then(() => console.log('Firestore role updated to admin'))
+                    .catch(err => console.error('Failed to update Firestore role:', err));
+            }
+        }
+
+        setUser(forcedUser);
+        setIsLoggedIn(true);
+        localStorage.setItem('village_user', JSON.stringify(forcedUser));
+        setShowLoginOverlay(false);
+    };
 
     return (
         <UserContext.Provider value={{
@@ -169,18 +218,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             logout,
             updateProfile,
             addPoints,
+            recordVisit,
             visualMode,
-            setVisualMode
+            setVisualMode,
+            bypassLogin // Exposed
         }}>
             {children}
         </UserContext.Provider>
     );
 };
 
-export const useUser = () => {
-    const context = useContext(UserContext);
-    if (context === undefined) {
-        throw new Error('useUser must be used within a UserProvider');
-    }
-    return context;
-};
+export { useUser } from '../hooks/useUser';
