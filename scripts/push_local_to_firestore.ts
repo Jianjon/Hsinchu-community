@@ -26,13 +26,13 @@ if (fs.existsSync(ENV_PATH)) {
 
 // 2. Build Config Object
 const firebaseConfig = {
-    apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyDlbVAeyH1uKQn2EezjiRNK0LnngBx81zQ",
-    authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "country-analyst-ai.firebaseapp.com",
-    projectId: env.VITE_FIREBASE_PROJECT_ID || "country-analyst-ai",
-    storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "country-analyst-ai.firebasestorage.app",
-    messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "616755013100",
-    appId: env.VITE_FIREBASE_APP_ID || "1:616755013100:web:64d8784658f30d7d33ccc9",
-    measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-WKM127P92L"
+    apiKey: env.VITE_FIREBASE_API_KEY,
+    authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.VITE_FIREBASE_APP_ID,
+    measurementId: env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 console.log(`[Firebase] Initializing project: ${firebaseConfig.projectId}`);

@@ -1,14 +1,50 @@
 [
   {
-    "title": "東海里中秋聯歡晚會",
-    "date": "2026-09-25",
-    "time": "18:00",
-    "location": "東海里集會所前廣場",
-    "type": "ceremony",
-    "description": "一年一度的中秋晚會，備有豐富摸彩品與表演。",
+    "id": "evt-新竹縣-竹北市-東海里-0",
+    "title": "銀髮族健康促進講座",
+    "description": "邀請專業講師分享樂齡運動與營養知識，現場提供血壓測量與健康諮詢。",
+    "date": "2026-01-15",
+    "time": "14:00 - 16:00",
+    "location": "東海里活動中心",
     "tags": [
-      "節慶",
-      "聚會"
-    ]
+      "健康講座",
+      "樂齡關懷"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=800&auto=format&fit=crop",
+    "likes": 16,
+    "comments": 1,
+    "shares": 2
+  },
+  {
+    "id": "evt-新竹縣-竹北市-東海里-1",
+    "title": "社區環境清潔日",
+    "description": "維護家園整潔，從你我做起。歡迎各位鄰里攜手合作，共同清理公共區域，營造宜居環境。",
+    "date": "2026-01-24",
+    "time": "08:00 - 11:00",
+    "location": "東海里活動中心",
+    "tags": [
+      "環境服務",
+      "志工回饋"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
+    "likes": 3,
+    "comments": 4,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹縣-竹北市-東海里-2",
+    "title": "資源回收與物資再利用",
+    "description": "推廣零浪費生活，現場提供二手物交換平台與專業分類指導，參與者可獲得精美小禮。",
+    "date": "2026-02-01",
+    "time": "09:00 - 12:00",
+    "location": "東海里活動中心",
+    "tags": [
+      "環保議題",
+      "永續發展"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop",
+    "likes": 1,
+    "comments": 0,
+    "shares": 1
   }
 ]

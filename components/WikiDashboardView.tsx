@@ -33,7 +33,7 @@ const WikiDashboardView: React.FC<WikiDashboardViewProps> = ({
     onDeleteItem,
     onLocate
 }) => {
-    console.log('Wiki Data:', wiki);
+    // console.log('Wiki Data:', wiki);
     const { user } = useUser();
     const canEdit = isEditMode && user?.role === 'admin';
 
@@ -259,7 +259,7 @@ const WikiDashboardView: React.FC<WikiDashboardViewProps> = ({
 
                             {/* Segment 2: History & Culture */}
                             <div className="relative">
-                                {(() => { console.log('[WikiDashboard] Rendering History Section. Data:', wiki.intro_history); return null; })()}
+                                {null /* Cleaned up console log */}
                                 <h3 className="text-xl font-black text-slate-800 flex items-center gap-3 mb-6">
                                     <div className="w-1.5 h-6 bg-orange-400 rounded-full shadow-[0_0_10px_rgba(251,146,60,0.5)]" />
                                     歷史與人文特色

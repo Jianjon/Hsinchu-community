@@ -275,6 +275,7 @@ export const enrichCommunityData = (communities: PublicCommunity[]) => {
             });
         }
 
+
         // ASSEMBLE: Combine existing actions with new injected ones
         // Ensure we don't duplicate if already present (based on ID)
         const existingIds = new Set((community.careActions || []).map(a => a.id));
@@ -282,5 +283,52 @@ export const enrichCommunityData = (communities: PublicCommunity[]) => {
         const newActions = [...localActions, ...regionalActions, ...globalActions].filter(a => !existingIds.has(a.id));
 
         community.careActions = [...(community.careActions || []), ...newActions];
+
+        // 3. INJECT REAL-TIME WIDGET DATA (Simulated)
+        // Transport
+        community.transportation = {
+            bus: [
+                {
+                    stationName: '公道五路站',
+                    destination: '新莊車站',
+                    estimateTime: Math.floor(Math.random() * 15) + 2, // Random 2-17 mins
+                    status: 'normal'
+                },
+                {
+                    stationName: '社區活動中心',
+                    destination: '新竹火車站',
+                    estimateTime: Math.floor(Math.random() * 20) + 5,
+                    status: 'delay'
+                }
+            ],
+            ubike: [
+                {
+                    stationName: `${community.name}活動中心`,
+                    availableBikes: Math.floor(Math.random() * 20),
+                    totalSpaces: 30,
+                    status: 'normal'
+                }
+            ]
+        };
+
+        // Sustainability
+        const carbonTarget = 500;
+        const currentCarbon = Math.floor(Math.random() * 300) + 200; // 200-500
+        community.sustainabilityStats = {
+            carbonReduction: {
+                current: currentCarbon,
+                target: carbonTarget,
+                trend: currentCarbon > 350 ? 'up' : 'stable'
+            },
+            recycling: {
+                total: Math.floor(Math.random() * 100) + 350, // 350-450 kg
+                unit: 'kg'
+            },
+            powerSaving: {
+                efficiency: Math.floor(Math.random() * 15) + 5, // 5-20%
+                trend: 'up'
+            },
+            streakMonths: Math.floor(Math.random() * 5) + 1
+        };
     });
 };

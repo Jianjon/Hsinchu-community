@@ -1,14 +1,50 @@
 [
   {
-    "title": "香村里中秋聯歡晚會",
-    "date": "2026-09-25",
-    "time": "18:00",
-    "location": "香村里集會所前廣場",
-    "type": "ceremony",
-    "description": "一年一度的中秋晚會，備有豐富摸彩品與表演。",
+    "id": "evt-新竹市-香山區-香村里-0",
+    "title": "社區環境清潔日",
+    "description": "維護家園整潔，從你我做起。歡迎各位鄰里攜手合作，共同清理公共區域，營造宜居環境。",
+    "date": "2026-01-15",
+    "time": "08:00 - 11:00",
+    "location": "香村里活動中心",
     "tags": [
-      "節慶",
-      "聚會"
-    ]
+      "環境服務",
+      "志工回饋"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
+    "likes": 6,
+    "comments": 0,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹市-香山區-香村里-1",
+    "title": "資源回收與物資再利用",
+    "description": "推廣零浪費生活，現場提供二手物交換平台與專業分類指導，參與者可獲得精美小禮。",
+    "date": "2026-01-21",
+    "time": "09:00 - 12:00",
+    "location": "香村里活動中心",
+    "tags": [
+      "環保議題",
+      "永續發展"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop",
+    "likes": 5,
+    "comments": 1,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹市-香山區-香村里-2",
+    "title": "社區幸福共餐日",
+    "description": "一人一菜或是由志工媽媽掌勺，大家齊聚一堂分享美食與日常，溫暖社區每個角落。",
+    "date": "2026-01-29",
+    "time": "11:30 - 13:30",
+    "location": "香村里活動中心",
+    "tags": [
+      "共餐活動",
+      "鄰里連結"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=800&auto=format&fit=crop",
+    "likes": 12,
+    "comments": 1,
+    "shares": 2
   }
 ]

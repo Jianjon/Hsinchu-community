@@ -154,9 +154,9 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
             const { id, reason } = pendingSaveRef.current;
             // Only save if the community ID matches what we're expecting
             if (localCommunity.id === id) {
-                console.log('[CommunityPopOut] 🔄 Auto-save triggered:', reason, 'careActions count:', localCommunity.careActions?.length);
+                // console.log('[CommunityPopOut] 🔄 Auto-save triggered:', reason, 'careActions count:', localCommunity.careActions?.length);
                 onUpdate(id, localCommunity);
-                console.log('[CommunityPopOut] ✅ Auto-saved to Firestore:', reason);
+                // console.log('[CommunityPopOut] ✅ Auto-saved to Firestore:', reason);
             }
             // Clear the pending save
             pendingSaveRef.current = null;
@@ -360,7 +360,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
 
         // Mark pending save - will be handled by useEffect when state is updated
         pendingSaveRef.current = { id: localCommunity.id, reason: `created:${newId}` };
-        console.log('[CommunityPopOut] 📝 Created item, pending save set:', createModalChannel, newId);
+        // console.log('[CommunityPopOut] 📝 Created item, pending save set:', createModalChannel, newId);
 
         // Open detail view for the newly created item
         setTimeout(() => setSelectedItem({ type: newItemType, id: newId }), 0);
@@ -518,7 +518,10 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
             return (
                 <div className="flex flex-col h-full bg-slate-50">
                     <div className="flex-1 overflow-y-auto">
-                        <GlobalMixboardView community={community || undefined} />
+                        <GlobalMixboardView
+                            community={community || undefined}
+                            onNavigate={onNavigateToCommunity}
+                        />
                     </div>
                 </div>
             );
@@ -703,7 +706,7 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                         lng: (localCommunity || targetCommunity).location[1]
                     } : undefined
                 };
-                console.log('[CommunityPopOut] Rendering WikiDashboard, intro_history:', wiki.intro_history);
+                // console.log('[CommunityPopOut] Rendering WikiDashboard, intro_history:', wiki.intro_history);
                 return (
                     <WikiDashboardView
                         communityName={targetCommunity.name}
@@ -805,16 +808,26 @@ const CommunityPopOut: React.FC<CommunityPopOutProps> = ({
                 return (
                     <div className="flex-1 overflow-y-auto p-6" style={{ backgroundColor: '#FDFBF7' }}>
                         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
-                            {targetCommunity.careActions?.map(action => (
-                                <CommunityItemCard
-                                    key={action.id}
-                                    type="care_action"
-                                    data={action}
-                                    isEditMode={isEditMode}
-                                    onClick={() => setSelectedItem({ type: 'care_action', id: action.id })}
-                                    onDelete={() => handleDeleteItem('care_action', action.id)}
-                                />
-                            ))}
+                            {targetCommunity.careActions
+                                ?.filter(action => {
+                                    const title = action.title || '';
+                                    // Rule: Only keep "關懷據點" (Care Centers) and "食物銀行" (Food Banks)
+                                    // Explicitly exclude "協會" (Association) unless it's part of a Care Center name (which usually starts with "社區照顧關懷據點")
+                                    // But user said "no association", so typically we want the service, not the org.
+                                    // However, the data typically looks like "社區照顧關懷據點：XX社區發展協會". 
+                                    // So we simply check if it contains Key Words.
+                                    return title.includes('關懷據點') || title.includes('食物銀行');
+                                })
+                                .map(action => (
+                                    <CommunityItemCard
+                                        key={action.id}
+                                        type="care_action"
+                                        data={action}
+                                        isEditMode={isEditMode}
+                                        onClick={() => setSelectedItem({ type: 'care_action', id: action.id })}
+                                        onDelete={() => handleDeleteItem('care_action', action.id)}
+                                    />
+                                ))}
                         </div>
                     </div>
                 );

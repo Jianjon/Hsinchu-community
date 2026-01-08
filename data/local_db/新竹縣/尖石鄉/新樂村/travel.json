@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767755647498-7i4zl",
+    "name": "北得拉曼巨木步道",
+    "description": "台灣海拔最低的紅檜巨木群，也是泰雅族人的聖域。「迴音谷」峭壁地形壯觀，可俯瞰大新竹地區。步道兼具攀岩與森林浴樂趣。",
+    "tags": [
+      "神木",
+      "攀岩",
+      "展望"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop"
   }
 ]

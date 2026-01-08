@@ -13,5 +13,31 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767755647500-x9eph",
+    "name": "馬武督探索森林",
+    "description": "電影《綠光森林》拍攝地，擁有充滿靈氣的柳杉林。園區內有虹橋瀑布、馬武督瀑布，走在森林步道中享受滿滿芬多精。",
+    "tags": [
+      "森林浴",
+      "電影場景",
+      "瀑布",
+      "輕旅行",
+      "步道"
+    ],
+    "type": "nature",
+    "imageUrl": ""
+  },
+  {
+    "id": "trail-1767756566664-qs57s",
+    "name": "石牛山步道",
+    "description": "位於關西鎮錦山里，名列台灣小百岳。山頂有塊巨石酷似坐臥的石牛，登頂後展望絕佳，大壩尖山與石門水庫美景盡收眼底。",
+    "tags": [
+      "小百岳",
+      "展望",
+      "巨石"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop"
   }
 ]

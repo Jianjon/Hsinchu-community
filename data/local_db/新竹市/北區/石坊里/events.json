@@ -1,14 +1,50 @@
 [
   {
-    "title": "石坊里中秋聯歡晚會",
-    "date": "2026-09-25",
-    "time": "18:00",
-    "location": "石坊里集會所前廣場",
-    "type": "ceremony",
-    "description": "一年一度的中秋晚會，備有豐富摸彩品與表演。",
+    "id": "evt-新竹市-北區-石坊里-0",
+    "title": "社區幸福共餐日",
+    "description": "一人一菜或是由志工媽媽掌勺，大家齊聚一堂分享美食與日常，溫暖社區每個角落。",
+    "date": "2026-01-18",
+    "time": "11:30 - 13:30",
+    "location": "石坊里活動中心",
     "tags": [
-      "節慶",
-      "聚會"
-    ]
+      "共餐活動",
+      "鄰里連結"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=800&auto=format&fit=crop",
+    "likes": 11,
+    "comments": 4,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹市-北區-石坊里-1",
+    "title": "社區環境清潔日",
+    "description": "維護家園整潔，從你我做起。歡迎各位鄰里攜手合作，共同清理公共區域，營造宜居環境。",
+    "date": "2026-01-23",
+    "time": "08:00 - 11:00",
+    "location": "石坊里活動中心",
+    "tags": [
+      "環境服務",
+      "志工回饋"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
+    "likes": 15,
+    "comments": 2,
+    "shares": 2
+  },
+  {
+    "id": "evt-新竹市-北區-石坊里-2",
+    "title": "銀髮族健康促進講座",
+    "description": "邀請專業講師分享樂齡運動與營養知識，現場提供血壓測量與健康諮詢。",
+    "date": "2026-01-31",
+    "time": "14:00 - 16:00",
+    "location": "石坊里活動中心",
+    "tags": [
+      "健康講座",
+      "樂齡關懷"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=800&auto=format&fit=crop",
+    "likes": 6,
+    "comments": 0,
+    "shares": 2
   }
 ]

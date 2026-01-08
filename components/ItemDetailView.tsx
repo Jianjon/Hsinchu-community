@@ -657,13 +657,13 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
 
                 {/* 2. Main Layout - Conditional Inspector */}
                 <div className={`w-full max-w-7xl mx-auto px-4 md:px-8 pb-20 -mt-16 relative z-10`}>
-                    <div className="bg-white rounded-t-3xl md:rounded-3xl shadow-sm flex flex-col lg:flex-row min-h-[600px] overflow-hidden">
+                    <div className="bg-white rounded-t-3xl md:rounded-3xl shadow-sm flex flex-col lg:flex-row min-h-[600px] overflow-visible">
                         {/* Left Column: Content */}
                         <div className="flex-1 px-8 md:px-16 pt-12 pb-16">
                             {/* Icon Section (Notion Style) */}
-                            <div className="relative mb-6 z-20">
+                            <div className="relative mb-6 z-[60]">
                                 <div
-                                    className={`w-32 h-32 text-8xl flex items-center justify-center -mt-24 mb-4 group/icon transition-all duration-300 relative z-30 ${isEditMode ? 'cursor-pointer hover:scale-110 active:scale-95' : ''}`}
+                                    className={`w-32 h-32 text-8xl flex items-center justify-center -mt-24 mb-4 group/icon transition-all duration-300 relative z-[70] ${isEditMode ? 'cursor-pointer hover:scale-110 active:scale-95' : ''}`}
                                     onClick={() => isEditMode && setIsIconPickerOpen(!isIconPickerOpen)}
                                 >
                                     {data.icon || (type === 'event' ? '🗓️' : type === 'travel' ? '🗺️' : type === 'project' ? '💡' : type === 'culture' ? '🏛️' : type === 'care_action' ? '💝' : '📄')}
@@ -766,7 +766,7 @@ const ItemDetailView: React.FC<ItemDetailViewProps> = ({
                         </div>
 
                         {/* Right Column: Inspector */}
-                        <div className="hidden lg:block w-80 shrink-0 border-l border-slate-100 bg-slate-50/50 p-8 space-y-8">
+                        <div className="hidden lg:block w-80 shrink-0 border-l border-slate-100 bg-slate-50/50 lg:rounded-r-3xl p-8 space-y-8">
                             <div>
                                 <div>
                                     <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">屬性面板 (Inspector)</h3>

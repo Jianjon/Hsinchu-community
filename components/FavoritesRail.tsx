@@ -1,4 +1,4 @@
-import { Home, Star, Menu, User as UserIcon, MessageSquare, Info } from 'lucide-react';
+import { Home, Star, Menu, User as UserIcon, MessageSquare, Heart } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useUser } from '../hooks/useUser';
 
@@ -10,7 +10,7 @@ interface FavoritesRailProps {
     onSelectCommunity: (id: string) => void;
     onToggleSidebar: () => void;
     onOpenProfile: () => void;
-    onOpenAbout: () => void;
+    onOpenAssociationInfo: () => void;
     communities: Array<{ id: string; name: string; district: string }>;
 }
 
@@ -42,7 +42,7 @@ const FavoritesRail: React.FC<FavoritesRailProps> = ({
     onSelectCommunity,
     onToggleSidebar,
     onOpenProfile,
-    onOpenAbout,
+    onOpenAssociationInfo,
     communities
 }) => {
     const { favorites } = useFavorites();
@@ -73,7 +73,7 @@ const FavoritesRail: React.FC<FavoritesRailProps> = ({
 
     return (
         <div
-            className="w-[72px] flex flex-col items-center py-4 space-y-3 shrink-0 overflow-y-auto z-[1001]"
+            className="w-[72px] flex flex-col items-center py-4 space-y-3 shrink-0 h-full z-[1001]"
             style={{ backgroundColor: '#FDFBF7', borderRight: '1px solid rgba(141,170,145,0.2)' }}
         >
             {/* User Avatar / Login Inlet */}
@@ -161,50 +161,40 @@ const FavoritesRail: React.FC<FavoritesRailProps> = ({
             <div className="w-8 h-0.5 rounded-full" style={{ backgroundColor: 'rgba(141,170,145,0.2)' }} />
 
             {/* Favorite Communities */}
-            {favoriteCommunities.length > 0 ? (
-                favoriteCommunities.map(community => {
-                    const isActive = activeVillageId === community.id;
-                    const style = getDistrictStyle(community.district);
-                    return (
-                        <button
-                            key={community.id}
-                            onClick={() => onSelectCommunity(community.id)}
-                            className={`w-12 h-12 flex items-center justify-center transition-all duration-200 group relative font-sans-tc`}
-                            style={{
-                                backgroundColor: isActive ? style.active : style.bg,
-                                color: isActive ? 'white' : '#4A4A4A',
-                                borderRadius: isActive ? '16px' : '24px'
-                            }}
-                            title={`${community.district} ${community.name}`}
-                        >
-                            <span className="text-sm font-bold leading-tight">{getAvatar(community.name)}</span>
-                            {isActive && (
-                                <div className="absolute -left-1 w-1 h-8 bg-white rounded-r-full" />
-                            )}
-                        </button>
-                    );
-                })
-            ) : (
-                <div className="flex flex-col items-center gap-2 px-2 text-center" style={{ color: '#8B8B8B' }}>
-                    <Star className="w-5 h-5 opacity-50" />
-                    <span className="text-[10px] leading-tight font-sans-tc">
-                        收藏社區<br />會顯示在這
-                    </span>
-                </div>
-            )}
+            <div className="flex-1 w-full space-y-3 px-3 overflow-y-auto custom-scrollbar no-scrollbar pb-24">
+                {favoriteCommunities.length > 0 ? (
+                    favoriteCommunities.map(community => {
+                        const isActive = activeVillageId === community.id;
+                        const style = getDistrictStyle(community.district);
+                        return (
+                            <button
+                                key={community.id}
+                                onClick={() => onSelectCommunity(community.id)}
+                                className={`w-12 h-12 flex items-center justify-center transition-all duration-200 group relative font-sans-tc shrink-0`}
+                                style={{
+                                    backgroundColor: isActive ? style.active : style.bg,
+                                    color: isActive ? 'white' : '#4A4A4A',
+                                    borderRadius: isActive ? '16px' : '24px'
+                                }}
+                                title={`${community.district} ${community.name}`}
+                            >
+                                <span className="text-sm font-bold leading-tight">{getAvatar(community.name)}</span>
+                                {isActive && (
+                                    <div className="absolute -left-1 w-1 h-8 bg-white rounded-r-full" />
+                                )}
+                            </button>
+                        );
+                    })
+                ) : (
+                    <div className="flex flex-col items-center gap-2 px-2 text-center" style={{ color: '#8B8B8B' }}>
+                        <Star className="w-5 h-5 opacity-50" />
+                        <span className="text-[10px] leading-tight font-sans-tc">
+                            收藏社區<br />會顯示在這
+                        </span>
+                    </div>
+                )}
+            </div>
 
-            {/* Spacer to push About button to bottom */}
-            <div className="flex-1" />
-
-            {/* About Button */}
-            <button
-                onClick={onOpenAbout}
-                className="w-12 h-12 rounded-[24px] hover:rounded-[12px] flex items-center justify-center transition-all duration-200 mb-2 group relative"
-                style={{ backgroundColor: 'rgba(141,170,145,0.05)', color: '#6B6B6B' }}
-                title="關於本平台"
-            >
-                <Info className="w-5 h-5 opacity-70 group-hover:opacity-100" />
-            </button>
         </div>
     );
 };

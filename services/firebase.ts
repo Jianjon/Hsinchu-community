@@ -22,18 +22,17 @@ const getFirebaseConfig = () => {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
   };
 
-  // 2. If Project ID is missing, fallback to the original Demo Config
+  // 2. If Project ID is missing, we must NOT fallback to hardcoded secrets in public repo
   if (!envConfig.projectId) {
-    console.warn("[Firebase] No VITE_FIREBASE_PROJECT_ID found. Reverting to DEMO 'country-analyst-ai' config.");
+    console.warn("[Firebase] No VITE_FIREBASE_PROJECT_ID found. Please invoke with valid .env variables.");
     return {
-      // 🔴 CRITICAL FIX: Use the original Demo Key for Auth, NOT the user's new AI Key
-      apiKey: "AIzaSyDlbVAeyH1uKQn2EezjiRNK0LnngBx81zQ",
-      authDomain: "country-analyst-ai.firebaseapp.com",
-      projectId: "country-analyst-ai",
-      storageBucket: "country-analyst-ai.firebasestorage.app",
-      messagingSenderId: "616755013100",
-      appId: "1:616755013100:web:64d8784658f30d7d33ccc9",
-      measurementId: "G-WKM127P92L"
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: ""
     };
   }
 

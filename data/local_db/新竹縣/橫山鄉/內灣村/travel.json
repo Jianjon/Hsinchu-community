@@ -13,5 +13,19 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767756566666-001q5",
+    "name": "內灣南坪古道",
+    "description": "遊覽完內灣老街後的最佳去處。由此步道上山可居高臨下俯瞰內灣全景，沿途林相豐富，且與「大崎棟古道」相連。",
+    "tags": [
+      "老街",
+      "人文",
+      "慢跑",
+      "輕旅行",
+      "步道"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?q=80&w=800&auto=format&fit=crop"
   }
 ]

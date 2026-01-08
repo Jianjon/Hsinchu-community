@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767756566663-7tb90",
+    "name": "馬胎古道",
+    "description": "早期義興村與內灣的交通要道，步道林蔭茂密，沿途有百年茄苳樹與單索吊橋。終點可抵達義興教會，適合懷古踏青。",
+    "tags": [
+      "古道",
+      "懷古",
+      "森林"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop"
   }
 ]

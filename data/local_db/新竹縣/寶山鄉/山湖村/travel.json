@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767755647499-ie1iz",
+    "name": "寶山水庫環湖步道",
+    "description": "步道穿越兩座美麗的吊橋（寶湖吊橋、碧湖吊橋），湖水碧綠清幽。此處亦是賞桐花的秘境，四五月雪白桐花飄落湖面十分浪漫。",
+    "tags": [
+      "水庫",
+      "吊橋",
+      "桐花"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1433086566085-75239a239af5?q=80&w=800&auto=format&fit=crop"
   }
 ]

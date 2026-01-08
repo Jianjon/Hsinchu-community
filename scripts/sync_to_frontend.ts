@@ -16,6 +16,17 @@ async function main() {
         return;
     }
 
+    const CHIEF_LOCATIONS_FILE = path.resolve('data/chief_office_locations.json');
+    let chiefLocations: Record<string, [number, number]> = {};
+    try {
+        if (fs.existsSync(CHIEF_LOCATIONS_FILE)) {
+            chiefLocations = JSON.parse(fs.readFileSync(CHIEF_LOCATIONS_FILE, 'utf8'));
+            console.log(`📍 Loaded ${Object.keys(chiefLocations).length} chief office locations.`);
+        }
+    } catch (e) {
+        console.error("⚠️ Failed to load chief locations:", e);
+    }
+
     const cities = fs.readdirSync(LOCAL_DB_BASE);
     for (const city of cities) {
         if (city.startsWith('.')) continue;
@@ -52,6 +63,10 @@ async function main() {
                 // Construct PublicCommunity Object
                 const commId = `${city}_${district}_${village}`;
 
+                // Use precise location if available, otherwise fallback to random
+                const preciseLocation = chiefLocations[commId];
+                const finalLocation = preciseLocation || [24.8 + (Math.random() * 0.1), 121.0 + (Math.random() * 0.1)];
+
                 // Map 'wiki' population/features to top level if needed by some UI components, 
                 // but mostly keep it in 'wiki' object as per new schema.
 
@@ -62,15 +77,15 @@ async function main() {
                     district: district,
                     description: wiki.introduction || "暫無介紹",
                     tags: wiki.features || [],
-                    location: [24.8 + (Math.random() * 0.1), 121.0 + (Math.random() * 0.1)], // Mock location if not real
+                    location: finalLocation,
 
                     // Embedded Channels - CLEARED AS PER USER REQUEST (Allow manual entry only)
                     wiki: wiki,
-                    cultureHeritages: [], // culture,
-                    travelSpots: [], // travel,
-                    events: [], // events,
-                    projects: [], // projects,
-                    careActions: [], // care,
+                    cultureHeritages: culture,
+                    travelSpots: travel,
+                    events: events,
+                    projects: projects,
+                    careActions: care,
 
                     // Legacy/Root Fields for compatibility
                     chief: wiki.chief?.name,

@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767756566664-winbd",
+    "name": "鳳崎落日步道",
+    "description": "跨越新豐與竹北，地勢平緩。此處以「鳳崎晚霞」聞名，可遠眺新竹空軍基地與南寮漁港，落日之美曾名列全台八景。",
+    "tags": [
+      "晚霞",
+      "展望",
+      "親子"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop"
   }
 ]

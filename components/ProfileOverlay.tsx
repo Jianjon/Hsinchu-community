@@ -106,7 +106,7 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-xl rounded-[40px] shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar animate-in zoom-in-95 duration-300" style={{ backgroundColor: '#FDFBF7' }}>
+            <div className="relative w-full max-w-xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300" style={{ backgroundColor: '#FDFBF7' }}>
                 {/* Header Background - Customizable Cover */}
                 <div className="h-40 md:h-56 relative group/cover overflow-hidden bg-slate-100 shrink-0">
                     {isEditing ? (

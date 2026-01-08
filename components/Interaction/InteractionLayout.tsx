@@ -11,7 +11,7 @@ interface InteractionLayoutProps {
 }
 
 const InteractionLayout: React.FC<InteractionLayoutProps> = ({ villageId, villageName }) => {
-    const [activeChannelId, setActiveChannelId] = useState<string>('view_map'); // Default to Map View
+    const [activeChannelId, setActiveChannelId] = useState<string>('general'); // Default to General Chat
 
     const isHome = villageId === 'home';
     const activeChannel = MOCK_CHANNELS.find(c => c.id === activeChannelId) || MOCK_CHANNELS[0];

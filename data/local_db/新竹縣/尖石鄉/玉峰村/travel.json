@@ -13,5 +13,29 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767755647497-abpxh",
+    "name": "司馬庫斯巨木群步道",
+    "description": "通往「上帝的部落」司馬庫斯，沿途盡是原始森林與竹林。巨木群中最大的「大老爺」神木壯麗無比，此地亦是體驗泰雅文化的核心。",
+    "tags": [
+      "上帝的部落",
+      "巨木",
+      "原民文化"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    "id": "trail-1767755647499-inszh",
+    "name": "老鷹溪步道",
+    "description": "原始自然的山徑，沿途可見清澈見底的溪流與瀑布。步道終點的「裡埔瀑布」飛瀑輕揚，充滿负離子，沁涼舒爽。",
+    "tags": [
+      "溪流",
+      "瀑布",
+      "芬多精"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1433086566085-75239a239af5?q=80&w=800&auto=format&fit=crop"
   }
 ]

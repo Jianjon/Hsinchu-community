@@ -8,9 +8,10 @@ interface VillageFeedsWidgetProps {
     feeds?: FeedItem[];
     onLoadMore?: () => void;
     loading?: boolean;
+    onNavigate?: (id: string) => void;
 }
 
-const FeedCard: React.FC<{ item: FeedItem }> = ({ item }) => {
+const FeedCard: React.FC<{ item: FeedItem; onNavigate?: (id: string) => void }> = ({ item, onNavigate }) => {
     const navigate = useNavigate();
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(item.likes);
@@ -26,7 +27,13 @@ const FeedCard: React.FC<{ item: FeedItem }> = ({ item }) => {
             <div className="flex items-start justify-between mb-3">
                 <div
                     className="flex gap-3 cursor-pointer group"
-                    onClick={() => navigate(`/community/${item.communityId}`)}
+                    onClick={() => {
+                        if (onNavigate) {
+                            onNavigate(item.communityId);
+                        } else {
+                            navigate(`/group/${item.communityId}`);
+                        }
+                    }}
                 >
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl overflow-hidden shadow-inner border border-gray-100 group-hover:ring-2 ring-blue-100 transition-all">
                         {item.avatar || '🏠'}
@@ -103,7 +110,7 @@ const FeedCard: React.FC<{ item: FeedItem }> = ({ item }) => {
                 </div>
                 <div className="flex gap-3">
                     <span>{item.comments} 則留言</span>
-                    <span>{Math.floor(likeCount / 5)} 次分享</span>
+                    <span>{item.shares || 0} 次分享</span>
                 </div>
             </div>
 
@@ -131,7 +138,7 @@ const FeedCard: React.FC<{ item: FeedItem }> = ({ item }) => {
     );
 };
 
-const VillageFeedsWidget: React.FC<VillageFeedsWidgetProps> = ({ title = "村里動態", feeds = [], onLoadMore, loading = false }) => {
+const VillageFeedsWidget: React.FC<VillageFeedsWidgetProps> = ({ title = "村里動態", feeds = [], onLoadMore, loading = false, onNavigate }) => {
 
     // Mock local state if no feeds provided (fallback)
     const displayFeeds = feeds.length > 0 ? feeds : [];
@@ -151,7 +158,7 @@ const VillageFeedsWidget: React.FC<VillageFeedsWidgetProps> = ({ title = "村里
             {/* Feed Area - No internal scroll */}
             <div className="space-y-2 pb-4">
                 {displayFeeds.map(item => (
-                    <FeedCard key={item.id} item={item} />
+                    <FeedCard key={item.id} item={item} onNavigate={onNavigate} />
                 ))}
 
             </div>

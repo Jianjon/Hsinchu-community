@@ -61,6 +61,42 @@ export interface PublicCommunity {
 
     // Phase 28: Safety Guard
     safety?: SafetyInfo;
+
+    // Phase 32: Real-time Widget Data
+    transportation?: TransportInfo;
+    sustainabilityStats?: SustainabilityStats;
+}
+
+export interface TransportInfo {
+    bus: {
+        stationName: string;
+        destination: string;
+        estimateTime: number; // minutes
+        status: 'normal' | 'delay' | 'arriving';
+    }[];
+    ubike: {
+        stationName: string;
+        availableBikes: number;
+        totalSpaces: number;
+        status: 'normal' | 'empty' | 'full';
+    }[];
+}
+
+export interface SustainabilityStats {
+    carbonReduction: {
+        current: number; // kg
+        target: number; // kg
+        trend: 'up' | 'down' | 'stable';
+    };
+    recycling: {
+        total: number; // kg
+        unit: string;
+    };
+    powerSaving: {
+        efficiency: number; // percentage
+        trend: 'up' | 'down';
+    };
+    streakMonths: number;
 }
 
 export interface SafetyInfo {
@@ -136,6 +172,10 @@ export interface PublicProject {
     updates?: ProjectUpdate[]; // Phase 28: Dynamic progress updates
     location?: [number, number];
     address?: string;
+    // Engagement
+    likes?: number; // Phase 31: Real engagement
+    comments?: number;
+    shares?: number;
 }
 
 export interface PublicEvent {
@@ -160,6 +200,10 @@ export interface PublicEvent {
     capacity?: number;
     targetAudience?: string;
     coordinates?: [number, number];
+    // Engagement
+    likes?: number;
+    comments?: number;
+    shares?: number;
 }
 
 export interface PublicTravelSpot {
@@ -279,13 +323,20 @@ export interface UserIdentity {
 }
 
 export const MOCK_CHANNELS: PublicChannel[] = [
-    { id: 'view_map', name: '圖解社區位置', type: 'view_map', description: '呈現社區空間地理資訊' },
+    // Meta Views (Icons)
     { id: 'view_wiki', name: '社區維基百科', type: 'view_wiki', description: '人口與設施基本介紹' },
     { id: 'view_projects', name: '正在進行專案', type: 'view_projects', description: '社區行動實時進度' },
-    { id: 'announcements', name: '社區公告', type: 'announcement', description: '重要消息發布' },
-    { id: 'general', name: '綜合討論', type: 'chat', description: '日常交流與分享' },
-    { id: 'environmental', name: '環境永續', type: 'report', description: '低碳與環境議題' },
-    { id: 'wishlist', name: '社區許願池', type: 'proposal', description: '對社區發展的建議' }
+    { id: 'view_map', name: '圖解社區位置', type: 'view_map', description: '呈現社區空間地理資訊' },
+
+    // Discussion Channels - Main List
+    { id: 'general', name: '一般討論', type: 'chat', description: '日常交流與分享' },
+    { id: 'announcements', name: '重要公告', type: 'announcement', description: '重要消息發布' },
+    { id: 'green_base', name: '社區綠基', type: 'chat', description: '綠色基盤與生態' },
+    { id: 'activities', name: '在地活動', type: 'chat', description: '社區活動資訊' },
+    { id: 'travel', name: '輕旅行', type: 'chat', description: '在地旅遊推薦' },
+    { id: 'placemaking', name: '地方創生', type: 'chat', description: '產業與創業交流' },
+    { id: 'culture', name: '文化資產', type: 'chat', description: '歷史與文化保存' },
+    { id: 'sustainability', name: '永續共好', type: 'chat', description: 'SDGs 與永續發展' }
 ];
 
 export const MOCK_ROLES: Record<string, UserRole> = {

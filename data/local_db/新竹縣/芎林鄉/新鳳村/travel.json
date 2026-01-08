@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767756566662-yyrpi",
+    "name": "飛鳳山步道",
+    "description": "新竹縣著名的健行勝地，觀日坪视野極佳，天氣晴朗時甚至可遠眺台北101。夕陽落日景觀亦是當地一絕。",
+    "tags": [
+      "展望",
+      "夕陽",
+      "台北101"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=800&auto=format&fit=crop"
   }
 ]

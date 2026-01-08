@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Globe, Heart, Users, Shield, Loader2, ArrowRight } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
 import { authService } from '../services/authService';
+import { getTotalUserCount } from '../services/firestoreService';
 import { UserRole } from '../types';
 
 interface LoginOverlayProps {
@@ -22,6 +23,11 @@ const LoginOverlay: React.FC<LoginOverlayProps> = ({ isOpen, onClose }) => {
     const [error, setError] = useState<string | null>(null);
     const [showVerificationPending, setShowVerificationPending] = useState(false);
     const [resendSuccess, setResendSuccess] = useState(false);
+    const [userCount, setUserCount] = useState<number>(0);
+
+    useEffect(() => {
+        getTotalUserCount().then(c => setUserCount(c));
+    }, []);
 
     if (!isOpen) return null;
 
@@ -199,7 +205,7 @@ const LoginOverlay: React.FC<LoginOverlayProps> = ({ isOpen, onClose }) => {
                                 ))}
                             </div>
                             <div>
-                                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest leading-none mb-1">1,200+ 居民已加入</p>
+                                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest leading-none mb-1">{userCount > 0 ? userCount.toLocaleString() : '...'} 居民已加入</p>
                                 <p className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">Community Members</p>
                             </div>
                         </div>

@@ -13,5 +13,29 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767790126875-ncye7",
+    "name": "十八尖山",
+    "description": "新竹市區的「綠色之肺」，步道平緩舒適，適合全齡健行。春天賞花，平日則是市民晨起運動的熱門地點。沿途植物生態豐富，有「北台灣第二陽明山」之美譽。",
+    "tags": [
+      "健行",
+      "親子",
+      "賞花"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    "id": "trail-1767790126880-2qgrl",
+    "name": "仁海宮步道",
+    "description": "位於新竹市區的小巧步道，沿途植被豐富，是市中心難得的恬靜綠意之處。適合忙碌生活中短暫的休憩放鬆。",
+    "tags": [
+      "休閒",
+      "市區",
+      "散步"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop"
   }
 ]

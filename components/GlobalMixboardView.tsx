@@ -6,6 +6,8 @@ import VillageFeedsWidget from './widgets/VillageFeedsWidget';
 import NeighborhoodCalendarWidget from './widgets/NeighborhoodCalendarWidget';
 import TravelRecommendWidget from './widgets/TravelRecommendWidget';
 import SafetyGuardWidget from './widgets/SafetyGuardWidget';
+import TransportWidget from './widgets/TransportWidget';
+import SustainabilityStatsWidget from './widgets/SustainabilityStatsWidget';
 import AISearchOverlay from './AISearchOverlay';
 import { useMixboardData } from '../hooks/useMixboardData';
 import { useUser } from '../hooks/useUser';
@@ -14,9 +16,10 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface GlobalMixboardViewProps {
     community?: PublicCommunity;
+    onNavigate?: (id: string) => void;
 }
 
-const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) => {
+const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community, onNavigate }) => {
     const { feeds, calendarEvents, travelSpots, safetyInfo, currentLocation } = useMixboardData();
     const { user, updateProfile } = useUser();
     const [showAISearch, setShowAISearch] = useState(false);
@@ -27,10 +30,12 @@ const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) =>
         pulse: <AIPulseWidget />,
         weather: <WeatherWidget location={currentLocation} />,
         calendar: <NeighborhoodCalendarWidget events={calendarEvents} />,
-        travel: <TravelRecommendWidget recommendations={travelSpots} />
+        travel: <TravelRecommendWidget recommendations={travelSpots} />,
+        transport: <TransportWidget data={community?.transportation} />,
+        sustainability: <SustainabilityStatsWidget data={community?.sustainabilityStats} />
     };
 
-    const DEFAULT_ORDER = ['safety', 'pulse', 'weather', 'calendar', 'travel'];
+    const DEFAULT_ORDER = ['safety', 'transport', 'sustainability', 'pulse', 'weather', 'calendar', 'travel'];
     const currentOrder = user?.widgetOrder || DEFAULT_ORDER;
 
     const moveWidget = (id: string, direction: 'up' | 'down') => {
@@ -88,7 +93,7 @@ const GlobalMixboardView: React.FC<GlobalMixboardViewProps> = ({ community }) =>
 
                 {/* LEFT: Feed Column (Main Scroll) - 8/12 width */}
                 <div className="lg:col-span-8 h-full overflow-y-auto custom-scrollbar rounded-[2rem] bg-white border border-[#E7E5E4] shadow-sm">
-                    <VillageFeedsWidget feeds={feeds} />
+                    <VillageFeedsWidget feeds={feeds} onNavigate={onNavigate} />
                 </div>
 
                 {/* RIGHT: Sidebar Tools (Independent Scroll) - 4/12 width */}

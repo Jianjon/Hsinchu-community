@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const GOOGLE_API_KEY = "AIzaSyBjT6OCa222_-Eh6kUFM0ljNmazGHXjNQg";
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const LOCAL_DB_BASE = path.resolve('data/local_db');
 
 const PROMPT_TEMPLATE = (city, district, village, wiki) => `

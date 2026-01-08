@@ -4,6 +4,7 @@ import { calculatePolygonCentroid } from './geoUtils';
 import { getFirestore, collection, getDocs, Firestore } from 'firebase/firestore';
 import { app, initFirebase } from './firebase'; // Import initFirebase to ensure connection
 import { CommunityWikiData } from '../types';
+import { enrichCommunityData } from './dataEnrichment';
 // Imports removed to prevent bundling large JSONs
 // import villageGeoData from '../data/public_hsinchu_villages.json';
 // import villageCityGeoData from '../data/public_hsinchu_city_villages.json';
@@ -89,27 +90,9 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
                 console.log("✅ [API] Fetched hsinchu_city_villages");
                 return res.json();
             }),
-            // Fetch persisted village data from Firestore
-            (async () => {
-                let db = getDb();
-                if (!db) {
-                    console.log('🔄 [API] Firebase not ready, attempting auto-init...');
-                    initFirebase();
-                    db = getDb();
-                }
-
-                if (!db) {
-                    console.warn('⚠️ [API] Firestore STILL not initialized after retry, skipping persistence.');
-                    return null;
-                }
-                try {
-                    console.log('🚀 [API] Fetching Firestore "villages" collection...');
-                    return await getDocs(collection(db, 'villages'));
-                } catch (e) {
-                    console.error('⚠️ [API] Failed to fetch Firestore villages:', e);
-                    return null;
-                }
-            })()
+            // Fetch persisted village data from Firestore - REMOVED FOR PERFORMANCE
+            // We now load this ON DEMAND per township
+            Promise.resolve(null)
         ]);
 
         // Build a map of persisted village data from Firestore
@@ -223,6 +206,14 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
                 if (mock && mock.careActions) {
                     comm.careActions = mock.careActions;
                 }
+                // Also sync other generated content (Culture, Travel, etc.) that comes from local_db JSONs via sync_to_frontend
+                if (mock) {
+                    comm.cultureHeritages = mock.cultureHeritages || [];
+                    comm.travelSpots = mock.travelSpots || [];
+                    comm.events = mock.events || [];
+                    comm.projects = mock.projects || [];
+                    comm.communityBuildings = mock.communityBuildings || [];
+                }
 
                 // If we also have DB facilities, we might want to merge them, 
                 // but the user requested to CLEAR AI index, so we should prefer the wiki.facilities (empty)
@@ -258,9 +249,9 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
             /*
             // UNIVERSAL BEILUN FIX: Apply outside of if/else to always run for Beilun Li
             // DEBUG: Log all communities being processed
-            console.log(`[DataAdaptor] Processing: ${comm.name} in ${comm.district}`);
+            // console.log(`[DataAdaptor] Processing: ${comm.name} in ${comm.district}`);
             if (comm.name && comm.name.includes('北崙') && comm.district && comm.district.includes('竹北')) {
-                console.log('[DataAdaptor] ✅ MATCH FOUND: 北崙里 - Injecting Care Point!');
+                // console.log('[DataAdaptor] ✅ MATCH FOUND: 北崙里 - Injecting Care Point!');
                 // Prepend local care point to existing array (from mock), don't overwrite
                 const localCarePoint = {
                     id: 'care-point-beilun',
@@ -290,46 +281,77 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
             // If this village has saved data in Firestore, use it as the source of truth
             const persisted = firestoreData[id];
             if (persisted) {
-                console.log(`[DataAdaptor] 🔥 Found Firestore data for ${id}`);
-
                 // Override ALL content arrays with persisted versions if they exist
-                if (persisted.careActions) {
-                    console.log(`[DataAdaptor] 📥 Loading ${persisted.careActions.length} careActions from Firestore for ${id}`);
-                    comm.careActions = persisted.careActions;
+
+                // Sanitize tags: Ensure string[]
+                if (persisted.tags && Array.isArray(persisted.tags)) {
+                    comm.tags = persisted.tags.map((t: any) => {
+                        if (typeof t === 'string') return t;
+                        if (typeof t === 'object' && t !== null) {
+                            return t.name || t.id || t.title || JSON.stringify(t);
+                        }
+                        return String(t);
+                    });
                 }
-                if (persisted.travelSpots) {
-                    comm.travelSpots = persisted.travelSpots;
+
+                // Sanitize People: Ensure name/role are strings
+                if (persisted.people && Array.isArray(persisted.people)) {
+                    comm.people = persisted.people.map((p: any) => ({
+                        ...p,
+                        name: typeof p.name === 'string' ? p.name : (p.name?.name || "未知"),
+                        role: typeof p.role === 'string' ? p.role : (p.role?.name || "成員"),
+                        title: typeof p.title === 'string' ? p.title : ""
+                    })).filter((p: any) => p.name && typeof p.name === 'string');
                 }
-                if (persisted.communityBuildings) {
-                    comm.communityBuildings = persisted.communityBuildings;
+
+                // Sanitize Projects: Ensure title/status are valid
+                if (persisted.projects && Array.isArray(persisted.projects)) {
+                    comm.projects = persisted.projects.map((p: any) => ({
+                        ...p,
+                        title: typeof p.title === 'string' ? p.title : "未命名專案",
+                        description: typeof p.description === 'string' ? p.description : "",
+                        status: typeof p.status === 'string' ? p.status : "planning"
+                    }));
                 }
-                if (persisted.cultureHeritages) {
-                    comm.cultureHeritages = persisted.cultureHeritages;
+
+                // Sanitize Events: Ensure valid strings
+                if (persisted.events && Array.isArray(persisted.events)) {
+                    comm.events = persisted.events.map((e: any) => ({
+                        ...e,
+                        title: typeof e.title === 'string' ? e.title : "未命名活動",
+                        location: typeof e.location === 'string' ? e.location : "未定",
+                        date: typeof e.date === 'string' ? e.date : new Date().toISOString().split('T')[0]
+                    }));
                 }
-                if (persisted.events) {
-                    comm.events = persisted.events;
-                }
-                if (persisted.people) {
-                    comm.people = persisted.people;
-                }
-                if (persisted.projects) {
-                    comm.projects = persisted.projects;
-                }
+
+                if (persisted.careActions) comm.careActions = mergeUnique(comm.careActions, persisted.careActions);
+                if (persisted.travelSpots) comm.travelSpots = mergeUnique(comm.travelSpots, persisted.travelSpots);
+                if (persisted.communityBuildings) comm.communityBuildings = mergeUnique(comm.communityBuildings, persisted.communityBuildings);
+                if (persisted.cultureHeritages) comm.cultureHeritages = mergeUnique(comm.cultureHeritages, persisted.cultureHeritages);
 
                 // Override metadata if persisted
-                if (persisted.description) comm.description = persisted.description;
-                if (persisted.tags) comm.tags = persisted.tags;
-                if (persisted.chief) comm.chief = persisted.chief;
-                if (persisted.population) comm.population = persisted.population;
+                if (persisted.description) comm.description = typeof persisted.description === 'string' ? persisted.description : JSON.stringify(persisted.description);
+
+                // Sanitize chief
+                if (persisted.chief) {
+                    comm.chief = typeof persisted.chief === 'object' && persisted.chief.name
+                        ? persisted.chief.name
+                        : typeof persisted.chief === 'string' ? persisted.chief : JSON.stringify(persisted.chief);
+                }
+
+                // Sanitize population
+                if (persisted.population) {
+                    comm.population = typeof persisted.population === 'string'
+                        ? persisted.population
+                        : String(persisted.population);
+                }
 
                 // Merge wiki data if present
-                // Merge wiki data if present - STRICT PRIORITY
                 if (persisted.wiki) {
-                    console.log(`[DataAdaptor] 🧬 Merging Firestore Wiki for ${id}`, persisted.wiki);
                     comm.wiki = {
                         ...comm.wiki,       // Base defaults from Mock (if any)
                         ...persisted.wiki,  // OVERRIDE with Firestore data
-                        _source: 'firestore' // explicit flag
+                        _source: 'firestore'
                     };
                 } else if (persisted.introduction || persisted.facilities) {
                     // Legacy migration case: flat fields on village document
@@ -341,6 +363,35 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
                 }
             }
 
+            // --------------------------------------------------------
+            // FINAL SANITIZATION: ABSOLUTE SAFETY CHECK
+            // --------------------------------------------------------
+            // Ensure chief is NEVER an object (regardless of source: Mock or Firestore)
+            if (comm.chief && typeof comm.chief === 'object') {
+                const c = comm.chief as any;
+                comm.chief = c.name || c.id || JSON.stringify(c);
+            }
+
+            // Ensure population is string
+            if (comm.population && typeof comm.population !== 'string') {
+                comm.population = String(comm.population);
+            }
+
+            // Ensure description is string
+            if (comm.description && typeof comm.description !== 'string') {
+                const d = comm.description as any;
+                comm.description = typeof d === 'object' ? JSON.stringify(d) : String(d);
+            }
+
+            // Ensure tags is string array
+            if (comm.tags && Array.isArray(comm.tags)) {
+                comm.tags = comm.tags.map(t => {
+                    if (typeof t === 'string') return t;
+                    const o = t as any;
+                    return o.name || o.id || o.title || JSON.stringify(o);
+                });
+            }
+
             // AUTO-GENERATE MOCK CONTENT REMOVED to ensure only real data is shown
             // if (comm.travelSpots.length === 0) { ... }
 
@@ -350,6 +401,9 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
 
             return comm;
         });
+
+        // 4. Enrich with Real-Time Data (Transport, Sustainability)
+        enrichCommunityData(communities);
 
         return communities;
 
@@ -371,6 +425,136 @@ export const getPublicCommunities = async (): Promise<PublicCommunity[]> => {
 export const getPublicCommunity = async (id: string): Promise<PublicCommunity | undefined> => {
     const all = await getPublicCommunities();
     return all.find(c => c.id === id);
+};
+
+// --- LAZY LOADING ---
+import { getVillagesByDistrict } from './firestoreService';
+// calculatePolygonCentroid is already imported at the top
+
+export const fetchTownshipData = async (townshipName: string): Promise<Record<string, any>> => {
+    // console.log(`[DataAdaptor] Lazy loading data for township: ${townshipName}`);
+    try {
+        const data = await getVillagesByDistrict(townshipName);
+        // console.log(`[DataAdaptor] Loaded ${Object.keys(data).length} villages for ${townshipName}`);
+        return data;
+    } catch (e) {
+        console.error("Failed to load township data:", e);
+        return {};
+    }
+};
+
+const mergeUnique = <T extends { id: string }>(base: T[] = [], override: T[] = []): T[] => {
+    const baseMap = new Map(base.map(item => [item.id, item]));
+    const overrideMap = new Map(override.map(item => [item.id, item]));
+
+    // Start with base items
+    const merged = new Map(baseMap);
+
+    // Apply overrides (this adds new items and updates existing ones)
+    override.forEach(item => {
+        merged.set(item.id, item);
+    });
+
+    return Array.from(merged.values());
+};
+
+export const mergeCommunityData = (original: PublicCommunity, firestoreData: any): PublicCommunity => {
+    if (!firestoreData) return original;
+
+    // Deep clone to avoid mutation issues
+    const comm = { ...original };
+    const persisted = firestoreData;
+
+    // MERGE content arrays using ID to prevent overwriting generated system data (like culture assets)
+    // while still allowing user edits (persisted data) to update or add items.
+    if (persisted.careActions) comm.careActions = mergeUnique(comm.careActions, persisted.careActions);
+    if (persisted.travelSpots) comm.travelSpots = mergeUnique(comm.travelSpots, persisted.travelSpots);
+    if (persisted.communityBuildings) comm.communityBuildings = mergeUnique(comm.communityBuildings, persisted.communityBuildings);
+    if (persisted.cultureHeritages) comm.cultureHeritages = mergeUnique(comm.cultureHeritages, persisted.cultureHeritages);
+
+    // Arrays handled below with sanitization - also apply mergeUnique after sanitization
+    // ...
+
+    // Override metadata if persisted
+    if (persisted.description) comm.description = typeof persisted.description === 'string' ? persisted.description : JSON.stringify(persisted.description);
+
+    // Sanitize tags: Ensure string[]
+    if (persisted.tags && Array.isArray(persisted.tags)) {
+        const persistedTags = persisted.tags.map((t: any) => {
+            if (typeof t === 'string') return t;
+            if (typeof t === 'object' && t !== null) {
+                return t.name || t.id || t.title || JSON.stringify(t);
+            }
+            return String(t);
+        });
+        // Merge tags: simple set union
+        comm.tags = Array.from(new Set([...(comm.tags || []), ...persistedTags]));
+    }
+
+    // Sanitize People: Ensure name/role are strings
+    if (persisted.people && Array.isArray(persisted.people)) {
+        const persistedPeople = persisted.people.map((p: any) => ({
+            ...p,
+            name: typeof p.name === 'string' ? p.name : (p.name?.name || "未知"),
+            role: typeof p.role === 'string' ? p.role : (p.role?.name || "成員"),
+            title: typeof p.title === 'string' ? p.title : ""
+        })).filter((p: any) => p.name && typeof p.name === 'string');
+        // Simple assignment for people as IDs might not be reliable for merging
+        comm.people = persistedPeople;
+    }
+
+    // Sanitize Projects: Ensure title/status are valid
+    if (persisted.projects && Array.isArray(persisted.projects)) {
+        const persistedProjects = persisted.projects.map((p: any) => ({
+            ...p,
+            title: typeof p.title === 'string' ? p.title : "未命名專案",
+            description: typeof p.description === 'string' ? p.description : "",
+            status: typeof p.status === 'string' ? p.status : "planning"
+        }));
+        comm.projects = mergeUnique(comm.projects, persistedProjects);
+    }
+
+    // Sanitize Events: Ensure valid strings
+    if (persisted.events && Array.isArray(persisted.events)) {
+        const persistedEvents = persisted.events.map((e: any) => ({
+            ...e,
+            title: typeof e.title === 'string' ? e.title : "未命名活動",
+            location: typeof e.location === 'string' ? e.location : "未定",
+            date: typeof e.date === 'string' ? e.date : new Date().toISOString().split('T')[0]
+        }));
+        comm.events = mergeUnique(comm.events, persistedEvents);
+    }
+
+    // Sanitize chief (ensure string)
+    if (persisted.chief) {
+        comm.chief = typeof persisted.chief === 'object' && persisted.chief.name
+            ? persisted.chief.name
+            : typeof persisted.chief === 'string' ? persisted.chief : JSON.stringify(persisted.chief);
+    }
+
+    // Sanitize population (ensure string)
+    if (persisted.population) {
+        comm.population = typeof persisted.population === 'string'
+            ? persisted.population
+            : String(persisted.population);
+    }
+
+    // Merge wiki data
+    if (persisted.wiki) {
+        comm.wiki = {
+            ...comm.wiki,
+            ...persisted.wiki,
+            _source: 'firestore'
+        };
+    } else if (persisted.introduction || persisted.facilities) {
+        comm.wiki = {
+            ...comm.wiki,
+            ...persisted,
+            _source: 'firestore_legacy'
+        };
+    }
+
+    return comm;
 };
 
 // --- TOWNSHIP DATA ---

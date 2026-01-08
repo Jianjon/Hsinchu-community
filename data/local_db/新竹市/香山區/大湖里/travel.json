@@ -13,5 +13,17 @@
     ],
     "seasonality": "四季皆宜",
     "rating": 4.2
+  },
+  {
+    "id": "trail-1767756566660-ohbcg",
+    "name": "青青草原",
+    "description": "擁有北台灣最長的磨石子溜滑梯與廣闊的草原腹地。環狀步道穿梭於樹林與草原間，適合野餐、放風箏與親子同樂。",
+    "tags": [
+      "親子",
+      "草原",
+      "溜滑梯"
+    ],
+    "type": "nature",
+    "imageUrl": "https://images.unsplash.com/photo-1470246973918-29a93221c455?q=80&w=800&auto=format&fit=crop"
   }
 ]

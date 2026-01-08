@@ -19,6 +19,7 @@ export interface FeedItem {
     videoUrl?: string; // Placeholder for video-like content
     likes: number;
     comments: number;
+    shares?: number; // Phase 31
     isPriority?: boolean;
 }
 
@@ -183,8 +184,9 @@ export const useMixboardData = (userLocation: { city: string, district?: string 
                         content: evt.description || `${evt.title} 歡迎參加！`,
                         time: `${Math.floor(Math.random() * 24) + 1}小時前`, // Mock relative time
                         images: evt.imageUrls || (evt.coverImage ? [evt.coverImage] : []),
-                        likes: Math.floor(Math.random() * 50),
-                        comments: Math.floor(Math.random() * 5),
+                        likes: evt.likes || 0,
+                        comments: evt.comments || 0,
+                        shares: evt.shares || 0,
                     });
                 });
 
@@ -200,8 +202,9 @@ export const useMixboardData = (userLocation: { city: string, district?: string 
                         content: proj.description,
                         time: `${Math.floor(Math.random() * 5) + 1}天前`,
                         images: proj.imageUrls || (proj.coverImage ? [proj.coverImage] : []),
-                        likes: Math.floor(Math.random() * 100),
-                        comments: Math.floor(Math.random() * 10),
+                        likes: proj.likes || 0,
+                        comments: proj.comments || 0,
+                        shares: proj.shares || 0,
                     });
                 });
             });
@@ -224,8 +227,9 @@ export const useMixboardData = (userLocation: { city: string, district?: string 
                             content: evt.description || `${evt.title} 歡迎參加！`,
                             time: `${Math.floor(Math.random() * 24) + 1}小時前`,
                             images: evt.imageUrls || (evt.coverImage ? [evt.coverImage] : []),
-                            likes: Math.floor(Math.random() * 50),
-                            comments: Math.floor(Math.random() * 5),
+                            likes: evt.likes || 0,
+                            comments: evt.comments || 0,
+                            shares: evt.shares || 0,
                             isPriority: false
                         });
                     });
@@ -240,8 +244,9 @@ export const useMixboardData = (userLocation: { city: string, district?: string 
                             content: proj.description,
                             time: `${Math.floor(Math.random() * 5) + 1}天前`,
                             images: proj.imageUrls || (proj.coverImage ? [proj.coverImage] : []),
-                            likes: Math.floor(Math.random() * 100),
-                            comments: Math.floor(Math.random() * 10),
+                            likes: proj.likes || 0,
+                            comments: proj.comments || 0,
+                            shares: proj.shares || 0,
                             isPriority: false
                         });
                     });

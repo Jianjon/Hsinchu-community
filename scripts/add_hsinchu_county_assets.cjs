@@ -1,0 +1,255 @@
+
+// List of Hsinchu County Cultural Assets for Injection
+// Manually curated with rich content (history, era, detailed description)
+
+const HSINCHU_COUNTY_ASSETS = [
+    {
+        name: "北埔慈天宮",
+        type: "temple",
+        description: "北埔老街的精神堡壘，融合客家與閩南建築風格，供奉觀世音菩薩。廟前廣場是北埔聚落的生活重心，也是遊客造訪必經之地。",
+        era: "清道光年間 (1835年)",
+        history: "創建於清道光十五年(1835)，由開墾首領姜秀鑾所建。原為簡陋小廟，後經多次擴建成為今日規模。慈天宮見證了北埔「金廣福」墾隘的歷史發展，也是閩客族群融合的象徵。建築工藝精湛，包含細緻的石雕、木雕與彩繪，具極高藝術價值。",
+        searchQuery: "新竹縣 北埔慈天宮",
+        city: "新竹縣",
+        district: "北埔鄉",
+        location: [24.7003, 121.0585],
+        communityId: "新竹縣_北埔鄉_北埔村",
+        id: "hcc-1"
+    },
+    {
+        name: "天水堂",
+        type: "historic_building",
+        description: "全台最優美的客家古厝之一，為北埔開墾戶首姜秀鑾的故居。三合院格局嚴謹，燕尾飛簷氣勢非凡，仍有後代居住，不對外開放。",
+        era: "清道光12年 (1832年)",
+        history: "建於清道光十二年(1832)，由姜秀鑾所建。因姜氏郡望為「天水郡」，故名天水堂。作為金廣福墾隘首腦的宅邸，天水堂在北埔防禦體系中佔有關鍵地位。建築本身保留了完整的客家傳統民居特色，門樓與圍牆設計兼具防衛功能。",
+        searchQuery: "新竹縣 北埔天水堂",
+        city: "新竹縣",
+        district: "北埔鄉",
+        location: [24.7008, 121.0582],
+        communityId: "新竹縣_北埔鄉_北埔村",
+        id: "hcc-2"
+    },
+    {
+        name: "金廣福公館",
+        type: "historic_site",
+        description: "國定古蹟，清代拓墾大隘地區的指揮中心。「金」代表官方，「廣」代表粵籍（客家），「福」代表閩籍（閩南），象徵族群合作。",
+        era: "清道光15年 (1835年)",
+        history: "成立於1835年，是清代台灣最大的武裝拓墾組織「金廣福墾號」的辦公總部。當年姜秀鑾與周邦正受命以此為據點，防範原住民並進行開墾。金廣福公館是現存少數完整的墾隘指揮中心，見證了台灣武裝拓墾與族群互動的血淚史。",
+        searchQuery: "新竹縣 金廣福公館",
+        city: "新竹縣",
+        district: "北埔鄉",
+        location: [24.7001, 121.0579],
+        communityId: "新竹縣_北埔鄉_北埔村",
+        id: "hcc-3"
+    },
+    {
+        name: "湖口老街三元宮",
+        type: "temple",
+        description: "湖口老街的信仰中心，主祀三官大帝（天官、地官、水官）。建築古樸莊嚴，與老街形成一體的文化景觀。",
+        era: "大正年間 (1918年)",
+        history: "原建於清光緒年間，後因風水因素與湖口老街發展而遷建於現址。1918年落成，成為當地居民的精神支柱。廟內保存許多日治時期的匾額與石柱，見證了湖口因鐵路設站而興起的繁華年代。",
+        searchQuery: "新竹縣 湖口三元宮",
+        city: "新竹縣",
+        district: "湖口鄉",
+        location: [24.8728, 121.0583],
+        communityId: "新竹縣_湖口鄉_湖鏡村",
+        id: "hcc-4"
+    },
+    {
+        name: "湖口老街",
+        type: "historic_site",
+        description: "台灣保存最完整的巴洛克式立面老街之一，紅磚拱廊綿延，充滿懷舊氛圍。昔日因鐵路設站而繁榮，有「大窩口」之稱。",
+        era: "日治時期 (1910年代)",
+        history: "興盛於1910年代，因縱貫鐵路在此設「湖口驛」而成為貨物集散地。街道兩旁建起華麗的巴洛克式牌樓，商賈雲集。1929年鐵路改道遷站後，老街逐漸沒落，卻也因此幸運保留了當年的建築原貌，未被現代化改建破壞。",
+        searchQuery: "新竹縣 湖口老街",
+        city: "新竹縣",
+        district: "湖口鄉",
+        location: [24.8725, 121.0575],
+        communityId: "新竹縣_湖口鄉_湖鏡村",
+        id: "hcc-5"
+    },
+    {
+        name: "新埔褒忠義民廟",
+        type: "temple",
+        description: "全台客家信仰的總樞紐，也是義民精神的象徵。每年農曆七月的義民祭典極為盛大，是國家重要民俗活動。",
+        era: "清乾隆55年 (1790年)",
+        history: "源於林爽文事件中，客家鄉勇為保衛家園而犧牲，清廷特頒「褒忠」匾額嘉獎。1790年地方仕紳集資建廟供奉義民爺。義民廟不僅是信仰中心，更是客家族群團結與忠義精神的具體展現。",
+        searchQuery: "新竹縣 新埔義民廟",
+        city: "新竹縣",
+        district: "新埔鎮",
+        location: [24.8488, 121.0366],
+        communityId: "新竹縣_新埔鎮_下寮里",
+        id: "hcc-6"
+    },
+    {
+        name: "新埔劉氏雙堂屋",
+        type: "historic_building",
+        description: "又稱「企平方」，為典型的客家傳統雙堂屋建築。格局宏偉，保存良好，展現客家宗族凝聚力。",
+        era: "日治大正8年 (1919年重建)",
+        history: "原建於清代，後由劉益奎與劉氏族人亦集資重建。建築採雙堂六橫規模，不但注重風水格局，更融合了傳統剪黏、泥塑與彩繪工藝。雙堂屋是新埔劉家子孫祭祖聚會場所，承載著家族百年的歷史記憶。",
+        searchQuery: "新竹縣 新埔劉氏雙堂屋",
+        city: "新竹縣",
+        district: "新埔鎮",
+        location: [24.8385, 121.0665],
+        communityId: "新竹縣_新埔鎮_上寮里",
+        id: "hcc-7"
+    },
+    {
+        name: "新埔潘屋",
+        type: "historic_building",
+        description: "縣定古蹟，位於新埔田野間的優美古宅。燕尾屋脊與螃蟹穴風水傳說，使其充滿神秘色彩。",
+        era: "清咸豐11年 (1861年)",
+        history: "由潘氏始祖潘庶賢後代所建。建築形式為一堂四橫，堅固防禦性強。潘屋位置極佳，前方有一洗衫坑與半月池，不僅具實用功能，更符合風水佈局。經修復後，重現往日風華，是新埔重要的文化觀光亮點。",
+        searchQuery: "新竹縣 新埔潘屋",
+        city: "新竹縣",
+        district: "新埔鎮",
+        location: [24.8291, 121.0740],
+        communityId: "新竹縣_新埔鎮_新民里",
+        id: "hcc-8"
+    },
+    {
+        name: "關西天主堂",
+        type: "historic_building",
+        description: "關西鎮最醒目的地標，哥德式尖塔聳立，充滿異國情調。是早期天主教在新竹地區傳教的重要據點。",
+        era: "1956年",
+        history: "由加拿大籍神父葛民誼等人籌建。建築風格優雅，灰白色洗石子外牆搭配彩繪玻璃，莊嚴神聖。天主堂不僅是宗教場所，早年更發放美援物資、設幼稚園，對關西地區的教育與社會福利貢獻良多。",
+        searchQuery: "新竹縣 關西天主堂",
+        city: "新竹縣",
+        district: "關西鎮",
+        location: [24.7954, 121.1764],
+        communityId: "新竹縣_關西鎮_北斗里",
+        id: "hcc-9"
+    },
+    {
+        name: "關西太和宮",
+        type: "temple",
+        description: "關西鎮的信仰中心，主祀三官大帝。廟貌巍峨，香火鼎盛，與緊鄰的關西分駐所形成強烈對比。",
+        era: "清嘉慶17年 (1812年)",
+        history: "原名三界廟，後改名太和宮，意祈求「風調雨順、國泰民安」。經歷多次修建，廟宇建築融合了各時期的特色，其剪黏與木雕工藝皆屬上乘。太和宮也是關西客家庄的公廳，維繫著地方的團結。",
+        searchQuery: "新竹縣 關西太和宮",
+        city: "新竹縣",
+        district: "關西鎮",
+        location: [24.7937, 121.1765],
+        communityId: "新竹縣_關西鎮_北斗里",
+        id: "hcc-10"
+    },
+    {
+        name: "東安古橋",
+        type: "historic_site",
+        description: "造型優美的五孔石砌拱橋，橫跨牛欄河。電影《我的少女時代》拍攝場景，浪漫唯美。",
+        era: "日治昭和8年 (1933年)",
+        history: "為解決關西與東安之間的交通問題而建。橋體採用當地著名的方解石砌築，每一塊石材皆經人工打磨，紋理獨特。東安古橋歷經九十餘年風雨仍屹立不搖，展現了日治時期公共工程的堅實品質。",
+        searchQuery: "新竹縣 東安古橋",
+        city: "新竹縣",
+        district: "關西鎮",
+        location: [24.7925, 121.1802],
+        communityId: "新竹縣_關西鎮_東安里",
+        id: "hcc-11"
+    },
+    {
+        name: "竹東林業展示館",
+        type: "cultural_asset",
+        description: "前身為植松材木竹東出張所，見證了竹東作為台灣三大林業集散地的輝煌歷史。",
+        era: "日治時期 (1940年代)",
+        history: "竹東曾因林業與水泥業而繁榮。該館保留了許多伐木工具、老照片與文獻資料，訴說著伐木工人的辛勞與山林開發的故事。建築為傳統日式木造結構，散發濃濃的檜木香氣。",
+        searchQuery: "新竹縣 竹東林業展示館",
+        city: "新竹縣",
+        district: "竹東鎮",
+        location: [24.7374, 121.0927],
+        communityId: "新竹縣_竹東鎮_雞林里", // Approx
+        id: "hcc-12"
+    },
+    {
+        name: "蕭如松藝術園區",
+        type: "cultural_asset",
+        description: "台灣水彩畫大師蕭如松的故居群，包含五棟日式宿舍，環境清幽雅致。",
+        era: "日治時期",
+        history: "蕭如松老師長期旅居竹東任教，是台灣美術史上的重要畫家。園區經修復活化後，展示老師的畫作與生平，並定期舉辦藝文活動。漫步於日式庭園中，可感受蕭老師「叫太陽起床」的勤奮創作精神。",
+        searchQuery: "新竹縣 蕭如松藝術園區",
+        city: "新竹縣",
+        district: "竹東鎮",
+        location: [24.7354, 121.0935],
+        communityId: "新竹縣_竹東鎮_榮樂里",
+        id: "hcc-13"
+    },
+    {
+        name: "內灣戲院",
+        type: "historic_building",
+        description: "全台少數保存完整的日式木造戲院，現轉型為客家懷舊餐廳，並播放老電影。",
+        era: "民國39年 (1950年)",
+        history: "由當時經營山場的楊盛泉先生籌建，為了撫慰伐木與採礦工人的辛勞。戲院完全以嵌合式木造結構建成，未使用一根鐵釘。當年內灣繁華一時，戲院天天客滿，是著名的「櫻花聚落」娛樂中心。",
+        searchQuery: "新竹縣 內灣戲院",
+        city: "新竹縣",
+        district: "橫山鄉",
+        location: [24.7051, 121.1824],
+        communityId: "新竹縣_橫山鄉_內灣村",
+        id: "hcc-14"
+    },
+    {
+        name: "內灣吊橋",
+        type: "historic_site",
+        description: "橫跨油羅溪的優美吊橋，橋下溪水清澈，是遊客戲水烤肉的熱門景點。",
+        era: "日治時期",
+        history: "早年內灣交通不便，吊橋是通往南坪原有部落的重要通道。橋身雄偉，當年曾是運送木材與煤礦的交通樞紐。如今轉型為觀光吊橋，走在橋上可飽覽內灣山城秀麗的風光。",
+        searchQuery: "新竹縣 內灣吊橋",
+        city: "新竹縣",
+        district: "橫山鄉",
+        location: [24.7032, 121.1837],
+        communityId: "新竹縣_橫山鄉_內灣村",
+        id: "hcc-15"
+    },
+    {
+        name: "新豐宮",
+        type: "temple",
+        description: "亦稱中崙溪南宮，新豐鄉民重要的信仰中心，主祀王爺。",
+        era: "清代",
+        history: "建廟歷史悠久，庇佑著新豐沿海地區的居民。廟宇建築宏偉，廟埕廣闊，常舉辦各類民俗廟會活動。新豐宮見證了當地從漁村轉型為工商業市鎮的發展歷程。",
+        searchQuery: "新竹縣 新豐宮",
+        city: "新竹縣",
+        district: "新豐鄉",
+        location: [24.8988, 120.9840],
+        communityId: "新竹縣_新豐鄉_中崙村", // Approx/Check
+        id: "hcc-16"
+    },
+    {
+        name: "芎林文林閣",
+        type: "temple",
+        description: "新竹地區著名的文昌廟，每逢考季，學子絡繹不絕，祈求金榜題名。",
+        era: "清光緒2年 (1876年)",
+        history: "前身為「文林社」，是當地文人以此興學的書院。後改建為廟宇，主祀文昌帝君。文林閣對於芎林地區的文風鼎盛有著不可磨滅的貢獻，培育出許多傑出人才。",
+        searchQuery: "新竹縣 芎林文林閣",
+        city: "新竹縣",
+        district: "芎林鄉",
+        location: [24.7744, 121.0827],
+        communityId: "新竹縣_芎林鄉_文林村",
+        id: "hcc-17"
+    },
+    {
+        name: "采田福地",
+        type: "temple",
+        description: "全台唯一供奉「七姓公」的廟宇，記述了竹塹社平埔族人開墾的歷史。",
+        era: "清乾隆25年 (1760年)",
+        history: "原為竹塹社平埔族人的祖祠，供奉七個漢式姓氏的祖先牌位。見證了原住民與漢人融合的過程，也是平埔族在新竹地區僅存的重要史蹟。廟名「采田」二字合起來即為「番」，隱含其族群身分。",
+        searchQuery: "新竹縣 采田福地",
+        city: "新竹縣",
+        district: "竹北市",
+        location: [24.8361, 121.0025],
+        communityId: "新竹縣_竹北市_新國里",
+        id: "hcc-18"
+    }
+];
+
+const fs = require('fs');
+const path = require('path');
+const ENRICHED_FILE = path.resolve('data/culture_assets_enriched.json');
+
+const current = JSON.parse(fs.readFileSync(ENRICHED_FILE, 'utf8'));
+
+// Filter out old HCC assets to avoid dupes when appending
+const cleanCurrent = current.filter(a => !a.id.startsWith('hcc-'));
+
+const newAssets = [...cleanCurrent, ...HSINCHU_COUNTY_ASSETS];
+
+fs.writeFileSync(ENRICHED_FILE, JSON.stringify(newAssets, null, 2));
+
+console.log(`✅ Refreshed ${HSINCHU_COUNTY_ASSETS.length} Hsinchu County assets with RICH content.`);

@@ -1,14 +1,50 @@
 [
   {
-    "title": "嘉樂村中秋聯歡晚會",
-    "date": "2026-09-25",
-    "time": "18:00",
-    "location": "嘉樂村集會所前廣場",
-    "type": "ceremony",
-    "description": "一年一度的中秋晚會，備有豐富摸彩品與表演。",
+    "id": "evt-新竹縣-尖石鄉-嘉樂村-0",
+    "title": "社區幸福共餐日",
+    "description": "一人一菜或是由志工媽媽掌勺，大家齊聚一堂分享美食與日常，溫暖社區每個角落。",
+    "date": "2026-01-18",
+    "time": "11:30 - 13:30",
+    "location": "嘉樂村活動中心",
     "tags": [
-      "節慶",
-      "聚會"
-    ]
+      "共餐活動",
+      "鄰里連結"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=800&auto=format&fit=crop",
+    "likes": 18,
+    "comments": 4,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹縣-尖石鄉-嘉樂村-1",
+    "title": "資源回收與物資再利用",
+    "description": "推廣零浪費生活，現場提供二手物交換平台與專業分類指導，參與者可獲得精美小禮。",
+    "date": "2026-01-23",
+    "time": "09:00 - 12:00",
+    "location": "嘉樂村活動中心",
+    "tags": [
+      "環保議題",
+      "永續發展"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop",
+    "likes": 15,
+    "comments": 4,
+    "shares": 0
+  },
+  {
+    "id": "evt-新竹縣-尖石鄉-嘉樂村-2",
+    "title": "銀髮族健康促進講座",
+    "description": "邀請專業講師分享樂齡運動與營養知識，現場提供血壓測量與健康諮詢。",
+    "date": "2026-01-31",
+    "time": "14:00 - 16:00",
+    "location": "嘉樂村活動中心",
+    "tags": [
+      "健康講座",
+      "樂齡關懷"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=800&auto=format&fit=crop",
+    "likes": 12,
+    "comments": 0,
+    "shares": 2
   }
 ]

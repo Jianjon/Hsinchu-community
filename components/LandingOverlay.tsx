@@ -8,7 +8,7 @@ interface LandingOverlayProps {
 }
 
 const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
-    const { login, visualMode, setVisualMode } = useUser();
+    const { login, logout, user, visualMode, setVisualMode } = useUser();
     const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
     const [userCount, setUserCount] = useState<number>(0);
@@ -25,10 +25,14 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         login();
-        onEnter();
+        // Do NOT call onEnter() immediately here if we want to show "Enter" button state
+        // But for "Login/Join", the user expects to sign in. 
+        // If we want "Manual Enter", we should probably just stay here and let UI update to "LoggedIn State"
+        // However, existing login() mock might toggle state instantly. 
+        // Let's assume login() updates user state, re-render will show "Enter Community" button.
     };
 
-    const handleGuestEntry = () => {
+    const handleEnterCommunity = () => {
         onEnter();
     };
 
@@ -49,6 +53,17 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
             desc: "不分老幼，這裡是你我共築的溫暖港灣。"
         }
     ];
+
+    // System Notifications (Mock)
+    const systemAlerts = [
+        { id: 1, type: 'info', content: '【系統公告】新竹市文化資產圖層全新上線！探索23處古蹟地標。' },
+        { id: 2, type: 'beta', content: '目前版本：v0.9.2 Beta (測試版)' }
+    ];
+
+    const handleLogout = async () => {
+        await logout();
+        // Stay on landing page, UI will naturally switch back to "Login" state
+    };
 
     return (
         <div className="absolute inset-0 z-[2000] flex items-center justify-center p-4 md:p-12 overflow-y-auto">
@@ -144,9 +159,26 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
 
                     <div className="mb-12 max-w-sm">
                         <h3 className="text-3xl font-black text-[#2D3436] mb-4 font-serif-tc">開始你的冒險</h3>
-                        <p className="text-[#636E72] font-bold text-sm leading-relaxed font-sans-tc opacity-70">
-                            選擇你最舒適的瀏覽方式，然後進入這片溫暖的社區。
-                        </p>
+                        {visualMode === 'standard' ? (
+                            <p className="text-[#636E72] font-bold text-sm leading-relaxed font-sans-tc opacity-70">
+                                選擇你最舒適的瀏覽方式，然後進入這片溫暖的社區。
+                            </p>
+                        ) : (
+                            <p className="text-[#636E72] font-bold text-lg leading-relaxed font-sans-tc opacity-70">
+                                歡迎回來，{user?.name || '夥伴'}。請點選下方按鈕進入。
+                            </p>
+                        )}
+                    </div>
+
+                    {/* System Notifications */}
+                    <div className="mb-8 space-y-3">
+                        {systemAlerts.map(alert => (
+                            <div key={alert.id} className={`p-4 rounded-xl text-sm font-bold flex items-start gap-3
+                                 ${alert.type === 'info' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-amber-50 text-amber-700 border border-amber-100'}`}>
+                                <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${alert.type === 'info' ? 'bg-blue-500' : 'bg-amber-500'}`} />
+                                <span>{alert.content}</span>
+                            </div>
+                        ))}
                     </div>
 
                     {/* Mode Selection with creative layout */}
@@ -181,27 +213,59 @@ const LandingOverlay: React.FC<LandingOverlayProps> = ({ onEnter }) => {
                         </button>
                     </div>
 
-                    <form onSubmit={handleLogin} className="space-y-8">
-                        <div className="flex flex-col gap-5 pt-4">
+                    {user ? (
+                        <div className="space-y-4 pt-4">
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={handleEnterCommunity}
                                 className="w-full py-5 text-white rounded-[24px] font-black shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3 group relative overflow-hidden"
                                 style={{ backgroundColor: '#8DAA91', boxShadow: '0 20px 40px -10px rgba(141,170,145,0.4)' }}
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                                <span className="relative z-10 text-lg">登入 / 加入社區</span>
+                                <span className="relative z-10 text-lg">
+                                    {user.name} 進入社區
+                                </span>
                                 <ChevronRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
                             </button>
 
                             <button
                                 type="button"
-                                onClick={handleGuestEntry}
-                                className="w-full py-2 text-slate-400 font-bold text-sm hover:text-[#8DAA91] transition-all font-sans-tc text-center tracking-widest hover:tracking-[0.2em]"
+                                onClick={handleLogout}
+                                className="w-full py-3 text-slate-400 font-bold text-sm hover:text-red-500 transition-all font-sans-tc text-center tracking-widest hover:bg-red-50 rounded-xl"
                             >
-                                先等等，我先隨便看看
+                                登出 / 使用其他帳號
                             </button>
                         </div>
-                    </form>
+                    ) : (
+                        <form onSubmit={handleLogin} className="space-y-8">
+                            <div className="flex flex-col gap-5 pt-4">
+                                <button
+                                    type="submit"
+                                    className="w-full py-5 text-white rounded-[24px] font-black shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3 group relative overflow-hidden"
+                                    style={{ backgroundColor: '#8DAA91', boxShadow: '0 20px 40px -10px rgba(141,170,145,0.4)' }}
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                                    <span className="relative z-10 text-lg">登入 / 加入社區</span>
+                                    <ChevronRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => handleEnterCommunity()}
+                                    className="w-full py-2 text-slate-400 font-bold text-sm hover:text-[#8DAA91] transition-all font-sans-tc text-center tracking-widest hover:tracking-[0.2em]"
+                                >
+                                    先等等，我先隨便看看
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {!user && (
+                        <p className="text-center text-xs text-slate-400 font-bold tracking-widest uppercase mt-4">
+                            點擊上方按鈕開始探索
+                        </p>
+                    )}
+
 
                     {/* Decorative Symbol */}
                     <div className="absolute -bottom-12 -right-12 w-48 h-48 opacity-5 pointer-events-none">

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { initFirebase } from './services/firebase';
 
+import './index.css';
+
 // Initialize Firebase once at the root level
 initFirebase();
 

@@ -275,6 +275,26 @@ export const updateVillageWiki = async (villageId: string, data: Partial<Communi
     console.log('[Firestore] Village wiki saved:', villageId);
 };
 
+export const getVillagesByDistrict = async (townshipName: string): Promise<Record<string, CommunityWikiData>> => {
+    try {
+        // Query villages where "district" == townshipName
+        // Note: Make sure "district" field is indexed or small enough
+        const q = query(
+            collection(getDb(), COLL_VILLAGES),
+            where("district", "==", townshipName)
+        );
+        const snapshot = await getDocs(q);
+        const results: Record<string, CommunityWikiData> = {};
+        snapshot.forEach(doc => {
+            results[doc.id] = doc.data() as CommunityWikiData;
+        });
+        return results;
+    } catch (e) {
+        console.error(`Error fetching villages for district ${townshipName}:`, e);
+        return {};
+    }
+};
+
 // ==========================================
 // PO Space (Projects) Support
 // ==========================================

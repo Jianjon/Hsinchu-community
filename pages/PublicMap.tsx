@@ -3,9 +3,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, Polygon, Tooltip } from
 import { Link } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import { PublicCommunity } from '../data/mock_public';
-import { getPublicCommunities, getPublicTownships, PublicTownship } from '../services/publicDataAdaptor';
-import L from 'leaflet';
-import { Map as MapIcon, Sparkles, Camera, TreePine, BookOpen, ChevronRight, Menu, MessageSquare, Wind, User, Library, ChevronDown, MapPin, Heart } from 'lucide-react';
+import { getPublicCommunities, getPublicTownships, PublicTownship, fetchTownshipData, mergeCommunityData } from '../services/publicDataAdaptor'; import L from 'leaflet';
+import CHIEF_LOCATIONS from '../data/chief_office_locations.json';
+import { Map as MapIcon, Sparkles, Camera, TreePine, BookOpen, ChevronRight, Menu, MessageSquare, Wind, User, Library, ChevronDown, MapPin, Heart, Info } from 'lucide-react';
 import { renderToString } from 'react-dom/server';
 import { FavoritesProvider } from '../contexts/FavoritesContext';
 import { useUser } from '../hooks/useUser';
@@ -14,7 +14,7 @@ import CommunityPopOut from '../components/CommunityPopOut';
 import ItemDetailOverlay from '../components/ItemDetailOverlay';
 import CalendarSidebar from '../components/CalendarSidebar';
 import LandingOverlay from '../components/LandingOverlay';
-import AboutOverlay from '../components/AboutOverlay';
+import BulletinOverlay from '../components/BulletinOverlay';
 import { MapSearchControl } from '../components/MapSearchControl';
 import DataValidator from '../components/DataValidator';
 // Fallback to community object's chief data since CHIEFS_DATA is deprecated
@@ -159,8 +159,12 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
     const [isCalendarView, setIsCalendarView] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     const [expandedCity, setExpandedCity] = useState<'新竹縣' | '新竹市' | null>('新竹縣');
-    const [showAbout, setShowAbout] = useState(false);
+    const [showBulletin, setShowBulletin] = useState(false);
     const { user, isLoggedIn } = useUser();
+
+    // Lazy Loading State
+    const [loadedTownships, setLoadedTownships] = useState<Set<string>>(new Set());
+    const [isLoadingData, setIsLoadingData] = useState(false);
 
     // Independent Page State
     const [viewingItem, setViewingItem] = useState<{
@@ -197,6 +201,35 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
         };
         loadData();
     }, []);
+
+    // Lazy Load Data Effect
+    useEffect(() => {
+        const loadTownshipData = async () => {
+            if (selectedTownshipId && !loadedTownships.has(selectedTownshipId)) {
+                // console.log(`[PublicMap] 📥 Lazy loading data for ${selectedTownshipId}...`);
+                setIsLoadingData(true);
+                try {
+                    const data = await fetchTownshipData(selectedTownshipId);
+
+                    // Merge into communities
+                    setCommunities(prev => prev.map(c => {
+                        if (c.district === selectedTownshipId && data[c.id]) {
+                            return mergeCommunityData(c, data[c.id]);
+                        }
+                        return c;
+                    }));
+
+                    setLoadedTownships(prev => new Set(prev).add(selectedTownshipId));
+                    // console.log(`[PublicMap] ✅ Lazy load complete for ${selectedTownshipId}`);
+                } catch (e) {
+                    console.error("Failed to lazy load township:", e);
+                } finally {
+                    setIsLoadingData(false);
+                }
+            }
+        };
+        loadTownshipData();
+    }, [selectedTownshipId, loadedTownships]);
 
     const handleTownshipSelect = (townName: string) => {
         if (selectedTownshipId === townName) {
@@ -269,8 +302,9 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                 .filter(c => isValid(c.location))
                 .flatMap(c => {
                     // 1. Community Marker (Village Center / Office)
+                    const chiefCoord = (CHIEF_LOCATIONS as unknown as Record<string, [number, number]>)[c.id];
                     const mockCoord = MOCK_GEOCODED_OFFICES[c.name];
-                    const position = mockCoord || c.location;
+                    const position = chiefCoord || mockCoord || c.location;
                     const chief: any = c.wiki?.chief || (c.chief ? { name: c.chief } : null);
                     const title = chief?.officeAddress ? `${c.name} (村里長辦公處)` : c.name;
 
@@ -349,17 +383,23 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     }));
 
                 const projects = (c.projects || [])
-                    .filter(p => p.location && isValid(p.location))
-                    .map(p => ({
-                        type: 'projects',
-                        id: p.id,
-                        position: p.location!,
-                        boundary: undefined,
-                        title: p.title,
-                        desc: p.description,
-                        icon: ProjectIcon,
-                        link: '#'
-                    }));
+                    .map((p, idx) => {
+                        // Fallback mechanism: If no location, use community center + distinct offset
+                        const baseLocation = (CHIEF_LOCATIONS as unknown as Record<string, [number, number]>)[c.id] || MOCK_GEOCODED_OFFICES[c.name] || c.location;
+                        const fallbackPos: [number, number] = [baseLocation[0] + 0.001 * (idx + 1), baseLocation[1] + 0.001];
+                        const validPos = (p.location && isValid(p.location)) ? p.location : fallbackPos;
+
+                        return {
+                            type: 'projects',
+                            id: p.id,
+                            position: validPos!,
+                            boundary: undefined,
+                            title: p.title,
+                            desc: p.description,
+                            icon: ProjectIcon,
+                            link: '#'
+                        };
+                    });
 
                 return [...buildings, ...projects];
             });
@@ -383,6 +423,10 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
         else if (selectedLayer === 'care_action') {
             items = filteredComms.flatMap(c =>
                 (c.careActions || [])
+                    .filter(a => {
+                        const title = a.title || '';
+                        return title.includes('關懷據點') || title.includes('食物銀行');
+                    })
                     .map((a, idx) => ({
                         type: 'care_action',
                         id: a.id,
@@ -479,8 +523,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
     };
 
     return (
-        <>
-            <AboutOverlay isOpen={showAbout} onClose={() => setShowAbout(false)} />
+        <FavoritesProvider>
             <div className="h-screen w-full relative flex overflow-hidden bg-slate-100">
 
                 {/* Data Validator (Headless) */}
@@ -501,7 +544,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     onSelectCommunity={handleNavigateToVillage}
                     onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
                     onOpenProfile={() => onOpenProfile?.()}
-                    onOpenAbout={() => setShowAbout(true)}
+                    onOpenAssociationInfo={() => setShowBulletin(true)}
                     communities={communities.map(c => ({ id: c.id, name: c.name, district: c.district }))}
                 />
 
@@ -621,6 +664,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
 
                                 <h3 className="text-lg font-bold text-slate-800 mb-2 px-1 shrink-0">
                                     {selectedTownshipId}
+                                    {isLoadingData && <span className="text-xs text-emerald-600 ml-2 animate-pulse">載入中...</span>}
                                 </h3>
                                 <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1.5 pb-4">
                                     {communities.filter(c => c.district === selectedTownshipId).map(village => (
@@ -639,6 +683,16 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                                 </div>
                             </div>
                         )}
+                    </div>
+
+                    {/* Sidebar Footer with Branding */}
+                    <div className="p-4 border-t border-slate-100 bg-white/50 flex flex-col items-center gap-1 shrink-0">
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-sans-tc">
+                            維護單位
+                        </div>
+                        <div className="text-sm font-bold text-[#8DAA91] font-serif-tc">
+                            社團法人台灣願景發展協會
+                        </div>
                     </div>
                 </div>
 
@@ -1076,8 +1130,13 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                 </div>
 
                 {/* LANDING OVERLAY */}
-                {showLanding && !isLoggedIn && (
+                {showLanding && (
                     <LandingOverlay onEnter={() => setShowLanding(false)} />
+                )}
+
+                {/* BULLETIN OVERLAY */}
+                {showBulletin && (
+                    <BulletinOverlay onClose={() => setShowBulletin(false)} />
                 )}
 
                 {/* BOTTOM QUICK SHORTCUT - Phase 3 Proposal */}
@@ -1109,6 +1168,18 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                         </button>
                     </div>
                 )}
+
+                {/* BRANDING BUTTON (Bottom Right - Below Accessibility Widget) */}
+                <div className="fixed bottom-6 right-6 z-[9999]">
+                    <button
+                        onClick={() => setShowBulletin(true)}
+                        className="w-14 h-14 bg-[#8DAA91] rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all duration-300 group ring-4 ring-white/50"
+                        title="關於 台灣願景發展協會"
+                    >
+                        <Heart className="w-7 h-7 fill-white/20" />
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                    </button>
+                </div>
 
                 {/* COMMUNITY POP-OUT */}
                 <CommunityPopOut
@@ -1194,7 +1265,7 @@ const PublicMap: React.FC<PublicMapProps> = ({ onOpenProfile }) => {
                     pointer-events: auto !important;
                 }
             `}</style>
-        </>
+        </FavoritesProvider >
     );
 };
 
